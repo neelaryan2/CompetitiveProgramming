@@ -1,0 +1,82 @@
+A set of lines in the plane partitions the points in the plane into regions, 
+such that two points are in the same region iff the line segment joining
+them does not intersect any of the given lines. A point contained in any
+of the given lines does not belong to any region.
+
+Given a set of n lines in the plane, and a set of m points, you have to find
+the number of regions formed by the n lines and the number of the given points 
+contained in each region. 
+
+A binary tree can be used to represent the set of lines. Every
+node in the tree contains a line, and every empty subtree represents a region.
+Every node in the tree represents some region formed by a subset of the lines.
+The tree is built by inserting one line at a time. Initially the empty tree
+represents the whole plane. When the first line is inserted, it is placed in
+the root node, the left subtree is the region to the left of the line and
+the right subtree is the region to the right. In general, when inserting a
+new line, some line segment (possibly infinite) contained in that line will be 
+recursively inserted in some of the subtrees of the tree.
+
+When some segment is to be inserted in a subtree containing a line l in the
+root, check if l intersects the segment. If so, insert the part of the segment
+to the left of l in the left subtree and the other part in the right. If the
+segment is completely to the left or right of l, insert it in only that
+subtree. When an empty tree is reached, a new node is created containing the
+line being inserted. This corresponds to an original region being split
+into two by the new line. If the lines are all parallel, this is equivalent
+to insertion in ordinary binary search trees. In general, there may be 
+many nodes containing the same line.
+
+It can be shown that if the lines are inserted in random order, the average
+depth of a region is O(log n). The depth of a region is the number of nodes
+whose subtree contains the region. The total number of nodes in the tree can 
+be O(n^2) since the number of regions can be as large as this. After building 
+the tree, locating the region containing a given point can be done in time 
+proportional to the  depth of the region. 
+
+There is a better way of inserting if we also store the line segments that
+form the boundary of each region. Then after finding one region to be split
+by the new line, other regions can be found by simply intersecting the
+new line with the boundary of the current region. This takes total O(n) time
+for insertion and is also needed for deletion. You don't have to do this
+for the lab. Alternatively, we can find the intersection points of the new 
+line with all earlier lines, sort these, locate the regions containing the 
+midpoints of the segments formed, and split those. Note that this gives a 
+simple way of computing the number of regions formed.
+
+
+Input Format
+The first line of input specifies n and m the number of lines and points,
+1 <= n <= 5000, 1 <= m <= 1000000. The next n lines specify the equations
+of the n lines. Each line contains 3 coefficients a, b, c where the equation
+of the line is ax+by = c.  The next m lines give the coordinates of
+the points.  It can be assumed that each of the numbers is a floating point 
+number with at most 2 decimal places and at most 10000 in magnitude.
+
+Output Format
+The first line should print out R, the total number of regions formed,
+and the height H of the binary tree, if the lines are inserted in the
+order given.  Then print out the number of regions containing a given 
+number of the points, in increasing order of number of points. Print two 
+numbers per line, the number of points in the region followed by the number
+of regions containing those many points. This should be printed only
+if there is at least one region with those many points.
+
+Sample Input        Output
+4 8                 9 4
+0 1 0               0 5
+0 1 2               1 3
+1 0 0               3 1
+1 0 2
+1 1
+0 0
+1 3
+3 3
+2 4
+1 5
+-1 -1
+1 4
+
+Submit a single file RollNo_8.cpp
+There will be NO extension of time. Submission time is 5-00 p.m. and 
+the link will close at 5-05 p.m. 

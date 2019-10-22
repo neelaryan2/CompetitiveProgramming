@@ -1,0 +1,95 @@
+This problem is meant to show the effect of using an asymptotically
+fast algorithm on the running time required by a program.
+
+The basic problem is simple polynomial multiplication. Given two polynomials
+P(x) = p_0 + p_1x + p_2x^2 + .... + p_{n-1}x^{n-1}   and
+Q(x) = q_0 + q_1x + q_2x^2 + .... + q_{n-1}x^{n-1}
+
+with n terms each, we want to compute the product P(x)Q(x). The obvious method
+takes O(n^2) time, which will be inefficient. While there are O(nlogn) time
+algorithms known, they use complex numbers and are approximate.
+
+A simple method that is asymptotically faster, is to use recursion.
+
+Write P(x) = P_0(x) + x^{n/2}P_1(x) and Q(x) = Q_0(x) + x^{n/2}Q_1(x)
+
+where P_0, P_1, Q_0, Q_1 are polynomials with n/2 terms.
+
+The product can then be written as 
+
+P_0(x)Q_0(x) + x^{n/2}(P_0(x)Q_1(x) + P_1(x)Q_0(x)) + x^n(P_1(x)Q_1(x))
+
+which can be rewritten as
+
+P_0(x)Q_0(x) + x^{n/2}((P_0(x)+P_1(x))(Q_0(x)+Q_1(x))-P_0(x)Q_0(x)-P_1(x)Q_1(x)) + x^n(P_1(x)Q_1(x))
+
+
+This reduces the problem to 3 multiplications of polynomials of size n/2, and 
+gives a running time O(n^{log_2 3}).
+
+You have to implement this method, to compute the product. It can be assumed that
+n is a power of two and will be 2^18 or 2^19. 
+
+You need to be careful with the implementation. When using recursion, you should use
+as few local variables as possible, since these need to be stored every time a recursive
+call is made. Also, passing large objects like vectors, even by reference, should be avoided.
+It is sufficient to pass only a vector iterator.
+
+Your function should look like:
+
+multiply(P, Q, R, n) 
+
+where P, Q are vector iterators pointing to the first elements of the polynomials to be 
+multiplied, R is a vector iterator pointing to where the first coefficient of the product
+is to be stored, and n is the number of terms. You can try by passing vectors or arrays
+to compare the running times.
+
+
+Although this algorithm is asymptotically faster, the constants are larger, so it makes
+sense to use it only for large n. So in your implementation, instead of a base case of
+n = 1, you can stop at a larger power of 2, and use the simple method when n is less than
+or equal to that power. Experiment to find the optimal stopping size below which recursion
+should not be used.
+
+For polynomials of size 2^18, you program should take at most a few seconds.
+You can assume the coefficients will be small so all will fit in an int, including
+for the result. Note that correctness can be checked easily here for small polynomials,
+the main requirement is the efficiency.
+
+
+
+Input Format:
+The first line of input specifies n the number of terms.
+The next two lines contain n integers each, separated by a space, giving the coefficients
+of the two polynomials starting from the degree 0 term. Assume each coefficient is
+between -10 to +10.
+
+Output
+Output the coefficients of the result in a single line, separated by a space, starting with
+the degree 0 term.
+
+NOTE: Since the input/output is large, you will need to set the following flags to
+speed up I/O.
+
+ios_base::sync_with_stdio(false);
+cin.tie(0);
+cout.tie(0);
+
+
+Also, when compiling, you will need to use the optimization option to speed 
+up your program. This can be done as
+
+g++ -O2  *.cpp
+
+2 indicates the optimization level, going beyond that may not help.
+
+
+To measure the time required, you can use the time command.
+
+time ./a.out < in > out
+
+For more accurate measurement, you can use the <chrono> library, which is available
+starting from C++11. Search on the net to find out how.
+
+
+

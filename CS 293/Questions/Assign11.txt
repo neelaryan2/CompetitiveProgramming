@@ -1,0 +1,72 @@
+This problem involves simulating a simple model of a "distributed" database.
+Consider for example the problem of translating URL's of web sites to actual IP
+addresses. One way to do it would be to maintain a map from all web addresses to
+corresponding IP addresses in one place. However this would mean that every time
+a web site is accessed, this map would have to be accessed. This would put too
+much load on one machine and the size of the map would be very large. To reduce
+this, the look up task is "distributed" among different machines, that are
+arranged in a tree like structure. The root node represents the main map that
+stores all addresses.  Each node maintains a subset of the addresses, usually
+much fewer than the total number. A query is first sent to the "nearest" node 
+in the tree. If the answer is found there, it is returned immediately, otherwise 
+the query is forwarded to the parent of the node, which uses the same method to 
+find the answer, and forwards it to the child that requested it. If the query 
+reaches the root, it is answered. When a node gets an answer from its parent, it 
+stores it in its local memory so that next time it gets the same query, it can 
+answer immediately. This is called caching. To keep the lookup time small, the 
+number of addresses that can be stored in a node is limited. A common method used 
+to maintain a subset of addresses is to  throw out the least recently used address,
+if the number of stored addresses exceeds the capacity. This is based on the
+assumption that a web site accessed recently would be accessed again, so can be
+looked up efficiently.
+
+You have to simulate this process, given the sequence of queries made, the number
+of addresses that each node can store, and the tree structure. Assume that
+initially, only the root node has the complete map, and all other nodes do not
+contain any addresses. Also, each query is processed completely, before the next
+query is considered.
+
+
+Input Format
+The first line of input specifies n the number of nodes in the tree and m the
+number of queries. Assume 1 <= n <= 1000, and 1 <= m <= 1000000. The next line
+contains n-1 numbers, the ith number being the parent of node number i. Node 0 
+is the root node. The next line contains n-1 numbers, the ith number is the
+capacity of node number i. This is at least 1 and at most m. The root node has
+capacity m.  The next m lines specify the queries. Each line contains a string
+(the query) and a node number giving the node to which the query is first made.
+The string has only lower case characters and length at most 32. 
+
+Output Format
+Assume that the cost of looking for the answer in a node of capacity c is 1 +
+floor of log_2 c. Print out the total cost of all the lookups performed at all
+the nodes together for all the queries.
+
+Sample Input   Sample Output
+3 4            20
+0 1
+2 1
+a 2
+b 1
+c 2
+b 2
+
+Explanation: The first query is looked up at nodes 2,1 and 0 for a cost of 1+2+3
+= 6. The second query is looked up at 1 and 0, for a cost of 2+3 = 5. The third
+query is looked up at nodes 2, 1 and 0 with cost 6. After this node 2 contains
+the address c, while node 1 contains b and c. Note that b was looked up after 
+a at node 1, so a was the least recently used address at node 1, and is replaced
+by c. The last query is looked up at nodes 2 and 1, where the answer is found, 
+so the cost is 1+2 = 3. The total cost is 20.
+
+Question: Can you find the optimal way of storing addresses in the nodes of the
+tree so that the cost of processing a given sequence of queries is minimized? 
+In this case, each node stores a fixed subset of addresses of size at most its
+capacity. In the sample input, if node 1 stores a and b and node 2 stores c, 
+the cost for the sequence is 9.
+
+Note that the actual mapping is not relevent. Each node can store the set of
+addresses for which it has the mapping. It may be faster to use hashing, and
+maintain a list in order of most recent use. 
+
+Submit a single file named RollNo_11.cpp

@@ -1,0 +1,107 @@
+This problem is to implement a modified vector class that allows some
+more operations efficiently. We want to represent a sequence of elements
+of any type, such that the following operations can be implemented in O(1)
+time (averaged over many operations).
+
+1. push_front(x) : add element x to the beginning of the sequence.
+2. push_back(x)  : add element x to the end of the sequence.
+3. pop_front()   : delete first element of a non-empty sequence, do nothing
+                   if empty.
+4. pop_back()    : delete the last element in the sequence if not empty.
+5. [i]           : returns a reference to the ith element in the sequence,
+                   which can be used to read it or assign it a value.
+
+6. size()        : returns the length of the sequence.
+
+You have to write a header file that contains the definitions of this
+class. No main program is to be written. You can write a separate
+main program for testing.
+
+
+The class declaration must look like:
+
+template <class T>
+class myvector
+{
+      // declare variables that are needed. These are private to the class.
+
+      public:
+     
+      // define the methods     
+
+      void push_front(T x);
+      void push_back(T x);
+      void pop_front();
+      void pop_back();
+      int size()  const;
+      T & operator[](int i);
+
+      // You may also need to define a constructor for initialization;
+      myvector<T>();
+};
+
+      
+The name of the class and the public methods must be EXACTLY
+as described. My program will use these names. Variables, parameters can
+be named anything.
+
+For storing the sequence, you can use normal vectors (or arrays).
+Instead of storing the elements starting from 0th location, assume the
+array is circular and elements are stored in consecutive locations,
+starting from some point in the array. This allows growing the vector
+on both sides if the vector is large enough. If not, you have to create
+a bigger vector of double the size and copy the elements. (Be careful to 
+distinguish between an empty array and a full array, you may need to leave 
+one location empty.)
+
+Do NOT use namespace std. The file may be used in a program in which this 
+should not be used.  Also, avoid names that may be used in the standard files.
+(Strictly, you have to create your own namespace when defining such data
+structures that will be used elsewhere, but do not do it here).
+However, you should include the <vector> header file, since it may not be 
+included in the user program. You should declare vectors as std::vector<T> .  
+You can use arrays, but then you will need to write a destructor, copy 
+constructor, etc. If vectors are used, the default methods will
+automatically use the definitions for vectors. Try what happens with
+assignment for these objects.
+
+
+Submit a single file named RollNo_4.h
+
+Note that this is a header file and should NOT contain a main function.
+You can compile such files by g++ -c filename to check for compilation
+errors.
+
+A sample main program would look like.
+
+
+#include "myvector.h" // Name of your header file
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	myvector<int> v;
+	for (int i = 0; i < 1000000; i++)
+	v.push_front(i);
+	v[0] = 0;
+	for (int i = 0; i < 10; i++)
+	cout << v[i] << " ";
+	cout << endl;
+}
+
+
+
+There are other implementations of the sequence type in STL that support
+some of these operations. There is a class called deque<T> that allows
+pushing and popping from both ends, but does not allow accessing ith
+element. This also uses the circular array. Another class is list<T>,
+that uses linked lists. This does the same things, but not accessing
+ith element. It allows many other operations though.
+
+One drawback of the vector class is that it does not reduce the size of
+the array when elements are deleted. This is mainly to ensure that
+no reallocation occurs after pop_back(). If you allow this, how can
+you ensure that the array size is at most a constant times the length
+of the sequence, still keeping O(1) average time for the operations?
+You do not have to do this for the lab problem.

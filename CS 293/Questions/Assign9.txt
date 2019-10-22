@@ -1,0 +1,56 @@
+This is a simple algorithmic problem using set/multiset/map/multimap. You are 
+given 2n points in the plane, not necessarily distinct, n of which are 
+coloured red and n blue.  You have to form disjoint pairs of points such that 
+each pair contains one red and one blue point. Also, each coordinate of a red 
+point in a pair must be <= the corresponding coordinate of the blue point in 
+the pair. In other words, the blue point must not be below or to the left
+of the red point. Find the maximum number of such pairs that can be formed 
+from the given points.
+
+Input Format
+The first line of input specifies n, the number of red and blue points,
+where 1 <= n <= 10^6. The next n lines specify the coordinates of the red
+points. Each line contains two numbers the x-coordinate followed by the
+y-coordinate. The next n lines specify the blue points in the same way.
+Each coordinate is at most 10^9 in magnitude.
+
+Output Format
+Output the maximum possible number of disjoint pairs that can be formed
+satisfying the required properties.
+
+Sample Input1  Sample Output1 
+2                    1
+0 0
+1 1
+0 1
+1 0
+
+Sample Input 2     Sample Output 2
+8                       4
+0 0
+0 2
+1 2
+1 3
+2 1
+2 3
+3 1
+3 2
+0 1
+0 3
+1 0
+1 1
+2 0
+2 2
+3 0
+3 3
+
+The code for this is very short. Think carefully about the algorithm and how
+to implement it before starting coding. There will be NO resubmission for
+this assignment. Some test cases are at www.cse.iitb.ac.in/~aad/cs293/Assign9
+(While I think they are correct, no guarantees!).
+Submit a single file named RollNo_9.cpp.
+
+Homework: Suppose there are no colours and any point can be paired with any
+other, subject to the constraint on the coordinates. Find the maximum number 
+of disjoint pairs that can be formed in this case. Can be done in O(n log n)
+time, but is not easy. What happens for points in 3 dimensions?

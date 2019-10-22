@@ -1,0 +1,96 @@
+Two strings are said to be equivalent if one can be obtained from the
+other by a cyclic shift by any number of places. Given a collection
+of strings, you have to find the number of inequivalent strings in the 
+collection, that is the maximum number such that no two are equivalent.
+
+The second part of the problem is to solve the Midsem problem of
+finding the lexicographically smallest interleaving of two strings.
+
+
+The basic idea is to convert each string to a "normal form" so that
+equivalent strings have the same normal form. Then just find the number
+of distinct normal forms by sorting.
+
+In the case of cyclic shifts, the "normal form" is defined by the 
+lexicographically smallest (or largest) string that can be obtained
+by a cyclic shift. For the Midsem problem, it is better to use largest
+although the standard definitions use smallest.
+
+A string (or word) is called a Lyndon word if it is lexicographically
+strictly smaller  than all strings that can be obtained from
+it by cyclic shifting.  By definition, this cannot be periodic. Another
+way of defining it is that it is strictly smaller than all its proper
+non-empty suffixes (assuming the word ends with a dummy symbol -infinity).
+For example,  aab is a Lyndon word but aaba is not. (The suffix a is 
+smaller than aaba.) 
+
+Again, for the Midsem problem, replace smaller by larger and -infinity
+by infinity.
+
+
+Every string can be factored as w_1.w_2....w_l in a unique way such that
+w_i is a Lyndon word and w_i >= w_{i+1}. There is a linear time
+algorithm to find this factorization.
+
+You can find a reference and code for it at
+
+https://cp-algorithms.com/string/lyndon_factorization.html
+
+
+The basic idea is to try to find a suffix that is lexicographically
+smaller than the string. As soon as you find one, you have to
+start a new word in the factorization with that suffix.
+Keep two pointers, initially i = 0, j = 1.
+
+If S[i] == S[j] then we have a suffix that matches with the beginning
+of the string, so increment both.
+
+If S[j] > S[i] then any suffix including S[j] will be greater than the
+string itself, so increment j and reset i to 0.
+
+If S[j] < S[i], we have found a smaller suffix. Now strings of length
+(j-i) staring from 0 will be Lyndon words (till the end exceeds i).
+You may get more than one word, which will be repeated, if i > (j-i).
+
+After removing these words, we restart from the new beginning, but j does
+not change.
+
+Using the Lyndon factorization, we can find the "normal form" of 
+a string and then use radix sort for finding distinct strings.
+This is also given at the web site mentioned above.
+You can first do it using built_in sort but avoid copying strings.
+If possible, compare time required with radix sort. 
+
+Use the Lyndon factorization of the two strings, (with smaller replaced by
+larger), to find the lexicographically smallest interleaving of the
+two strings.
+
+Input Format
+The first line of input contains the number n >= 2 of strings.
+Each of the next n lines contains one non-empty string with only lower-case
+alphabets as characters. The total length of all strings is at
+most 10^7. Use the I/O flags to speed up Input.
+
+Output Format
+Output the number of distinct strings on the first line.
+The second line should contain the lexicographically smallest string that
+can be obtained by interleaving the first two strings in the collection.
+
+
+Sample Input
+3
+abaababa       Note: the Lyndon factorization is ab . aabab . a
+aababaab                                         aabab. aab
+babaabaa                                         b. ab. aab. a. a
+
+
+The normal form of all 3 strings is aabaabab
+
+
+Sample Output
+1
+aaabaababaababab
+
+You will get 1/2 credit if you do the first part.
+
+Submit a single File named RollNo_7.cpp

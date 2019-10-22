@@ -1,0 +1,57 @@
+Given a string of characters, an anagram of the string is obtained by permuting
+the letters in the string arbitrarily. For example, the anagrams of the string
+"abab" are "aabb", "abab", "abba", "baab", "baba" and "bbaa". The possible
+anagrams of a string can be ordered by the lexicographic ordering. A string 
+s1 is less than s2 if at the smallest position in which the two strings differ,
+s1 has a smaller character than s2. This is the usual dictionary ordering of
+words. The anagrams of "abab" are listed above in increasing order.
+
+The rank of a string is the number of anagrams of the string that are less
+than it. This is its position in the ordered list of all its anagrams, starting
+with 0. The rank of "abab" is 1, while that of "baab" is 3.
+
+Given a string s, you have to write a function to compute its rank. Also, given
+a position x, you have to find the anagram of s that has rank x.
+
+Input Format
+The input contains a string s followed by a number x, separated by a space.
+The length of the string is at most 18, and it can be assumed it contains
+only small letters 'a',...,'z'. Also, x is less than the number of possible
+anagrams of s.
+
+Output
+Output the rank of s and the anagram of s that occurs at position x.
+
+Example
+Input                 Output
+abab 4                1  baba
+smile 80              117 miles 
+
+
+Hint: 
+The total number of anagrams of a string of length n is the multinomial
+coefficient n!/(n_1!*n_2!*...*n_k!), where n_i is the number of occurrences
+of the ith character. Note that 18! is within the range of a long long number
+but not an int. To find the rank, find the number of strings that have a
+smaller character than the given string in the first position, then find the
+number that have the same first character but a smaller second character
+and so on. Reverse this process to get the string from the rank.
+
+There is a library function next_permutation that can be used to generate
+the anagram of the string that comes next in lexicographic order. This
+is defined in the header file  <algorithm>, and can be used as
+
+next_permutation(s.begin(),s.end()) 
+
+where s is a string (or vector/array). This modifies the string itself to the 
+next anagram in lex order and returns true, unless the string is the largest 
+in lex order, in which case it does nothing and returns false.  You can use 
+this for testing for small x, but in general this will be too inefficient. You 
+can also check that the functions you define are inverses of each other.
+
+
+Submission
+
+Submit a single .cpp file on moodle named RollNo_2.cpp
+
+

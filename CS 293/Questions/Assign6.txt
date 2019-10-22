@@ -1,0 +1,76 @@
+This is an algorithmic problem for which the final code is fairly simple.
+Spend enough time first coming up with a correct algorithm, only then start
+coding.
+
+
+You are given a permutation of the n numbers 0, 1, 2, ...., n-1.
+It is required to sort the permutation in increasing order. The only operation
+allowed on the permutation is to swap the ith element with the jth element,
+for any 0 <= i < j < n. Each number i has an associated weight w_i, which is
+a positive integer. You are also given n-1 positive integers 
+d_0, d_1, .., d_{n-2}, where d_i is the "distance" between the ith and 
+(i+1)th element in the sequence. The distance between the ith and jth element, 
+d_{ij} for i < j, is defined to be d_i + d_{i+1} + ... + d_{j-1}. 
+
+The cost of swapping the ith element with the jth element is d_{ij} multiplied
+by the sum of weights of the two numbers that are swapped.  Basically, 
+it is the  distance by which the objects are moved multiplied by their 
+weights. In such a swap both the ith and jth element are moved by a distance 
+d_{ij}, other elements remain where they were.
+
+You have to find the minimum total cost of swaps required to arrange the
+permutation in increasing order. Also, output an actual sequence
+of swaps with minimum cost that achieves this. There may be many possible
+sequences, any one is okay.
+
+Input Format
+The first line contains a single integer n, 1 <= n <= 10^6.
+The next line contains n integers separated by a single space, giving the
+initial permutation.  The next line gives the weights associated with the
+numbers in the same order as they appear in the permutation. Each weight
+is at most 10^6.  The next line contains n-1 integers, separated by a space, 
+giving the distances between consecutive elements in the sequence. 
+It can be assumed that 1 <= d_i <= 10^6.
+
+Output Format
+On the first line, print out the minimum cost of swap operations needed to
+sort the permutation. The next line gives the number of swap operations 
+performed, followed by the actual swap operations in the order in which
+they are performed, one per line. Each swap operation is specified by two 
+integers, separated by a space, indicating the elements swapped. Note that 
+these are the positions of the elements, not the actual numbers swapped.
+
+Sample Input
+8
+7 2 6 0 1 4 3 5
+1 1 1 1 1 1 1 1
+1 2 1 3 2 1 2
+
+Sample Output
+42
+7
+2 3
+3 6
+1 2
+0 1
+1 4
+4 5
+5 7
+
+The costs of the operations are 2, 12, 4, 2, 12, 4, 6 respectively for a total
+cost of 42. (Do not print the costs of the swaps, only the total).
+
+Time limit is about 1 sec.
+
+Submit a single file RollNo_6.cpp
+
+
+Challenge problems (NOT for the lab).
+
+1. Can you do the same problem if only swaps of adjacent elements are allowed,
+   that is d_{ij} = infinity if j > i+1 and = d_i if j = i+1, even if the
+   weights are all 1. 
+
+2. Suppose d_{ij} = 1 for all 0 <= i < j < n. That is the cost of swapping two 
+   elements is just the sum of their weights. Find the minimum cost of
+   sorting.

@@ -1,0 +1,50 @@
+Suppose p_1, p_2, ..., p_n is a permutation of the numbers 1 to n. A sequence
+a_1, ..., a_n of distinct integers is said to be of type p_1,...,p_n
+if and only if for all 1 <= i < j <= n,  a_i < a_j iff p_i < p_j.  Thus a strictly
+increasing sequence is of type 1, 2, ..., n while a strictly decreasing
+sequence is of type n, n-1, ...., 1. The type of a sequence of distinct numbers is 
+uniquely determined by the sorted order of the elements.
+
+
+Given a permutation of the numbers 1, ..., n, you have to count the number
+of subsequences of the permutation of type 1, 3, 2 and 3, 1, 2. In other words,
+count the number of triples (i,j,k) such that i < j < k and p_i < p_k < p_j 
+for the first part, and p_j < p_k < p_i for the second.
+
+Input Format
+The first line of input specifies n, 3 <= n <= 500000, the number of elements in the 
+permutation. The next line contains n numbers specifying the permutation.
+
+Output Format
+Output the two numbers on a single line separated by a single space. Note that
+the numbers may be large so use long long for counting.
+
+Sample Input1                Sample Output 1
+6                            0  6
+5 2 3 4 6 1                  
+
+Sample Input2                Sample Output 2
+8                            11 9
+6 2 4 8 1 5 7 3
+
+You will get 1/2 credit if you do one of the parts correctly. Print out 2 numbers
+even if you have done only one part, otherwise it will not be evaluated correctly.
+Submit a single file named RollNo_10.cpp .
+
+
+Hint: Consider counting number of subsequences of type 2, 1. This is known as
+the number of inversion pairs in the permutation, and there are many ways of
+doing it in O(nlog n) time. One way is to use merge sort and do some more work
+in the merging step. Another way is to use prefix sums. Keep an array A of 0,1
+entries and at ith step increment value of A[p_i]. Compute the prefix sum of
+the A array up to p_i. Then p_i - prefix_sum[p_i] is the number of numbers
+< p_i that are still to be inserted. These form inversion pairs with p_i.
+Use a similar idea for 3 term subsequences.
+
+
+Homework: Suppose you are given a permutation of length k. Try to find an algorithm
+for counting subsequences of length k in a permutation of n, of the given type, 
+in time which may be exponential in k, but is polynomial in n with degree a 
+constant independent of k.  A brute force algorithm trying all subsequences of 
+length k, takes O(k^2n^k) time.  For an increasing subsequence, it can be done in 
+O(knlog n) time.
