@@ -1,0 +1,58 @@
+				Graphs
+
+1. You are given a relation on the set {0,1,...,n-1}, specified by a list of
+   m ordered pairs contained in the relation. Describe O(n+m) time algorithms
+   to decide if the relation is 
+
+   (a) symmetric.
+   (b) an equivalence relation.
+   (c) anti-symmetric.
+   (d) a strict weak-ordering, that is, a transitive relation whose
+       complement is an equivalence relation.
+
+   If it is not, find elements that violate the required property.
+   However, the basic problem of deciding whether a relation is transitive
+   does not have a simple solution. It can be done easily in O(n(n+m))
+   time, but even O(n^2) is not known. The fastest known algorithms take
+   O(n^2.3..) and are based on fast matrix multiplication. But O(n+m)
+   cannot be ruled out, though it seems unlikely.
+
+
+2. Given a directed acyclic graph, and 3 vertices u, v, w, describe an O(n+m)
+   time algorithm to find a path from u to w that passes through v, if such
+   a path exists. Why will this not work if the graph has cycles? (There is
+   no efficient algorithm known for this.) Suppose you are given a sequence
+   of k distinct vertices v_1, v_2, ..., v_k. Describe an O(n+m) time
+   algorithm to find a path containing these vertices in the specified order,
+   if such a path exists. Do the same if the path is allowed to contain the 
+   given vertices in any order. Note that the path may also contain any other 
+   vertices in any order, but the time should be independent of $k$.
+
+3. Given a directed graph, describe an O(n+m) time algorithm to find a cycle
+   of odd length in the graph, if it exists.  Suppose each edge has a positive
+   integer weight. Modify the algorithm to find a cycle such that the sum of 
+   weights of edges in the cycle is odd, if such a cycle exists. Will this 
+   method work to find a cycle of even length? (There is an efficient 
+   algorithm known for finding a cycle of even length, but it needs nearly 
+   30 pages to describe.) Do the same problems for undirected graphs. In
+   this case finding an even cycle is also easy. Note that a cycle in an
+   undirected graph must have at least 3 vertices.
+
+
+4. A directed graph is said to be leveled if each vertex can be assigned a level
+   such that for all edges (u,v), level(v) = level(u) + 1. Describe an O(n+m)
+   time algorithm to test if a graph is leveled. If the graph is not leveled, 
+   find a minimal subgraph of the graph that is not leveled. A subgraph of a
+   graph is obtained by deleting some vertices and edges of the graph. Whenever
+   a vertex is deleted, all edges that join it to other vertices are deleted.
+   A graph is minimal with respect to a property, if no proper subgraph of
+   the graph has that property.
+
+5. Show that if DFS is done on an undirected graph, for every edge (u,v), either
+   u is an ancestor of v in the DFS forest, or v is an ancestor of u. Thus
+   every undirected edge is either a tree edge or a backward edge. A bridge in 
+   an undirected connected graph is an edge whose removal disconnects the graph.
+   A cutvertex is a vertex whose deletion disconnects the graphs. Describe
+   an O(n+m) time algorithm to find all bridges and cutvertices in an undirected
+   connected graph.
+   

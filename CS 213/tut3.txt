@@ -1,0 +1,33 @@
+		Sequences
+
+1. A sequence S_1 is a substring of a sequence S_2, if there exist sequences
+   x and y such that S_2 = x. S_1. y, where . denotes concatenation. Write
+   a formal definition of a function is_substring(S_1,S_2) that returns true
+   if and only if S_1 is a substring of S_2.
+
+2. A sequence S_1 is a subsequence of a sequence S_2, if S_1 can be obtained from
+   S_2 by deleting some elements, keeping the order of the remaining elements the
+   same. Write a formal definition of the function is_subsequence(S_1,S_2) that
+   returns true if an only if S_1 is a subsequence of S_2.
+
+3. For any two sequences S_1, S_2, let S be the longest sequence such that
+   S_1 = x.S and S_2 = S.y for some sequences x and y. Let S_1-S_2 = x.
+   Write down a formal definition of the - operation on sequences.  Which of
+   the following statements is true, if any? (Here + denotes concatenation.)
+
+   (i) (S_1 + S_2) - S_3 = S_1 + (S_2 - S_3)
+
+   (ii) (S_1 - S_2) - S_3 = S_1 - (S_2 + S_3)
+
+
+4. Write a function that computes for a given sequence S the number of distinct
+   subsequences of S. Do the same for number of distinct substrings. What is
+   the time complexity of your function?
+
+5. The fibonacci strings are defined as follows;
+
+   f_0 = 0,    f_1 = 1,   f_n = f_{n-1} . f_{n-2} ( again, . is concatenation).
+
+   Given a sequence of bits, write a function to check whether the given sequence
+   is a substring of some fibonacci string. If it is, find the smallest n such that
+   it is a substring of f_n. Do the same for a subsequence.

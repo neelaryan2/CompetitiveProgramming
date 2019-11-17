@@ -1,0 +1,44 @@
+			More on Recursion.
+
+1. A positive rational number can be defined as an ordered pair (p,q)
+where p, q are natural numbers and q is not 0. However, not all pairs
+correspond to distinct rational numbers, so we need to define an equality
+operator for this. Assuming that standard arithmetic operations are
+defined for natural numbers, extend their definitions for rational numbers.
+Define the < relation for rational numbers and show that for any two
+rational numbers x, y, there exists a rational number z such that x < z < y.
+
+The gcd of two positive natural numbers  a, b can also be defined as the 
+smallest positive number c such that c = ax + by for some integers x, y. Is 
+the same definition valid for positive rational numbers? If so, what will be
+the gcd of (p1,q1) and (p2,q2)? 
+
+
+2. A particle is located at the origin in the 2-dimensional plane. At each 
+step, the particle can move a unit distance to the north, east, west or south.
+We want to represent the set of all possible paths of the particle. Define
+a set of operations that can generate all such paths. Define functions for
+rotating a path by 90 degrees clockwise, reflecting it about the x or y-axis,
+and also the line y = x.
+
+A path is said to be closed if it returns to the origin, and it is simple if
+it does not intersect itself, except for the first and last point. Write
+functions to check whether a path is closed or simple, using only the 
+operations defined. You can assume operations on numbers if needed. What
+is the time required by these functions, assuming the basic operations in
+the definition take unit time?
+
+Can you think of operations that will only generate all possible paths that
+are closed? What about simple? Simple and closed? One possible way is to
+define some ordering on this set, and define a way of generating the next 
+path in that order.  However, this is a very inefficient way of doing it,
+since paths with a small number of steps may need many applications of "next".
+
+
+3. Given an array containing n integers, positive or negative, we have to
+find a subarray having maximum possible sum. Show how this can be done in
+O(n) time. Note that a subarray consists of consecutive elements of the
+original array a_i,a_{i+1},...,a_j and may also be empty. Do the same if
+the array is considered to be circular, so a_{n-1}, a_0 is also a valid
+subarray.
+

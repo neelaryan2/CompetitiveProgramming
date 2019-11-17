@@ -1,0 +1,60 @@
+		Recursive Definitions.
+
+1. An alternative way to define numbers is to use the "binary representation"
+   of numbers. This uses two operations instead of one. The assumptions made
+   are:
+
+   a) 0 is a number.
+
+   b) If n is a number, there is a number called double(n).
+ 
+   c) If n is a number, there is a number called double_plus_one(n).
+
+   d) double(0) == 0, but all other operations generate distinct numbers.
+
+   e) If a property holds for 0, and assuming it holds for n implies that
+      it holds for double(n) as well as double_plus_one(n), then it holds
+      for all numbers.
+
+
+   Define the usual next function in terms of these functions, and define
+   these functions using the next function. Show how addition and 
+   multiplication of numbers can be defined using these operations.
+
+
+
+2. Suppose we want to define the set of integers. Apart from the assumptions
+   for numbers, we assume there is another operation called minus(n) that
+   gives an integer for every number n. What properties must this operation
+   satisfy? We want to extend the definitions of minus and next to all 
+   integers. How should this be done? Note that the induction principle holds
+   only for numbers and not integers. Extend the definition of addition
+   to integers.
+
+
+3. A function f defined on numbers satisfies the following properties.
+
+   (i) f(0) is undefined and f(1) = 1.
+
+   (ii) f(i) <= f(i+1).
+
+   (iii) There are exactly f(i) numbers j such that f(j) == i, for all i >= 1.
+ 
+    Show that the function is uniquely defined by these properties, and
+    give a formal recursive definition for it, using only the next function. 
+
+4. Suppose we want to define the set of all bit strings (only 0 or 1 digits)
+   that contain equal number of 0's and 1's. Define some operations that
+   can be used to construct all possible such strings, starting from the
+   empty string. In this case, it is possible that the same string can be
+   generated in more than one way. Define an equality operator that tests
+   whether two strings are equal or not. Is it possible to define some
+   operations such that every such string can be generated in a unique way? 
+
+
+5. Do the same as in problem 4 for the set of all bit strings that correspond
+   to the binary representation of a number divisible by 3. There should be
+   no leading 0's in the representation (0 is represented by the empty string). 
+   In this case, can every such string be generated in a unique way? Hint: 
+   This is an example of mutual recursion.  You may need to construct strings 
+   corresponding to numbers that 1 or 2 mod 3 also.

@@ -1,0 +1,49 @@
+		Efficient Data Structures and Algorithms
+
+1. Suppose you have to implement a counter modulo 2^n for some fixed positive
+   integer n. The operations to be performed on the counter are increment,
+   decrement and print. The increment and decrement (add 1 and subtract 1,
+   respectively) operations should take O(1) time independent of n, while
+   the print operation can take O(n) time. Assume the initial value of the
+   counter is 0, and the print operation should print out the binary 
+   representation of the current value. Note that the value is always
+   at least 0 and less than 2^n. Describe an implementation of a counter
+   that achieves this.
+
+
+2. Let a_0, a_1, ..., a_{n-1} be a sequence of integers. Find for each i,
+   the smallest j such that j > i and a_j < a_i, if such a j exists. This
+   should be done in O(n) time. Using this, find the longest substring
+   a_i, a_{i+1},...,a_j such that a_i is the smallest element in the substring
+   and a_j is the largest element. This should also take O(n) time. Can
+   you count the number of such substrings in O(n) time?
+
+3. Given an n by m matrix in which all entries are either 0 or 1, find the
+   rectangular submatrix with largest number of entries such that all the
+   entries in the submatrix are 1. A submatrix is obtained by selecting 
+   consecutive set of rows and columns of the original matrix.
+
+4. Consider a data structure that stores a sequence of n integers.
+   The operations to be performed on the sequence are:
+
+   (i) set(i,x) : sets the ith element to x.
+   (ii) find(i) : returns the ith element in the sequence. 
+   (iii) All_equal() : returns true if and only if all elements in the
+         sequence are equal.
+
+   Describe a data structure that implements these operations in O(1)
+   time. Assume that initially, all elements in the sequence are 0,
+   and initialization can take O(n) time. Can you do this if another
+   operation At_most_two() is required, which returns true iff the
+   sequence contains at most two distinct values?
+
+5. Let S be a sequence of n integers, each of which is contained
+   in the set {0,1,...,n-1}. A run in S is a substring of
+   S consisting of zero or more consecutive occurrences of the same integer. 
+   Thus the sequence 0,0,0,1,1,0 contains 6 runs, the empty sequence; 0; 0,0;
+   0,0,0; 1 and 1,1. Given S and a non-negative integer k, it is
+   required to find the maximum length of the longest run amongst all sequences
+   that can be obtained from S by changing at most k elements in S. Note
+   that only replacement of an integer in S by another integer in
+   {0,1,...,n-1} is allowed. Describe a function l(S,k) that computes
+   this value. Describe an O(n) time implementation of this function. 

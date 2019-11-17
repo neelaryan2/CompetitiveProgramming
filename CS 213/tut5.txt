@@ -1,0 +1,58 @@
+                Binary trees
+
+1. Consider a binary tree whose nodes are numbered 1 to n arbitrarily.
+   A tree traversal is a particular way of "visiting" or ordering the
+   nodes of the tree. An inorder is defined by
+
+   inorder(empty) = empty
+   inorder((r,T_L,T_R)) = inorder(T_L) + r.num + inorder(T_R)
+
+   Here + denotes concatenation of sequences of node numbers and r.num
+   is the number of the node r.
+
+   Similarly, preorder and postorder are defined by
+
+   preorder(empty) = empty
+   preorder((r,T_L,T_R)) = r.num + preorder(T_L) + preorder(T_R)
+
+   postorder(empty) = empty
+   postorder((r,T_L,T_R)) = postorder(T_L) + postorder(T_R) + r.num
+
+
+   Given the inorder and preorder sequence of a binary tree, show
+   how to reconstruct the tree in O(n) time. Show that two different
+   trees can have the same preorder and the same postorder.
+
+   Given two permutations p1, p2 of 1 to n, determine in O(n) time
+   whether they are the preorder and postorder traversals of some
+   binary tree. Do the same for inorder and preorder.
+
+   Suppose that each node in the binary tree stores a single character.
+   A traversal of the tree gives a string obtained by concatenating the
+   characters in the nodes, in the order they are visited.
+   Given two character strings, determine if there is a binary tree
+   whose inorder and preorder traversal gives the two strings.
+
+2. Prove that every AVL tree is also a red-black tree and give an example
+   to show that the converse may not be true. Given a binary tree,
+   describe O(n) time algorithms to determine whether the tree is an
+   AVL tree or a red-black tree.
+
+
+3. Suppose the numbers 1 to n are inserted in an empty binary search tree
+   in a specified order. Show how you can construct the final resulting
+   binary search tree in O(n) time. Assume that no balancing is done
+   and the standard insertion procedure is used.
+
+4. Suppose you are given two balanced binary search trees  with n and m
+   nodes respectively. Show how the trees can be merged into a single
+   balanced tree in O(n+m) time. This corresponds to taking the union of
+   two sets. Do the same for intersection.  Given a balanced tree of 
+   height h and a number x, split the tree into two balanced trees, one
+   containing numbers <= x and the other numbers > x in O(h) time.
+
+5. Given a sequence of numbers a_1, a_2, ..., a_n, show how to compute
+   the total number of strictly increasing subsequences of the sequence
+   in O(nlog n) time. Assuming the numbers may be positive or negative,
+   find the length of the shortest substring with sum >= a given number
+   S, in O(n log n) time.
