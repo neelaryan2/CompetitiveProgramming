@@ -7,14 +7,14 @@ typedef double db;
 typedef string str;
 
 typedef pair<int, int> pi;
-typedef pair<ll, ll> pl;
-typedef pair<ld, ld> pd;
+typedef pair<long long, long long> pl;
+typedef pair<long double, long double> pd;
 
 typedef vector<int> vi;
-typedef vector<ll> vl;
-typedef vector<ld> vd;
-typedef vector<str> vs;
-typedef vector<pl> vpl;
+typedef vector<long long> vl;
+typedef vector<long double> vd;
+typedef vector<string> vs;
+typedef vector<pair<ll, ll>> vpl;
 
 #define forn(i, a, b) for (int i = (a); i < (b); i++)
 #define rfor(i, b, a) for (int i = (b); i > (a); i--)
@@ -27,7 +27,8 @@ typedef vector<pl> vpl;
 #define rall(v) (v).rbegin(), (v).rend()
 #define pc(c) putchar(c)
 #define gc(c) getchar(c)
-#define put(s) fputs(s, stdout)
+#define put(s) fputs(s, stdout), putchar(' ')
+#define br() putchar('\n')
 
 #define popcnt __builtin_popcount
 #define popcntll __builtin_popcountll
@@ -54,6 +55,11 @@ typedef vector<pl> vpl;
 #define par(n) (n) & 1LL
 
 template <typename T>
+inline void pv(vector<T> v) {
+	for (T x : v) cout << x << " ";
+	putchar('\n');
+}
+template <typename T>
 inline void read(T &x) {
 	bool neg = false; register T c; x = 0;
 	c = gc();
@@ -76,41 +82,22 @@ inline void write(T y) {
 	pc(' ');
 }
 
-int N = 1e6 + 7;
+const int N = 1e9 + 7;
 const int mod = 998244353;
-vector<vi> adj;
-vector<pi> seg;
-set<pi> endp;
-vector<bool> vis;
-int edges = 0;
-void dfs(int v) {
-	vis[v] = true;
-	for (int u : adj[v])
-		if (!vis[u]) dfs(u);
-}
+
 int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	cout.tie(NULL);
-	int n;  read(n); seg.rsz(n); adj.rsz(n); vis.rsz(n, false);
-	rep(i, n) read(seg[i].fi), read(seg[i].se);
-	sort(all(seg));
-	rep(i, n) {
-		auto it = endp.lb(mp(seg[i].fi, 0));
-		while (it != endp.end() && (it->fi) < seg[i].se) {
-			adj[i].pb(it->se);
-			adj[it->se].pb(i);
-			edges++; it++;
-			if (edges >= n) goto no;
-		}
-		endp.ins(mp(seg[i].se, i));
-	}
-	dfs(0);
-	if (edges != n - 1) goto no;
-	if (any_of(all(vis), [](bool x) {return !x;})) goto no;
-yes:
-	puts("YES"); return 0;
+	int x1, y1, x2, y2, x, y;
+	read(x1); read(y1); read(x2); read(y2);
+	read(x); read(y);
+	x1 = abs(x2 - x1), y1 = abs(y2 - y1);
+	if (x1 % x != 0 || y1 % y != 0) goto no;
+	x1 /= x; y1 /= y;
+	if (x1 % 2 != y1 % 2) goto no;
+	puts("YES");
+	return 0;
 no:
 	puts("NO");
-	return 0;
 }
