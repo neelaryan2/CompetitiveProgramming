@@ -1,0 +1,33 @@
+<snippet>
+	<content><![CDATA[
+using ll = long long;
+const ll inf = 1e18;
+vector<ll> dist, parent;
+vector<vector<pair<ll, ll>>> adj;
+void dijkstra(int s, int n) {
+	using pi = pair<ll, ll>;
+	priority_queue<pi> pq;
+	dist.resize(n, inf);
+	parent.resize(n, -1);
+	pq.push(make_pair(0, s));	dist[s] = 0;
+	while (!pq.empty()) {
+		ll v = pq.top().second;
+		ll d = -pq.top().first;
+		pq.pop();
+		if (d > dist[v]) continue;
+		for (pi p : adj[v]) {
+			ll u = p.first, w = p.second;
+			if (dist[v] + w < dist[u]) {
+				dist[u] = dist[v] + w;      // update the distance
+				parent[u] = v;        // for extracting the shortest path
+				pq.push(make_pair(-dist[u], u));
+			}
+		}
+	}
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<!-- <tabTrigger>hello</tabTrigger> -->
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

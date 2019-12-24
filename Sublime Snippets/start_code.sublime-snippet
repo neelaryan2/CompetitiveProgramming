@@ -36,7 +36,6 @@ typedef vector<pair<ll, ll>> vpl;
 #define popcntll __builtin_popcountll
 #define ctz __builtin_ctz
 #define ctzll __builtin_ctzll
-#define gcd __gcd
 
 #define fi first
 #define se second
@@ -67,6 +66,13 @@ inline int read() {
     while (ch >= '0' && ch <= '9') x = x * 10 + ch - '0', ch = getchar();
     return x * f;
 }
+inline ll readl() {
+    ll x = 0, f = 1; char ch = getchar();
+    while (ch < '0' || ch > '9') {if (ch == '-')f = -1; ch = getchar();}
+    while (ch >= '0' && ch <= '9') x = x * 10 + ch - '0', ch = getchar();
+    return x * f;
+}
+//------------------------------------- end ---------------------------------------//
 const int N = 1e9 + 7;
 const int mod = 998244353;
 
