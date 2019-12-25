@@ -2,6 +2,36 @@
 	<content><![CDATA[
 #include<bits/stdc++.h>
 using namespace std;
+#define sim template < class c
+#define ris return * this
+#define dor > debug & operator <<
+#define eni(x) sim > typename \
+  enable_if<sizeof dud<c>(0) x 1, debug&>::type operator<<(c i) {
+sim > struct rge { c b, e; };
+sim > rge<c> range(c i, c j) { return rge<c> {i, j}; }
+sim > auto dud(c* x) -> decltype(cout << *x, 0);
+sim > char dud(...);
+struct debug {
+#ifdef LOCAL
+    ~debug() { cout << endl; }
+    eni( != ) cout << boolalpha << i; ris;
+}
+eni( == ) ris << range(begin(i), end(i));
+}
+sim, class b dor(pair < b, c > d) {
+    ris << "(" << d.first << ", " << d.second << ")";
+}
+sim dor(rge<c> d) {
+    *this << "[";
+    for (auto it = d.b; it != d.e; ++it)
+        *this << ", " + 2 * (it == d.b) << *it;
+    ris << "]";
+}
+#else
+    sim dor(const c&) { ris; }
+#endif
+};
+#define imie(...) " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] "
 
 typedef long long ll;
 typedef long double ld;
@@ -55,19 +85,8 @@ typedef vector<pair<ll, ll>> vpl;
 #define Test(n, i) ((n) >> (i) & 1LL)
 #define par(n) (n) & 1LL
 
-template <typename T>
-inline void pv(vector<T> v) {
-    for (T x : v) cout << x << " ";
-    cout << endl;
-}
 inline int read() {
     int x = 0, f = 1; char ch = getchar();
-    while (ch < '0' || ch > '9') {if (ch == '-')f = -1; ch = getchar();}
-    while (ch >= '0' && ch <= '9') x = x * 10 + ch - '0', ch = getchar();
-    return x * f;
-}
-inline ll readl() {
-    ll x = 0, f = 1; char ch = getchar();
     while (ch < '0' || ch > '9') {if (ch == '-')f = -1; ch = getchar();}
     while (ch >= '0' && ch <= '9') x = x * 10 + ch - '0', ch = getchar();
     return x * f;
@@ -80,7 +99,16 @@ int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
+#ifdef LOCAL
+    freopen("in.txt", "r", stdin);
+    freopen("out.txt", "w", stdout);
+#endif
 
+
+
+#ifdef LOCAL
+    cout << "\nTime Elapsed: " << 1.0 * clock() / CLOCKS_PER_SEC << " sec\n";
+#endif
     return 0;
 }
 ]]></content>
