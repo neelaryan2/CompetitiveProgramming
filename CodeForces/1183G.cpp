@@ -51,22 +51,22 @@ sim > auto dud(c* x) -> decltype(cout << *x, 0);
 sim > char dud(...);
 struct debug {
 #ifdef LOCAL
-    ~debug() { cout << endl; }
-    eni( != ) cout << boolalpha << i; ris;
+	~debug() { cout << endl; }
+	eni( != ) cout << boolalpha << i; ris;
 }
 eni( == ) ris << range(begin(i), end(i));
 }
 sim, class b dor(pair < b, c > d) {
-    ris << "(" << d.first << ", " << d.second << ")";
+	ris << "(" << d.first << ", " << d.second << ")";
 }
 sim dor(rge<c> d) {
-    *this << "[";
-    for (auto it = d.b; it != d.e; ++it)
-        *this << ", " + 2 * (it == d.b) << *it;
-    ris << "]";
+	*this << "[";
+	for (auto it = d.b; it != d.e; ++it)
+		*this << ", " + 2 * (it == d.b) << *it;
+	ris << "]";
 }
 #else
-    sim dor(const c&) { ris; }
+	sim dor(const c&) { ris; }
 #endif
 };
 #define imie(...) " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] "
@@ -101,6 +101,7 @@ typedef tree<int, null_type, less<int>, rb_tree_tag,
 #define pc(c) putchar(c)
 #define gc(c) getchar(c)
 #define runtime() ((double)clock() / CLOCKS_PER_SEC)
+#define flush() fflush(stdout)
 
 #define popcnt __builtin_popcount
 #define popcntll __builtin_popcountll
@@ -120,59 +121,65 @@ typedef tree<int, null_type, less<int>, rb_tree_tag,
 #define ins insert
 #define endl "\n"
 
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+mt19937_64 rng64(chrono::steady_clock::now().time_since_epoch().count());
+#define shuf(v) shuffle((v).begin(), (v).end(), rng);
+// Use mt19937_64 for 64 bit random numbers.
+
 #define Set(n, i) n = (n) | (1LL << (i))
 #define Reset(n, i) n = (n) & ~(1LL << (i))
 #define Test(n, i) ((n) >> (i) & 1LL)
 #define par(n) (n) & 1LL
 
-inline int read() {
-    int x = 0, f = 1; char ch = getchar();
-    while (ch < '0' || ch > '9') {if (ch == '-')f = -1; ch = getchar();}
-    while (ch >= '0' && ch <= '9') x = x * 10 + ch - '0', ch = getchar();
-    return x * f;
-}
-inline long long readl() {
-    long long x = 0, f = 1; char ch = getchar();
-    while (ch < '0' || ch > '9') {if (ch == '-')f = -1; ch = getchar();}
-    while (ch >= '0' && ch <= '9') x = x * 10 + ch - '0', ch = getchar();
-    return x * f;
-}
+inline int read() {int x; cin >> x; return x;}
+inline long long readl() {long long x; cin >> x; return x;}
+inline string reads() {string x; cin >> x; return x;}
+
+const double Pi = 3.1415926535898;
 inline void solve();
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
 #ifdef LOCAL
-    freopen("in.txt", "r", stdin);
-    freopen("out.txt", "w", stdout);
+	freopen("in.txt", "r", stdin);
+	freopen("out.txt", "w", stdout);
 #endif
-    cout << fixed << setprecision(10);
-    int t = 1;
-    // cin >> t;
-    while (t--) {
-        // cout << "Case #" << t + 1 << ": ";
-        solve();
-    }
+	cout << fixed << setprecision(10);
+	int t = 1;
+	cin >> t;
+	for (int i = 1; i <= t; i++) {
+		// cout << "Case #" << i << ": ";
+		solve();
+	}
 #ifdef LOCAL
-    cout << "\nTime Elapsed: " << runtime() << " sec\n";
+	cout << "\nTime Elapsed: " << runtime() << " sec\n";
 #endif
-    return 0;
+	return 0;
 }
 //------------------------------------------ end -----------------------------------------------//
 const int N = 1e9 + 7;
 const int mod = 998244353;
-const double Pi = 3.1415926535898;
-vi a, notpass;
-vector<set<int>> adj;
 inline void solve() {
-    int n = read(), m = read();
-    rep(i, n) a.eb(read() - 1); adj.rsz(n);
-    rep(i, m) adj[read() - 1].ins(read() - 1);
-    notpass.eb(a[n - 1]);
-    repr(i, n - 1) forv(j, notpass)
-    if (adj[a[i]].find(j) == adj[a[i]].end()) {
-        notpass.eb(a[i]); break;
-    }
-    debug() << imie(notpass);
-    cout << n - sz(notpass) << endl;
+	int n = read();
+	vector<pi> q(n, mp(0, 0));
+	rep(i, n) {
+		int a = read() - 1, f = read();
+		if (f) q[a].se++; q[a].fi++;
+	}
+	sort(rall(q));
+	debug() << imie(q);
+	pi ans = mp(0, 0);
+	multiset<int> good;
+	int ind = 0;
+	repr(i, n + 1) {
+		while (i <= q[ind].fi && ind < n)
+			good.ins(q[ind].se), ind++;
+		if(good.empty()) continue;
+		debug()<<imie(good);
+		ans.fi += i;
+		ans.se += min(i, *good.rbegin());
+		good.erase(prev(good.end()));
+	}
+	cout << ans.fi << " " << ans.se << endl;
 }

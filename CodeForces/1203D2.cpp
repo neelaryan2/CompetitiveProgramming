@@ -1,5 +1,45 @@
-#include<bits/stdc++.h>
+// #pragma GCC optimize("O3")
+// #pragma comment(linker, "/stack:200000000")
+// #pragma GCC optimize("Ofast,unroll-loops,no-stack-protector,fast-math")
+// #pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,tune=native")
+
+#include <algorithm>
+#include <bitset>
+#include <cassert>
+#include <chrono>
+#include <cmath>
+#include <complex>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
+#include <deque>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <iterator>
+#include <limits>
+#include <list>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <random>
+#include <ratio>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <string>
+#include <unordered_map>
+#include <unordered_set>
+#include <utility>
+#include <vector>
 using namespace std;
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+#include <ext/rope>
+using namespace __gnu_pbds;
+using namespace __gnu_cxx;
+
 #define sim template < class c
 #define ris return * this
 #define dor > debug & operator <<
@@ -35,16 +75,18 @@ typedef long long ll;
 typedef long double ld;
 typedef double db;
 typedef string str;
-
 typedef pair<int, int> pi;
 typedef pair<long long, long long> pl;
 typedef pair<long double, long double> pd;
-
 typedef vector<int> vi;
 typedef vector<long long> vl;
 typedef vector<long double> vd;
 typedef vector<string> vs;
 typedef vector<pair<ll, ll>> vpl;
+typedef tree<int, null_type, less<int>, rb_tree_tag,
+        tree_order_statistics_node_update> ordered_set;
+// order_of_key (val): returns the no. of values less than val
+// find_by_order (k): returns the iterator to kth largest element.(0-based)
 
 #define forn(i, a, b) for (int i = (a); i < (b); i++)
 #define rfor(i, b, a) for (int i = (b); i > (a); i--)
@@ -58,7 +100,7 @@ typedef vector<pair<ll, ll>> vpl;
 #define rall(v) (v).rbegin(), (v).rend()
 #define pc(c) putchar(c)
 #define gc(c) getchar(c)
-#define br() cout << endl
+#define runtime() ((double)clock() / CLOCKS_PER_SEC)
 
 #define popcnt __builtin_popcount
 #define popcntll __builtin_popcountll
@@ -89,31 +131,54 @@ inline int read() {
 	while (ch >= '0' && ch <= '9') x = x * 10 + ch - '0', ch = getchar();
 	return x * f;
 }
-//------------------------------------- end ---------------------------------------//
-const int N = 1e9 + 7;
-const int mod = 998244353;
-vi a, notpass;
-vector<set<int>> adj;
+inline long long readl() {
+	long long x = 0, f = 1; char ch = getchar();
+	while (ch < '0' || ch > '9') {if (ch == '-')f = -1; ch = getchar();}
+	while (ch >= '0' && ch <= '9') x = x * 10 + ch - '0', ch = getchar();
+	return x * f;
+}
+const double Pi = 3.1415926535898;
+inline void solve();
 int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	cout.tie(NULL);
 #ifdef LOCAL
 	freopen("in.txt", "r", stdin);
-	// freopen("out.txt", "w", stdout);
+	freopen("out.txt", "w", stdout);
 #endif
-	int n = read(), m = read();
-	rep(i, n) a.eb(read() - 1); adj.rsz(n);
-	rep(i, m) adj[read() - 1].ins(read() - 1);
-	notpass.eb(a[n - 1]);
-	repr(i, n - 1) forv(j, notpass)
-	if (adj[a[i]].find(j) == adj[a[i]].end()) {
-		notpass.eb(a[i]); break;
+	cout << fixed << setprecision(10);
+	int t = 1;
+	// cin >> t;
+	for (int i = 1; i <= t; i++) {
+		// cout << "Case #" << i << ": ";
+		solve();
 	}
-	cout << n - sz(notpass) << endl;
-
 #ifdef LOCAL
-	cout << "\nTime Elapsed: " << 1.0 * clock() / CLOCKS_PER_SEC << " sec\n";
+	cout << "\nTime Elapsed: " << runtime() << " sec\n";
 #endif
 	return 0;
+}
+//------------------------------------------ end -----------------------------------------------//
+const int N = 1e9 + 7;
+const int mod = 998244353;
+vector<pi> pos;
+inline void solve() {
+	string s, t;
+	cin >> s >> t;
+	int n = sz(s), m = sz(t), ind = 0, ans = 0;
+	pos.eb(mp(-1, -1));
+	rep(i, n) {
+		if (s[i] == t[ind]) ind++, pos.eb(mp(i, -1));
+		if (ind == m) break;
+	}
+	ind = m - 1;
+	repr(i, n) {
+		if (s[i] == t[ind]) pos[ind + 1].se = i, ind--;
+		if (ind == -1) break;
+	}
+	pos.eb(mp(n, n));
+	debug() << imie(pos);
+	rep(i, m + 1) ans = max(ans, pos[i + 1].se - pos[i].fi - 1);
+	cout << ans << endl;
 }

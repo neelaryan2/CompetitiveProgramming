@@ -1,4 +1,5 @@
- [notpass: [4, 2, 1, 0]] 
-1
+3
+10
+9
 
-Time Elapsed: 0.0030000000 sec
+Time Elapsed: 0.0000000000 sec
