@@ -133,7 +133,6 @@ mt19937_64 rng64(chrono::steady_clock::now().time_since_epoch().count());
 
 inline int read() {int x; cin >> x; return x;}
 inline long long readl() {long long x; cin >> x; return x;}
-inline char readc() {char x; cin >> x; return x;}
 inline string reads() {string x; cin >> x; return x;}
 
 const double Pi = 3.1415926535898;
@@ -161,28 +160,42 @@ int main() {
 //------------------------------------------ end -----------------------------------------------//
 const int N = 1e9 + 7;
 const int mod = 998244353;
-vi a;
 inline void solve() {
-	int n = read(), l, r;
-	rep(i, n) a.eb((readc() == '(') ? 1 : -1);
-	rep(i, n) a.eb(a[i]);
-	rep(i, 2 * n - 1) a[i + 1] += a[i];
-	if (a.back()) {cout << "0\n1 1\n"; return;}
-	int mn = *min_element(all(a));
-	int minc = 0, ans = 0;
-	rep(i, n) if (a[i] == mn) minc++, ans++;
-	debug() << imie(minc)imie(mn)imie(a);
-	rep(j, 2) {
-		int cnt = 0, en = 0, curr = j ? minc : 0;
-		rep(i, 2 * n) {
-			if (a[i] == mn + j + 1) cnt++;
-			if (a[i] <= mn + j) en = i % n, cnt = 0;
-			if (curr + cnt >= ans) {
-				l = (i + 1) % n; r = (en + 1) % n;
-				ans = curr + cnt;
-			}
-		}
+	int n = read();
+	vi arr; set<int> s;
+	rep(i, n) s.ins(i + 1);
+	rep(i, n) {
+		int a = read();
+		arr.eb(a);
+		if (a) s.erase(a);
 	}
-	if (l > r) swap(l, r); l++; r++;
-	cout << ans << endl << l << " " << r << endl;
+	auto it = s.begin(); int ind = -1;
+	rep(i, n) {
+		if (arr[i] == 0 && *it != i + 1)
+			arr[i] = *it, it++, ind = i;
+		debug() << imie(*it);
+	}
+	set<int> s2; vi temp;
+	rep(i, n) s2.ins(i + 1);
+	debug()<<imie(s2)imie(arr);
+	rep(i, n) if (arr[i]) s2.erase(arr[i]);
+	debug()<<imie(s2);
+	for (auto it2 = s2.begin(); it2 != s2.end(); it2++) temp.eb(*it2);
+	int id = 1, k = sz(temp);
+	if (k == 0) goto yes;
+	if (k == 1) {
+		int ind2 = find(all(arr), 0) - arr.begin();
+		arr[ind2] = temp[0];
+		if(arr[ind2]==ind2+1) swap(arr[ind], arr[ind2]);
+		goto yes;
+	}
+	rep(i, n) {
+		if (arr[i] == 0)
+			arr[i] = temp[id], id = (id + 1) % k;
+	}
+yes:
+	rep(i, n) cout << arr[i] << " ";
+	cout << endl;
+
+
 }

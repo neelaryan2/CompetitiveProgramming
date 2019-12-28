@@ -133,7 +133,6 @@ mt19937_64 rng64(chrono::steady_clock::now().time_since_epoch().count());
 
 inline int read() {int x; cin >> x; return x;}
 inline long long readl() {long long x; cin >> x; return x;}
-inline char readc() {char x; cin >> x; return x;}
 inline string reads() {string x; cin >> x; return x;}
 
 const double Pi = 3.1415926535898;
@@ -159,30 +158,38 @@ int main() {
 	return 0;
 }
 //------------------------------------------ end -----------------------------------------------//
-const int N = 1e9 + 7;
+const int N = 2e5;
 const int mod = 998244353;
-vi a;
+vector<int> SPF;
+vector<int> ind;
+void sieve(int n) {
+	int cnt = 0;
+	rep(i, n) SPF.eb(i), ind.eb(-1);
+	for (int i = 2; i < n ; i++)
+		for (ll j = 1LL * i * i; j < n; j += i)
+			SPF[j] = min(SPF[j], i);
+	forn(i, 2, n) if (SPF[i] == i) ind[i] = ++cnt;
+}
+vi ans;
+multiset<int> b;
 inline void solve() {
-	int n = read(), l, r;
-	rep(i, n) a.eb((readc() == '(') ? 1 : -1);
-	rep(i, n) a.eb(a[i]);
-	rep(i, 2 * n - 1) a[i + 1] += a[i];
-	if (a.back()) {cout << "0\n1 1\n"; return;}
-	int mn = *min_element(all(a));
-	int minc = 0, ans = 0;
-	rep(i, n) if (a[i] == mn) minc++, ans++;
-	debug() << imie(minc)imie(mn)imie(a);
-	rep(j, 2) {
-		int cnt = 0, en = 0, curr = j ? minc : 0;
-		rep(i, 2 * n) {
-			if (a[i] == mn + j + 1) cnt++;
-			if (a[i] <= mn + j) en = i % n, cnt = 0;
-			if (curr + cnt >= ans) {
-				l = (i + 1) % n; r = (en + 1) % n;
-				ans = curr + cnt;
-			}
+	int n = read();
+	rep(i, 2 * n) b.ins(read());
+	sieve((*b.rbegin()) + 2);
+	// debug() << imie(SPF)imie(ind);
+	while (sz(ans) < n) {
+		int num = *b.rbegin();
+		if (SPF[num] != num) {
+			auto it = b.find(num / SPF[num]);
+			if (it == b.end()) continue;
+			ans.eb(num); b.erase(it);
+		} else {
+			auto it = b.find(ind[num]);
+			if (it == b.end()) continue;
+			ans.eb(*it); b.erase(it);
 		}
+		b.erase(prev(b.end()));
 	}
-	if (l > r) swap(l, r); l++; r++;
-	cout << ans << endl << l << " " << r << endl;
+	forv(i, ans) cout << i << " ";
+	cout << endl;
 }

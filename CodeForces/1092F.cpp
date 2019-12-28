@@ -133,7 +133,6 @@ mt19937_64 rng64(chrono::steady_clock::now().time_since_epoch().count());
 
 inline int read() {int x; cin >> x; return x;}
 inline long long readl() {long long x; cin >> x; return x;}
-inline char readc() {char x; cin >> x; return x;}
 inline string reads() {string x; cin >> x; return x;}
 
 const double Pi = 3.1415926535898;
@@ -161,28 +160,34 @@ int main() {
 //------------------------------------------ end -----------------------------------------------//
 const int N = 1e9 + 7;
 const int mod = 998244353;
-vi a;
-inline void solve() {
-	int n = read(), l, r;
-	rep(i, n) a.eb((readc() == '(') ? 1 : -1);
-	rep(i, n) a.eb(a[i]);
-	rep(i, 2 * n - 1) a[i + 1] += a[i];
-	if (a.back()) {cout << "0\n1 1\n"; return;}
-	int mn = *min_element(all(a));
-	int minc = 0, ans = 0;
-	rep(i, n) if (a[i] == mn) minc++, ans++;
-	debug() << imie(minc)imie(mn)imie(a);
-	rep(j, 2) {
-		int cnt = 0, en = 0, curr = j ? minc : 0;
-		rep(i, 2 * n) {
-			if (a[i] == mn + j + 1) cnt++;
-			if (a[i] <= mn + j) en = i % n, cnt = 0;
-			if (curr + cnt >= ans) {
-				l = (i + 1) % n; r = (en + 1) % n;
-				ans = curr + cnt;
-			}
-		}
+vl cost, sum, a;
+vector<vi> adj;
+void dfs1(int v, int p = -1, ll c = 0) {
+	cost[0] += c * a[v];
+	forv(u, adj[v]) {
+		if (u == p) continue;
+		dfs1(u, v, c + 1);
+		sum[v] += sum[u];
 	}
-	if (l > r) swap(l, r); l++; r++;
-	cout << ans << endl << l << " " << r << endl;
+}
+void dfs2(int v, int p = -1) {
+	if (p != -1)
+		cost[v] = cost[p] + sum[0] - 2LL * sum[v];
+	forv(u, adj[v]) {
+		if (u == p) continue;
+		dfs2 (u, v);
+	}
+}
+inline void solve() {
+	int n = read();
+	adj.rsz(n); cost.rsz(n, 0);
+	rep(i, n) a.eb(readl()); sum = a;
+	rep(i, n - 1) {
+		int u = read() - 1, v = read() - 1;
+		adj[u].eb(v);
+		adj[v].eb(u);
+	}
+	dfs1(0); dfs2(0);
+	debug() << imie(cost)imie(sum);
+	cout << *max_element(all(cost)) << endl;
 }

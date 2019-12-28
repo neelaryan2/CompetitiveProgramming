@@ -133,7 +133,6 @@ mt19937_64 rng64(chrono::steady_clock::now().time_since_epoch().count());
 
 inline int read() {int x; cin >> x; return x;}
 inline long long readl() {long long x; cin >> x; return x;}
-inline char readc() {char x; cin >> x; return x;}
 inline string reads() {string x; cin >> x; return x;}
 
 const double Pi = 3.1415926535898;
@@ -148,7 +147,7 @@ int main() {
 #endif
 	cout << fixed << setprecision(10);
 	int t = 1;
-	// cin >> t;
+	cin >> t;
 	for (int i = 1; i <= t; i++) {
 		// cout << "Case #" << i << ": ";
 		solve();
@@ -161,28 +160,31 @@ int main() {
 //------------------------------------------ end -----------------------------------------------//
 const int N = 1e9 + 7;
 const int mod = 998244353;
-vi a;
 inline void solve() {
-	int n = read(), l, r;
-	rep(i, n) a.eb((readc() == '(') ? 1 : -1);
-	rep(i, n) a.eb(a[i]);
-	rep(i, 2 * n - 1) a[i + 1] += a[i];
-	if (a.back()) {cout << "0\n1 1\n"; return;}
-	int mn = *min_element(all(a));
-	int minc = 0, ans = 0;
-	rep(i, n) if (a[i] == mn) minc++, ans++;
-	debug() << imie(minc)imie(mn)imie(a);
-	rep(j, 2) {
-		int cnt = 0, en = 0, curr = j ? minc : 0;
-		rep(i, 2 * n) {
-			if (a[i] == mn + j + 1) cnt++;
-			if (a[i] <= mn + j) en = i % n, cnt = 0;
-			if (curr + cnt >= ans) {
-				l = (i + 1) % n; r = (en + 1) % n;
-				ans = curr + cnt;
-			}
+	ll a = readl(), b = readl(), m = readl();
+	vl r; ll co = 1, n = -1;
+	if (a == b) {cout << "1 " << a << endl; return;}
+	forn(i, 2, 51) {
+		ld curr = 1.0 * b / co;
+		if (curr >= (ld)(a + 1) && curr <= (ld)(m + a)) {
+			n = i;
+			break;
 		}
+		co *= 2;
 	}
-	if (l > r) swap(l, r); l++; r++;
-	cout << ans << endl << l << " " << r << endl;
+	if (n == -1) {cout << "-1\n"; return;}
+	b -= co * (a + 1);
+	// debug() << imie(n)imie(b);
+	rep(i, n - 1) {
+		co = max(co / 2, 1LL);
+		ll j = min(b / co, m - 1);
+		b -= co * j;
+		r.eb(j + 1);
+	}
+	// debug() << imie(r);
+	vl seq; seq.eb(a); seq.eb(a + r[0]);
+	rep(i, n - 2) {
+		seq.eb(2 * seq.back() + r[i + 1] - r[i]);
+	}
+	cout << n; rep(i, n) cout << " " << seq[i]; cout << endl;
 }

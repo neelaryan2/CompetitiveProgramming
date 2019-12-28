@@ -1,3 +1,0 @@
-6
-
-Time Elapsed: 0.0020000000 sec

@@ -133,7 +133,6 @@ mt19937_64 rng64(chrono::steady_clock::now().time_since_epoch().count());
 
 inline int read() {int x; cin >> x; return x;}
 inline long long readl() {long long x; cin >> x; return x;}
-inline char readc() {char x; cin >> x; return x;}
 inline string reads() {string x; cin >> x; return x;}
 
 const double Pi = 3.1415926535898;
@@ -161,28 +160,47 @@ int main() {
 //------------------------------------------ end -----------------------------------------------//
 const int N = 1e9 + 7;
 const int mod = 998244353;
-vi a;
+set<int> s;
+vi a, v, ansv;
+vector<pi> seg, mnmx;
 inline void solve() {
-	int n = read(), l, r;
-	rep(i, n) a.eb((readc() == '(') ? 1 : -1);
-	rep(i, n) a.eb(a[i]);
-	rep(i, 2 * n - 1) a[i + 1] += a[i];
-	if (a.back()) {cout << "0\n1 1\n"; return;}
-	int mn = *min_element(all(a));
-	int minc = 0, ans = 0;
-	rep(i, n) if (a[i] == mn) minc++, ans++;
-	debug() << imie(minc)imie(mn)imie(a);
-	rep(j, 2) {
-		int cnt = 0, en = 0, curr = j ? minc : 0;
-		rep(i, 2 * n) {
-			if (a[i] == mn + j + 1) cnt++;
-			if (a[i] <= mn + j) en = i % n, cnt = 0;
-			if (curr + cnt >= ans) {
-				l = (i + 1) % n; r = (en + 1) % n;
-				ans = curr + cnt;
+	int n = read(), m = read(), ans = 0;
+	rep(i, n) a.eb(read());
+	rep(i, m) {
+		int l = read() - 1, r = read();
+		seg.eb(mp(l, r));
+		s.ins(l); s.ins(r);
+	}
+	s.ins(0); s.ins(n);
+	v.assign(all(s));
+	rep(i, sz(v) - 1) {
+		int mn = N, mx = -N;
+		forn(j, v[i], v[i + 1]) {
+			mn = min(mn, a[j]);
+			mx = max(mx, a[j]);
+		}
+		mnmx.eb(mp(mn, mx));
+	}
+	rep(i, sz(mnmx)) {
+		vi ind;
+		vector<pi> cpy;
+		cpy = mnmx;
+		rep(j, m) {
+			if (seg[j].fi > v[i] || seg[j].se <= v[i]) {
+				int it = lb(all(v), seg[j].fi) - v.begin();
+				while (v[it] < seg[j].se) cpy[it].fi--, it++;
+				ind.eb(j + 1);
 			}
 		}
+		pi p = *min_element(all(cpy));
+		int diff = mnmx[i].se - p.fi;
+		if (diff > ans) {
+			ans = diff;
+			ansv = ind;
+		}
 	}
-	if (l > r) swap(l, r); l++; r++;
-	cout << ans << endl << l << " " << r << endl;
+	sort(all(ansv));
+	cout << ans << endl << sz(ansv) << endl;
+	forv(i, ansv) cout << i << " ";
+	cout << endl;
 }

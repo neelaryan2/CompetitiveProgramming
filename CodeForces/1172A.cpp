@@ -133,7 +133,6 @@ mt19937_64 rng64(chrono::steady_clock::now().time_since_epoch().count());
 
 inline int read() {int x; cin >> x; return x;}
 inline long long readl() {long long x; cin >> x; return x;}
-inline char readc() {char x; cin >> x; return x;}
 inline string reads() {string x; cin >> x; return x;}
 
 const double Pi = 3.1415926535898;
@@ -161,28 +160,23 @@ int main() {
 //------------------------------------------ end -----------------------------------------------//
 const int N = 1e9 + 7;
 const int mod = 998244353;
-vi a;
+vi hand, pile, pos;
+int direct(int n) {
+	int ind1 = -1, k = pile.back();
+	rep(i, n) if (pile[i] == 1) ind1 = i;
+	if (ind1 == -1) return N;
+	forn(i, ind1, n - 1) if (pile[i] != pile[i + 1] - 1) return N;
+	forn(i, k + 1, n + 1) if (pos[i] > i - k - 1) return N;
+	return n - k;
+}
 inline void solve() {
-	int n = read(), l, r;
-	rep(i, n) a.eb((readc() == '(') ? 1 : -1);
-	rep(i, n) a.eb(a[i]);
-	rep(i, 2 * n - 1) a[i + 1] += a[i];
-	if (a.back()) {cout << "0\n1 1\n"; return;}
-	int mn = *min_element(all(a));
-	int minc = 0, ans = 0;
-	rep(i, n) if (a[i] == mn) minc++, ans++;
-	debug() << imie(minc)imie(mn)imie(a);
-	rep(j, 2) {
-		int cnt = 0, en = 0, curr = j ? minc : 0;
-		rep(i, 2 * n) {
-			if (a[i] == mn + j + 1) cnt++;
-			if (a[i] <= mn + j) en = i % n, cnt = 0;
-			if (curr + cnt >= ans) {
-				l = (i + 1) % n; r = (en + 1) % n;
-				ans = curr + cnt;
-			}
-		}
-	}
-	if (l > r) swap(l, r); l++; r++;
-	cout << ans << endl << l << " " << r << endl;
+	int n = read(), ans = 0;
+	rep(i, n) hand.eb(read());
+	rep(i, n) pile.eb(read());
+	pos.rsz(n + 1, 0);
+	rep(i, n) pos[pile[i]] = i + 1;
+	debug() << imie(pos);
+	forn(i, 1, n + 1) ans = max(ans, n + pos[i] - i + 1);
+	debug() << imie(ans);
+	cout << min(ans, direct(n)) << endl;
 }

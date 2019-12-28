@@ -133,7 +133,6 @@ mt19937_64 rng64(chrono::steady_clock::now().time_since_epoch().count());
 
 inline int read() {int x; cin >> x; return x;}
 inline long long readl() {long long x; cin >> x; return x;}
-inline char readc() {char x; cin >> x; return x;}
 inline string reads() {string x; cin >> x; return x;}
 
 const double Pi = 3.1415926535898;
@@ -159,30 +158,42 @@ int main() {
 	return 0;
 }
 //------------------------------------------ end -----------------------------------------------//
-const int N = 1e9 + 7;
+const int N = 1e6 + 2;
 const int mod = 998244353;
-vi a;
+template <typename T>
+inline T inv(T a, int m = mod) { // a*x = 1 mod m
+	T _m = m, q, t, y = 0, x = 1;
+	if (a < 0) a += (1 - (a + 1) / m) * m;
+	if (m == 1) return 0;
+	while (a > 1) {
+		q = a / m, t = m;
+		m = a % m, a = t, t = y;
+		y = x - q * y, x = t;
+	}
+	if (x < 0) x += _m;
+	return x;
+}
+vl cnt(N, 0), inverse;
+vector<vl> adj;
 inline void solve() {
-	int n = read(), l, r;
-	rep(i, n) a.eb((readc() == '(') ? 1 : -1);
-	rep(i, n) a.eb(a[i]);
-	rep(i, 2 * n - 1) a[i + 1] += a[i];
-	if (a.back()) {cout << "0\n1 1\n"; return;}
-	int mn = *min_element(all(a));
-	int minc = 0, ans = 0;
-	rep(i, n) if (a[i] == mn) minc++, ans++;
-	debug() << imie(minc)imie(mn)imie(a);
-	rep(j, 2) {
-		int cnt = 0, en = 0, curr = j ? minc : 0;
-		rep(i, 2 * n) {
-			if (a[i] == mn + j + 1) cnt++;
-			if (a[i] <= mn + j) en = i % n, cnt = 0;
-			if (curr + cnt >= ans) {
-				l = (i + 1) % n; r = (en + 1) % n;
-				ans = curr + cnt;
-			}
+	int n = read();
+	adj.rsz(n);
+	rep(i, n) {
+		int k = read();
+		rep(j, k) {
+			adj[i].eb(read() - 1);
+			cnt[adj[i].back()]++;
 		}
 	}
-	if (l > r) swap(l, r); l++; r++;
-	cout << ans << endl << l << " " << r << endl;
+	rep(i, n) inverse.eb(inv(sz(adj[i])));
+	ll curr, prob = 0;
+	rep(i, n)
+	forv(toy, adj[i]) {
+		curr = (cnt[toy] * inverse[i]) % mod;
+		prob = (prob + curr) % mod;
+	}
+	curr = inv(n);
+	rep(i, 2) prob = (prob * curr) % mod;
+	cout << prob << endl;
+
 }
