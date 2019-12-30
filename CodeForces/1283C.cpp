@@ -162,40 +162,29 @@ const int N = 1e9 + 7;
 const int mod = 998244353;
 inline void solve() {
 	int n = read();
-	vi arr; set<int> s;
-	rep(i, n) s.ins(i + 1);
+	vi a, ind; set<int> s;
+	rep(i, n) s.ins(i);
 	rep(i, n) {
-		int a = read();
-		arr.eb(a);
-		if (a) s.erase(a);
+		int e = read();
+		a.eb(--e);
+		if (e != -1) s.erase(e);
+		else ind.eb(i);
 	}
-	auto it = s.begin(); int ind = -1;
-	rep(i, n) {
-		if (arr[i] == 0 && *it != i + 1)
-			arr[i] = *it, it++, ind = i;
-		debug() << imie(*it);
+	rep(i, sz(ind) - 1) {
+		auto it1 = s.begin();
+		auto it2 = it1; it2++;
+		debug() << imie(*it1)imie(*it2);
+		if (sz(s) == 2) {
+			a[ind[i + 1]] = *it1;
+			a[ind[i]] = *it2;
+			if (ind[i] == *it2 || ind[i + 1] == *it1)
+				swap(a[ind[i]], a[ind[i + 1]]);
+			break;
+		}
+		else if (ind[i] != *it1)
+			a[ind[i]] = *it1, s.erase(it1);
+		else a[ind[i]] = *it2, s.erase(it2);
 	}
-	set<int> s2; vi temp;
-	rep(i, n) s2.ins(i + 1);
-	debug()<<imie(s2)imie(arr);
-	rep(i, n) if (arr[i]) s2.erase(arr[i]);
-	debug()<<imie(s2);
-	for (auto it2 = s2.begin(); it2 != s2.end(); it2++) temp.eb(*it2);
-	int id = 1, k = sz(temp);
-	if (k == 0) goto yes;
-	if (k == 1) {
-		int ind2 = find(all(arr), 0) - arr.begin();
-		arr[ind2] = temp[0];
-		if(arr[ind2]==ind2+1) swap(arr[ind], arr[ind2]);
-		goto yes;
-	}
-	rep(i, n) {
-		if (arr[i] == 0)
-			arr[i] = temp[id], id = (id + 1) % k;
-	}
-yes:
-	rep(i, n) cout << arr[i] << " ";
+	rep(i, n) cout << ++a[i] << " ";
 	cout << endl;
-
-
 }

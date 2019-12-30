@@ -75,6 +75,8 @@ sim dor(rge<c> d) {
 #define imie(...) " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] "
 
 typedef long long ll;
+typedef unsigned int uint;
+typedef unsigned long long ull;
 typedef long double ld;
 typedef double db;
 typedef string str;

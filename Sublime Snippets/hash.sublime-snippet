@@ -1,0 +1,15 @@
+<snippet>
+	<content><![CDATA[
+template<typename T> // use uint preferably
+T vec_hash (vector<T> const vec) {
+	T seed = vec.size();
+	for (T i : vec)
+		seed ^= i + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+	return seed;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>hashing</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
