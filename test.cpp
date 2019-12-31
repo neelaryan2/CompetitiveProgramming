@@ -1,4 +1,4 @@
-// #pragma GCC optimize("O3")
+#pragma GCC optimize("O2")
 // #pragma comment(linker, "/stack:200000000")
 // #pragma GCC optimize("Ofast,unroll-loops,no-stack-protector,fast-math")
 // #pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,tune=native")
@@ -166,6 +166,38 @@ int main() {
 //------------------------------------------ end -----------------------------------------------//
 const int N = 1e9 + 7;
 const int mod = 998244353;
+int n, m;
+vector<vector<int>> grid;
+inline bool check(int x, int y) {
+    return (x < n) && (x >= 0) &&
+           (y < m) && (y >= 0) &&
+           grid[x][y];
+}
+int dfs(int x, int y) {
+    int ans = 1;
+    grid[x][y] = 0;
+    for (int i = -1; i < 2; i++)
+        for (int j = -1; j < 2; j++)
+            if (check(x + i, y + j))
+                ans += dfs(x + i, y + j);
+    return ans;
+}
+int maxRegion() {
+    int ans = 0;
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < m; j++)
+            if (grid[i][j])
+                ans = max(ans, dfs(i, j));
+    return ans;
+}
 inline void solve() {
-
+    cin >> n >> m;
+    grid.resize(n);
+    for (int i = 0; i < n; i++) {
+        grid[i].resize(m);
+        for (int j = 0; j < m; j++)
+            cin >> grid[i][j];
+    }
+    cout << maxRegion() << "\n";
+    return;
 }
