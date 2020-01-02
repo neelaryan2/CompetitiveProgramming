@@ -12,11 +12,13 @@ int get(int i) {
 	return sum;
 }
 // equivalent to calculating lower_bound on prefix sums array
-int bit_search(ll val) {  //using binary lifting
-	ll sum = 0, pos = 0;
-	for (int i = log2(BIT.size()); i >= 0; i--)
-		if (pos + (1 << i) < BIT.size() && sum + BIT[pos + (1 << i)] < val)
-			sum += BIT[pos + (1 << i)],	pos += (1 << i);
+int bit_search(long long val) {  //using binary lifting
+	long long sum = 0, pos = 0, s = BIT.size();
+	for (int i = log2(s); i >= 0; i--) {
+		int d = (1 << i);
+		if (pos + d < s && sum + BIT[pos + d] < val)
+			sum += BIT[pos + d],    pos += d;
+	}
 	return pos + 1;
 }
 ]]></content>

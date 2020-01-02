@@ -164,8 +164,44 @@ int main() {
     return 0;
 }
 //------------------------------------------ end -----------------------------------------------//
-const int N = 1e9 + 7;
+const int N = 1e6 + 2;
 const int mod = 998244353;
+vector<vi> queries;
+vector<int> ans;
+vector<int> freq(N, 0);
+map<int, int> mapm;
+void freqQuery() {
+    for (auto v : queries) {
+        auto it = mapm.find(v[1]);
+        if (v[0] == 1) {
+            if (it == mapm.end()) {
+                mapm[v[1]] = 1;
+                freq[1]++;
+            } else {
+                int t = it->se;
+                freq[t]--;
+                mapm[v[1]] += 1;
+                freq[t + 1]++;
+            }
+        }
+        if (v[0] == 2) {
+            if (it == mapm.end()) continue;
+            int t = it->se;
+            if (t == 0) continue;
+            freq[t]--;
+            mapm[v[1]] -= 1;
+            freq[t - 1]++;
+        }
+        if (v[0] == 3) {
+            if (v[1] >= freq.size()) ans.eb(0);
+            else ans.eb(freq[v[1]] != 0);
+        }
+    }
+}
 inline void solve() {
-
+    int n = read();
+    queries.resize(n, vi(2));
+    rep(i, n) rep(j, 2) queries[i][j] = read();
+    freqQuery();
+    rep(i, sz(ans)) cout << ans[i] << endl;
 }

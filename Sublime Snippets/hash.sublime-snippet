@@ -1,10 +1,17 @@
 <snippet>
 	<content><![CDATA[
-template<typename T> // use uint preferably
-T vec_hash (vector<T> const vec) {
-	T seed = vec.size();
+typedef unsigned int uint;
+template<typename T>
+uint vec_hash (const vector<T>& vec) {
+	uint seed = vec.size();
 	for (T i : vec)
-		seed ^= i + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+		seed ^= (uint)i + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+	return seed;
+}
+uint str_hash (const string s) {
+	uint seed = s.size();
+	for (char i : vec)
+		seed ^= (uint)i + 0x9e3779b9 + (seed << 6) + (seed >> 2);
 	return seed;
 }
 ]]></content>

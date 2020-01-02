@@ -52,22 +52,22 @@ sim > auto dud(c* x) -> decltype(cout << *x, 0);
 sim > char dud(...);
 struct debug {
 #ifdef LOCAL
-    ~debug() { cout << endl; }
-    eni( != ) cout << boolalpha << i; ris;
+	~debug() { cout << endl; }
+	eni( != ) cout << boolalpha << i; ris;
 }
 eni( == ) ris << range(begin(i), end(i));
 }
 sim, class b dor(pair < b, c > d) {
-    ris << "(" << d.first << ", " << d.second << ")";
+	ris << "(" << d.first << ", " << d.second << ")";
 }
 sim dor(rge<c> d) {
-    *this << "[";
-    for (auto it = d.b; it != d.e; ++it)
-        *this << ", " + 2 * (it == d.b) << *it;
-    ris << "]";
+	*this << "[";
+	for (auto it = d.b; it != d.e; ++it)
+		*this << ", " + 2 * (it == d.b) << *it;
+	ris << "]";
 }
 #else
-    sim dor(const c&) { ris; }
+	sim dor(const c&) { ris; }
 #endif
 };
 #define imie(...) " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] "
@@ -144,28 +144,51 @@ inline string reads() {string x; cin >> x; return x;}
 const double Pi = 3.1415926535898;
 inline void solve();
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
 #ifdef LOCAL
-    freopen("in.txt", "r", stdin);
-    freopen("out.txt", "w", stdout);
+	freopen("in.txt", "r", stdin);
+	freopen("out.txt", "w", stdout);
 #endif
-    cout << fixed << setprecision(10);
-    int t = 1;
-    // cin >> t;
-    for (int i = 1; i <= t; i++) {
-        // cout << "Case #" << i << ": ";
-        solve();
-    }
+	cout << fixed << setprecision(10);
+	int t = 1;
+	// cin >> t;
+	for (int i = 1; i <= t; i++) {
+		// cout << "Case #" << i << ": ";
+		solve();
+	}
 #ifdef LOCAL
-    cout << "\nTime Elapsed: " << runtime() << " sec\n";
+	cout << "\nTime Elapsed: " << runtime() << " sec\n";
 #endif
-    return 0;
+	return 0;
 }
 //------------------------------------------ end -----------------------------------------------//
 const int N = 1e9 + 7;
 const int mod = 998244353;
+vector<int> BIT(200005, 0);
+void add(int i, int x) {
+	for (; i < BIT.size(); i += i & (-i)) BIT[i] += x;
+}
+int bit_search(int val) {  //using binary lifting
+	int sum = 0, pos = 0, siz = BIT.size();
+	for (int i = log2(siz); i >= 0; i--) {
+		int d = (1 << i);
+		if (pos + d < siz && sum + BIT[pos + d] < val)
+			sum += BIT[pos + d],    pos += d;
+	}
+	return pos + 1;
+}
 inline void solve() {
-
+	int n = read(), d = read();
+	vi ex; int ans = 0;
+	rep(i, n) ex.eb(read() + 1);
+	rep(i, d) add(ex[i], 1);
+	forn(i, d, n - 1) {
+		int ind1 = bit_search((1 + d) / 2);
+		int ind2 = bit_search(1 + d / 2);
+		if (ex[i] >= ind1 + ind2 - 1) ans++;
+		add(ex[i], 1); add(ex[i - d], -1);
+	}
+	cout << ans << endl;
 }
