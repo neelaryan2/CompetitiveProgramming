@@ -1,0 +1,27 @@
+<snippet>
+	<content><![CDATA[
+typedef long long ll;
+typedef unsigned int uint;
+typedef pair<int, int> pi;
+typedef pair<long long, long long> pl;
+typedef vector<int> vi;
+#define forn(i, a, b) for (int i = (a); i <= (b); i++)
+#define rfor(i, b, a) for (int i = (b); i >= (a); i--)
+#define all(v) (v).begin(), (v).end()
+#define sz(v) (int)(v).size()
+#define rall(v) (v).rbegin(), (v).rend()
+#define runtime() ((double)clock() / CLOCKS_PER_SEC)
+#define fi first
+#define se second
+#define pb push_back
+#define eb emplace_back
+#define mp make_pair
+#define lb lower_bound
+#define ub upper_bound
+#define endl "\n"
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>basic</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

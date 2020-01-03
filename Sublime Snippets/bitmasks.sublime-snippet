@@ -1,11 +1,12 @@
 <snippet>
 	<content><![CDATA[
-ios_base::sync_with_stdio(false);
-cin.tie(NULL);
-cout.tie(NULL);
+#define Set(n, i) n = (n) | (1LL << (i))
+#define Reset(n, i) n = (n) & ~(1LL << (i))
+#define Test(n, i) ((n) >> (i) & 1LL)
+#define par(n) (n) & 1LL
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>fastio</tabTrigger>
+	<tabTrigger>bitmasks</tabTrigger>
 	<!-- Optional: Set a scope to limit where the snippet will trigger -->
 	<!-- <scope>source.python</scope> -->
 </snippet>
