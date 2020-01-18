@@ -10,7 +10,7 @@ typedef vector<int> vi;
 #define all(v) (v).begin(), (v).end()
 #define sz(v) (int)(v).size()
 #define rall(v) (v).rbegin(), (v).rend()
-#define runtime() ((double)clock() / CLOCKS_PER_SEC)
+#define runtime() (int)(1000 * ((double)clock()) / CLOCKS_PER_SEC)
 #define fi first
 #define se second
 #define pb push_back

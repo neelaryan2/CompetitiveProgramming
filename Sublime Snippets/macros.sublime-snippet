@@ -12,7 +12,7 @@
 #define rall(v) (v).rbegin(), (v).rend()
 #define pc(c) putchar(c)
 #define gc(c) getchar(c)
-#define runtime() ((double)clock() / CLOCKS_PER_SEC)
+#define runtime() (int)(1000 * ((double)clock()) / CLOCKS_PER_SEC)
 #define flush() cout << flush
 #define max_queue(t) priority_queue<t>
 #define min_queue(t) priority_queue<t,vector<t>,greater<t>>

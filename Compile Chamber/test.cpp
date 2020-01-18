@@ -103,7 +103,7 @@ typedef tree<int, null_type, less<int>, rb_tree_tag,
 #define rall(v) (v).rbegin(), (v).rend()
 #define pc(c) putchar(c)
 #define gc(c) getchar(c)
-#define runtime() ((double)clock() / CLOCKS_PER_SEC)
+#define runtime() (int)(1000 * ((double)clock()) / CLOCKS_PER_SEC)
 #define flush() cout << flush
 #define max_queue(t) priority_queue<t>
 #define min_queue(t) priority_queue<t,vector<t>,greater<t>>
@@ -159,7 +159,7 @@ int main() {
         solve();
     }
 #ifdef LOCAL
-    cout << "\nTime Elapsed: " << runtime() << " sec\n";
+    cout << "\nTime Elapsed: " << runtime() << " ms\n";
 #endif
     return 0;
 }
@@ -167,6 +167,6 @@ int main() {
 const int N = 1e9 + 7;
 const int mod = 998244353;
 inline void solve() {
-    int t; cin>>t;
-    cout<<t;
+    int t; cin >> t;
+    cout << t;
 }
