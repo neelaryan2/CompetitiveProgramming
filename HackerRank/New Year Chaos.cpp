@@ -28,8 +28,7 @@ int main()
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     for (int t_itr = 0; t_itr < t; t_itr++) {
-        int n;
-        cin >> n;
+        int n; cin >> n;
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
         string q_temp_temp;
