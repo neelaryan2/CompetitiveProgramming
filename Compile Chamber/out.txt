@@ -1,1 +1,10 @@
-806066790
+Group A:
+Barcelona
+Benfica
+Spartak
+Celtic
+Group B:
+Milan
+Zenit
+Anderlecht
+Malaga
