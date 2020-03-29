@@ -8,7 +8,7 @@ void dfs(int v, vector<vector<int>>& adj, vector<bool>& vis, vector<bool>& chose
 	for (int u : adj[v])
 		has = has || chosen[u];
 	if (!has && !chosen[v])
-		chosen[adj[v][0]] = true;
+		chosen[v] = true;
 	for (int u : adj[v])
 		if (!vis[u]) dfs(u, adj, vis, chosen);
 }
@@ -37,10 +37,9 @@ inline void solve() {
 	cout << endl;
 }
 int main() {
-#ifdef LOCAL
-	freopen("in.txt", "r", stdin);
-	freopen("out.txt", "w", stdout);
-#endif
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
 	int t; cin >> t;
 	while (t--) solve();
 }

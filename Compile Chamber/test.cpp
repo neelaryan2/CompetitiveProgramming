@@ -1,49 +1,75 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
- */
-class Solution {
-public:
-	using vii = vector<vector<int>>;
-	vii pathSumAux(TreeNode* root, int sum) {
-		vii ans;
-		if (root == nullptr) return ans;
-		if (root->left == nullptr && root->right == nullptr) {
-			if (sum != root->val) return ans;
-			ans.push_back(vector<int>(1, sum));
-			return ans;
+#include <bits/stdc++.h>
+#define pb push_back
+#define mp make_pair
+
+using namespace std;
+
+
+set<int> s2;
+set<int> s1[200005];
+
+int cnt, n;
+void bfs(int s)
+{
+	queue<int> q;
+	q.push(s);
+	s2.erase(s2.find(s));
+	while (!q.empty())
+	{
+		int v = q.front();
+		cnt++;
+		q.pop();
+		vector<int> aux;
+		for (auto it = s2.begin(); it != s2.end(); it++)
+		{
+			int u = (*it);
+			if (s1[v].find(u) == s1[v].end())
+			{
+				aux.pb(u);
+				q.push(u);
+			}
 		}
-		if (root->left == nullptr) {
-			ans = pathSumAux(root->right, sum - root->val);
-			for (auto& v : ans) v.push_back(root->val);
-			return ans;
-		}
-		if (root->right == nullptr) {
-			ans = pathSumAux(root->left, sum - root->val);
-			for (auto& v : ans) v.push_back(root->val);
-			return ans;
-		}
-		vii ans1 = pathSumAux(root->left, sum - root->val);
-		vii ans2 = pathSumAux(root->right, sum - root->val);
-		for (auto& v : ans1) {
-			v.push_back(root->val);
-			ans.push_back(v);
-		}
-		for (auto& v : ans2) {
-			v.push_back(root->val);
-			ans.push_back(v);
-		}
-		return ans;
+		for (int i = 0; i < aux.size(); i++)
+			s2.erase(s2.find(aux[i]));
 	}
-	vii pathSum(TreeNode* root, int sum) {
-		vii ans = pathSumAux(root, sum);
-		for (auto& v : ans)
-			reverse(v.begin(), v.end());
-		return ans;
+}
+
+vector<int> v;
+int main()
+{
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	int m;
+	cin >> n >> m;
+	int a, b;
+	while (m--)
+	{
+		cin >> a >> b;
+		s1[a].insert(b);
+		s1[b].insert(a);
 	}
-};
+	for (int i = 1; i <= n; i++)
+	{
+		s2.insert(i);
+	}
+
+
+	for (int i = 1; i <= n; i++)
+	{
+		if (s2.find(i) != s2.end())
+		{
+
+			cnt = 0;
+			bfs(i);
+			v.pb(cnt);
+		}
+	}
+	sort(v.begin(), v.end());
+	cout << v.size() << endl;
+	for (int i = 0; i < v.size(); i++)
+	{
+		cout << v[i] << " ";
+	}
+	return 0;
+}
