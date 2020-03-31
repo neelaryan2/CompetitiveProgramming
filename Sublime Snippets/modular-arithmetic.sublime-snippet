@@ -10,6 +10,7 @@ struct ModInt {
 	long long get() { return n < 0 ? n + kMod : n; }
 };
 ModInt lgpow(ModInt b, int e = -1) {
+	if (b.get() == 0) return 0;
 	ModInt r; e = e % (kMod - 1);
 	if (e < 0) e += kMod - 1;
 	for (r = 1; e; e >>= 1, b = b * b)

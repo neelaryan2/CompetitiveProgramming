@@ -1,3 +1,5 @@
+<snippet>
+	<content><![CDATA[
 vector<int> arr(n);
 vector<int> sums(rt + 1);
 void update(int i, int j, int x) {
@@ -38,3 +40,9 @@ int query(int i, int j) {
 	ans += query(rj * rt, j);
 	return ans;
 }
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>sqrtdec</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
