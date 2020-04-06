@@ -1,14 +1,16 @@
 <snippet>
 	<content><![CDATA[
-vector<int> lps;
-void kmp(string const& s) {
-	lps.resize((int)s.size(), 0);
-	for (int i = 1; i < s.length(); i++) {
+int kmp(string const& s) {
+	int n = s.size();
+	vector<int> lps(n, 0);
+	for (int i = 1; i < n; i++) {
 		int j = lps[i - 1];
-		while (j > 0 && s[i] != s[j]) j = lps[j - 1];
+		while (j > 0 && s[i] != s[j]) 
+			j = lps[j - 1];
 		if (s[i] == s[j]) j++;
 		lps[i] = j;
 	}
+	return lps.back();
 }
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
