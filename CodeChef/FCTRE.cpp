@@ -9,7 +9,9 @@ using ppi = pair<pii, pii>;
 #define eb emplace_back
 #define fi first
 #define se second
-const int N = 1e6 + 10;
+const int N = 2e6 + 10;
+const int F = 1e6 + 10;
+const int mxN = 1e5 + 5;
 const int kMod = 1e9 + 7;
 
 struct ModInt {
@@ -29,14 +31,11 @@ ModInt lgpow(ModInt b, int e = -1) {
 	return r;
 }
 
-int n, q, LOGN, sqrtN, T;
-int least[N];
+int n, LOGN, sqrtN, T;
+int least[N], depth[mxN], tin[mxN], tout[mxN], arr[2 * mxN], val[mxN], primes[F];
+ModInt inv[N], curr;
+vector<pii> factors[mxN];
 vector<vector<int>> adj, P;
-vector<int> depth, tin, tout, arr, val;
-vector<int> primes(N, 0);
-vector<vector<pii>> factors;
-vector<ModInt> inv(N);
-ModInt curr = 1;
 
 bool cmp(ppi& a, ppi& b) {
 	int ak = 1 + ((a.fi.fi - 1) / (sqrtN + 1));
@@ -45,38 +44,38 @@ bool cmp(ppi& a, ppi& b) {
 	else if (a.fi.se != b.fi.se) return a.fi.se < b.fi.se;
 	else return a.fi.fi < b.fi.fi;
 }
-void sieve() {
-	for (int i = 2; i < N; i += 2)
-		least[i] = 2;
-	for (int i = 3; i < N; i += 2) {
-		if (least[i]) continue;
-		least[i] = i;
-		if (N / i < i) continue;
-		int j = i * i;
-		while (j < N) least[j] = i, j += i;
+void preprocess() {
+	least[0] = 0; least[1] = 1;
+	for (int i = 2; i < N; i++)
+		least[i] = (i % 2) ? i : 2;
+	for (int i = 3; i <= N / i; i += 2) {
+		if (least[i] != i) continue;
+		for (int j = i * i; j < N; j += i)
+			if (least[j] == j)
+				least[j] = i;
 	}
-	for (int i = 0; i < N; i++)
-		inv[i] = lgpow(i);
+	for (int i = 0; i < N; i++) {
+		int l = least[i];
+		if (l == i)	inv[i] = lgpow(i);
+		else inv[i] = inv[i / l] * inv[l];
+	}
+}
+void getFactors(int num, vector<pii>& fact) {
+	fact.clear();
+	while (num > 1) {
+		int p = least[num], cnt = 0;
+		while (num % p == 0) num /= p, cnt++;
+		fact.eb(mp(p, cnt));
+	}
 }
 void init() {
-	cin >> n;
-	T = 0; curr = 1;
-	int j = 0;
-	for (; (1 << j) < n; j++);
-	LOGN = j;
-	j = sqrt(2 * n);
-	sqrtN = j;
-	adj.clear(); P.clear(); arr.clear(); factors.clear();
-	tin.clear(); tout.clear(); depth.clear(); val.clear();
-	adj.resize(n);
-	P.resize(n, vector<int>(LOGN));
-	depth.resize(n);
-	tin.resize(n);
-	tout.resize(n);
-	factors.resize(n);
-	arr.resize(2 * n);
-	primes.assign(N, 0);
-	val.assign(n, 0);
+	cin >> n; LOGN = 0;
+	for (; (1 << LOGN) < n; LOGN++);
+	sqrtN = sqrt(2 * n); T = 0; curr = 1;
+	adj.clear(); adj.resize(n);
+	P.clear();   P.assign(n, vector<int>(LOGN));
+	fill(primes, primes + F, 0);
+	fill(val, val + mxN, 0);
 }
 void dfs(int v, int pr = -1) {
 	P[v][0] = pr;
@@ -87,6 +86,7 @@ void dfs(int v, int pr = -1) {
 		dfs(u, v);
 	}
 	tout[v] = T++;
+	arr[tin[v]] = arr[tout[v]] = v;
 }
 int lca(int p, int q) {
 	if (depth[p] < depth[q]) swap(p, q);
@@ -100,10 +100,10 @@ int lca(int p, int q) {
 	return P[p][0];
 }
 void update(int pos, int c) {
-	val[arr[pos]] += c;
-	if (val[arr[pos]] == 2 && c == 1) c = -1;
-	if (val[arr[pos]] == 1 && c == -1) c = 1;
-	for (pii pi : factors[arr[pos]]) {
+	val[pos] += c;
+	if (val[pos] == 2 && c == 1) c = -1;
+	if (val[pos] == 1 && c == -1) c = 1;
+	for (pii pi : factors[pos]) {
 		curr = curr * inv[primes[pi.fi] + 1];
 		primes[pi.fi] += c * pi.se;
 		curr = curr * (primes[pi.fi] + 1);
@@ -119,26 +119,18 @@ void solve() {
 		adj[v].eb(u);
 	}
 	for (int i = 0; i < n; i++) {
-		ll num; cin >> num;
-		while (num > 1) {
-			int p = least[num], cnt = 0;
-			while (num % p == 0) num /= p, cnt++;
-			factors[i].eb(mp(p, cnt));
-		}
+		int num; cin >> num;
+		getFactors(num, factors[i]);
 	}
 	depth[0] = 0; dfs(0);
-	
+
 	for (int j = 1; j < LOGN; j++)
 		for (int i = 0; i < n; i++)
 			if (P[i][j - 1] != -1)
 				P[i][j] = P[P[i][j - 1]][j - 1];
-	
-	for (int i = 0; i < n; i++)
-		arr[tin[i]] = arr[tout[i]] = i;
-
-	cin >> q;
-	vector<ll> ans(q);
-	vector<ppi> queries(q);
+	int q; cin >> q;
+	ll ans[q];
+	ppi queries[q];
 	for (int i = 0; i < q; i++) {
 		int u, v;
 		cin >> u >> v;
@@ -153,37 +145,30 @@ void solve() {
 			p1 = mp(tout[u], tin[v]);
 			p2 = mp(tin[pr], i);
 		}
-		queries.eb(mp(p1, p2));
+		queries[i] = mp(p1, p2);
 	}
-	sort(all(queries), cmp);
+	sort(queries, queries + q, cmp);
 	int L = 0, R = -1;
-	for (ppi p : queries) {
+	for (int i = 0; i < q; i++) {
+		ppi p = queries[i];
 		int l = p.fi.fi, r = p.fi.se;
 		int pr = p.se.fi, id = p.se.se;
-		while (R < r) update(++R, 1);
-		while (L < l) update(L++, -1);
-		while (L > l) update(--L, 1);
-		while (R > r) update(R--, -1);
-		ModInt tmp = curr;
-		if (pr != -1) {
-			for (pii pi : factors[arr[pr]]) {
-				tmp = tmp * inv[primes[pi.fi] + 1];
-				tmp = tmp * (primes[pi.fi] + pi.se + 1);
-			}
-		}
-		ans[id] = tmp.get();
+		while (R < r) update(arr[++R], 1);
+		while (L < l) update(arr[L++], -1);
+		while (L > l) update(arr[--L], 1);
+		while (R > r) update(arr[R--], -1);
+		if (pr != -1) update(arr[pr], 1);
+		ans[id] = curr.get();
+		if (pr != -1) update(arr[pr], -1);
 	}
-	for (ll i : ans) cout << i << endl;
+	for (int i = 0; i < q; i++)
+		cout << ans[i] << endl;
 }
 int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	cout.tie(NULL);
-#ifdef LOCAL
-	freopen("in.txt", "r", stdin);
-	freopen("out.txt", "w", stdout);
-#endif
-	sieve();
+	preprocess();
 	int t; cin >> t;
 	while (t--) solve();
 }
