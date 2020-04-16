@@ -1,13 +1,2 @@
-1 5
-
-acbacbacb
-
-cbacbacb
-
-acbacbac
-
-aacbacbacb
-
-acbacbacbb
-
-acbaabacb
+4
+0 1 -1 0

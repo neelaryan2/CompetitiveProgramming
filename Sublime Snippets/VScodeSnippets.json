@@ -1,0 +1,146 @@
+{
+	"basic": {
+		"prefix": "basic",
+		"body": "\r\ntypedef long long ll;\r\ntypedef unsigned int uint;\r\ntypedef pair<int, int> pi;\r\ntypedef pair<long long, long long> pl;\r\ntypedef vector<int> vi;\r\n#define forn(i, a, b) for (int i = (a); i <= (b); i++)\r\n#define rfor(i, b, a) for (int i = (b); i >= (a); i--)\r\n#define all(v) (v).begin(), (v).end()\r\n#define sz(v) (int)(v).size()\r\n#define rall(v) (v).rbegin(), (v).rend()\r\n#define runtime() (int)(1000 * ((double)clock()) / CLOCKS_PER_SEC)\r\n#define fi first\r\n#define se second\r\n#define pb push_back\r\n#define eb emplace_back\r\n#define mp make_pair\r\n#define lb lower_bound\r\n#define ub upper_bound\r\n#define endl \"\\n\"\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"bitmasks": {
+		"prefix": "bitmasks",
+		"body": "\r\n#define Set(n, i) n = (n) | (1LL << (i))\r\n#define Reset(n, i) n = (n) & ~(1LL << (i))\r\n#define Test(n, i) ((n) >> (i) & 1LL)\r\n#define par(n) (n) & 1LL\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"debugger": {
+		"prefix": "debugger",
+		"body": "\r\n\r\n#define sim template < class c\r\n#define ris return * this\r\n#define dor > debug & operator <<\r\n#define eni(x) sim > typename \\\r\n  enable_if<sizeof dud<c>(0) x 1, debug&>::type operator<<(c i) {\r\nsim > struct rge { c b, e; };\r\nsim > rge<c> range(c i, c j) { return rge<c> {i, j}; }\r\nsim > auto dud(c* x) -> decltype(cout << *x, 0);\r\nsim > char dud(...);\r\nstruct debug {\r\n#ifdef LOCAL\r\n    ~debug() { cout << endl; }\r\n    eni( != ) cout << boolalpha << i; ris;\r\n}\r\neni( == ) ris << range(begin(i), end(i));\r\n}\r\nsim, class b dor(pair < b, c > d) {\r\n    ris << \"(\" << d.first << \", \" << d.second << \")\";\r\n}\r\nsim dor(rge<c> d) {\r\n    *this << \"[\";\r\n    for (auto it = d.b; it != d.e; ++it)\r\n        *this << \", \" + 2 * (it == d.b) << *it;\r\n    ris << \"]\";\r\n}\r\n#else\r\n    sim dor(const c&) { ris; }\r\n#endif\r\n};\r\n#define imie(...) \" [\" << #__VA_ARGS__ \": \" << (__VA_ARGS__) << \"] \"\r\n\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"dijkstra": {
+		"prefix": "dijkstra",
+		"body": "\r\nusing ll = long long;\r\nconst ll inf = 1e18;\r\nvector<ll> dist, parent;\r\nvector<vector<pair<ll, ll>>> adj;\r\nvoid dijkstra(int s, int n) {\r\n\tusing pi = pair<ll, ll>;\r\n\tpriority_queue<pi> pq;\r\n\tdist.resize(n, inf);\r\n\tparent.resize(n, -1);\r\n\tpq.push(make_pair(0, s));\tdist[s] = 0;\r\n\twhile (!pq.empty()) {\r\n\t\tll v = pq.top().second;\r\n\t\tll d = -pq.top().first;\r\n\t\tpq.pop();\r\n\t\tif (d > dist[v]) continue;\r\n\t\tfor (pi p : adj[v]) {\r\n\t\t\tll u = p.first, w = p.second;\r\n\t\t\tif (dist[v] + w < dist[u]) {\r\n\t\t\t\tdist[u] = dist[v] + w;      // update the distance\r\n\t\t\t\tparent[u] = v;        // for extracting the shortest path\r\n\t\t\t\tpq.push(make_pair(-dist[u], u));\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n}\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"fastio": {
+		"prefix": "fastio",
+		"body": "\r\nios_base::sync_with_stdio(false);\r\ncin.tie(NULL);\r\ncout.tie(NULL);\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"fenwick": {
+		"prefix": "fenwick",
+		"body": "\r\nvector<int> BIT(200005, 0);\r\n// point update on the original array\r\nvoid add(int i, int x) {\r\n\tfor (; i < BIT.size(); i += i & (-i)) BIT[i] += x;\r\n}\r\n// get sum from index 1 to index i from array\r\nint get(int i) {\r\n\tint sum = 0;\r\n\tfor (; i > 0; i -= i & (-i)) sum += BIT[i];\r\n\treturn sum;\r\n}\r\n// equivalent to calculating lower_bound on prefix sums array\r\nint bit_search(long long val) {  //using binary lifting\r\n\tlong long sum = 0, pos = 0, s = BIT.size();\r\n\tfor (int i = log2(s); i >= 0; i--) {\r\n\t\tint d = (1 << i);\r\n\t\tif (pos + d < s && sum + BIT[pos + d] < val)\r\n\t\t\tsum += BIT[pos + d],    pos += d;\r\n\t}\r\n\treturn pos + 1;\r\n}\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"freopen": {
+		"prefix": "freopen",
+		"body": "\r\n#ifdef LOCAL\r\n    freopen(\"in.txt\", \"r\", stdin);\r\n    freopen(\"out.txt\", \"w\", stdout);\r\n#endif\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"hashing": {
+		"prefix": "hashing",
+		"body": "\r\ntypedef unsigned int uint;\r\ntemplate<typename T>\r\nuint vec_hash (const vector<T>& vec) {\r\n\tuint seed = vec.size();\r\n\tfor (T i : vec)\r\n\t\tseed ^= (uint)i + 0x9e3779b9 + (seed << 6) + (seed >> 2);\r\n\treturn seed;\r\n}\r\nuint str_hash (const string s) {\r\n\tuint seed = s.size();\r\n\tfor (char i : vec)\r\n\t\tseed ^= (uint)i + 0x9e3779b9 + (seed << 6) + (seed >> 2);\r\n\treturn seed;\r\n}\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"headers": {
+		"prefix": "headers",
+		"body": "\r\n#include <algorithm>\r\n#include <bitset>\r\n#include <cassert>\r\n#include <chrono>\r\n#include <cmath>\r\n#include <complex>\r\n#include <cstdio>\r\n#include <cstdlib>\r\n#include <climits>\r\n#include <cstring>\r\n#include <ctime>\r\n#include <deque>\r\n#include <functional>\r\n#include <iomanip>\r\n#include <iostream>\r\n#include <iterator>\r\n#include <limits>\r\n#include <list>\r\n#include <map>\r\n#include <numeric>\r\n#include <queue>\r\n#include <random>\r\n#include <ratio>\r\n#include <set>\r\n#include <sstream>\r\n#include <stack>\r\n#include <string>\r\n#include <unordered_map>\r\n#include <unordered_set>\r\n#include <utility>\r\n#include <vector>\r\nusing namespace std;\r\n#include <ext/pb_ds/assoc_container.hpp>\r\n#include <ext/pb_ds/tree_policy.hpp>\r\n#include <ext/rope>\r\nusing namespace __gnu_pbds;\r\nusing namespace __gnu_cxx;\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"kmp": {
+		"prefix": "kmp",
+		"body": "\nint kmp(string const& s) {\n\tint n = s.size();\n\tvector<int> lps(n, 0);\n\tfor (int i = 1; i < n; i++) {\n\t\tint j = lps[i - 1];\n\t\twhile (j > 0 && s[i] != s[j]) \n\t\t\tj = lps[j - 1];\n\t\tif (s[i] == s[j]) j++;\n\t\tlps[i] = j;\n\t}\n\treturn lps.back();\n}\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"levenshtein": {
+		"prefix": "levenshtein",
+		"body": "\r\nint editDist(string str1, string str2) {\r\n\tint m = str1.size(), n = str2.size();\r\n\tvector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));\r\n\tfor (int i = 0; i <= m; i++)\r\n\t\tfor (int j = 0; j <= n; j++) {\r\n\t\t\tif (i == 0) dp[i][j] = j;\r\n\t\t\telse if (j == 0) dp[i][j] = i;\r\n\t\t\telse if (str1[i - 1] == str2[j - 1])\r\n\t\t\t\tdp[i][j] = dp[i - 1][j - 1];\r\n\t\t\telse\r\n\t\t\t\tdp[i][j] = 1 + min({dp[i][j - 1], dp[i - 1][j], dp[i - 1][j - 1]});\r\n\t\t}\r\n\treturn dp[m][n];\r\n}\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"macros": {
+		"prefix": "macros",
+		"body": "\r\n#define forn(i, a, b) for (int i = (a); i <= (b); i++)\r\n#define rfor(i, b, a) for (int i = (b); i >= (a); i--)\r\n#define rep(i, n) for (int i = 0; i < (n); i++)\r\n#define repr(i, n) for (int i = (n) - 1; i >= 0; i--)\r\n#define forv(i, v) for (auto& (i) : (v))\r\n#define trav(i, v) for (auto i = (v).begin(); i != (v).end(); i++)\r\n\r\n#define all(v) (v).begin(), (v).end()\r\n#define sz(v) (int)(v).size()\r\n#define rall(v) (v).rbegin(), (v).rend()\r\n#define pc(c) putchar(c)\r\n#define gc(c) getchar(c)\r\n#define runtime() (int)(1000 * ((double)clock()) / CLOCKS_PER_SEC)\r\n#define flush() cout << flush\r\n#define max_queue(t) priority_queue<t>\r\n#define min_queue(t) priority_queue<t,vector<t>,greater<t>>\r\n\r\n#define popcnt __builtin_popcount\r\n#define popcntll __builtin_popcountll\r\n#define ctz __builtin_ctz\r\n#define ctzll __builtin_ctzll\r\n\r\n#define fi first\r\n#define se second\r\n#define pb push_back\r\n#define pf push_front\r\n#define ef emplace_front\r\n#define eb emplace_back\r\n#define mp make_pair\r\n#define lb lower_bound\r\n#define ub upper_bound\r\n#define rsz resize\r\n#define ins insert\r\n#define endl \"\\n\"\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"matrix": {
+		"prefix": "matrix",
+		"body": "\r\n#define vi vector<int>\r\n#define sz(v) int((v).size())\r\nvector<vi> matmul(vector<vi> A, vector<vi> B) {\r\n    int n = sz(A), m = sz(A[0]), p = sz(B[0]);\r\n    assert(sz(B) == m);\r\n    vector<vi> C(n, vi(p, 0));\r\n    for (int i = 0; i < n; i++)\r\n        for (int j = 0; j < p; j++)\r\n            for (int k = 0; k < m; k++)\r\n                C[i][j] += A[i][k] * B[k][j];\r\n    return C;\r\n}\r\nvector<vi> matexp(vector<vi> A, int k) {\r\n    int n = A.size();\r\n    assert(sz(A[0]) == n);\r\n    vector<vi> C(n, vi(n, 0));\r\n    for (int i = 0; i < n; i++) C[i][i]++;\r\n    while (k) {\r\n        if (k & 1) C = matmul(C, A);\r\n        A = matmul(A, A); k >>= 1;\r\n    }\r\n    return C;\r\n}\r\nvoid matprint(vector<vi> A) {\r\n    for (int i = 0; i < A.size(); i++) {\r\n        for (int j = 0; j < A[i].size(); j++)\r\n            cout << A[i][j] << \" \";\r\n        cout << endl;\r\n    }\r\n}\r\nvector<vi> matadd(vector<vi> A, vector<vi> B) {\r\n    int n = sz(A), m = sz(A[0]);\r\n    assert(sz(B) == n); assert(sz(B[0]) == m);\r\n    for (int i = 0; i < n; i++)\r\n        for (int j = 0; j < m; j++)\r\n            A[i][j] += B[i][j];\r\n    return A;\r\n}\r\nvector<vi> matsub(vector<vi> A, vector<vi> B) {\r\n    int n = sz(A), m = sz(A[0]);\r\n    assert(sz(B) == n); assert(sz(B[0]) == m);\r\n    for (int i = 0; i < n; i++)\r\n        for (int j = 0; j < m; j++)\r\n            A[i][j] -= B[i][j];\r\n    return A;\r\n}\r\nvector<vi> matmults(vector<vi> A, int k) {\r\n    for (int i = 0; i < A.size(); i++)\r\n        for (int j = 0; j < A[i].size(); j++)\r\n            A[i][j] *= k;\r\n    return A;\r\n}\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"modular": {
+		"prefix": "modular",
+		"body": "\r\ntemplate<typename T> T gcd(T a, T b) {while (b) {T t = b; b = a % b; a = t;} return a;}\r\ntemplate<typename T> T lcm(T a, T b) {return (a * (b / gcd(a, b)));}\r\ntemplate<typename T> T add(T a, T b, T c = MOD) {T res = a + b; return (res >= c ? res - c : res);}\r\ntemplate<typename T> T mod_neg(T a, T b, T c = MOD) {T res; if (abs(a - b) < c)res = a - b; else res = (a - b) % c; return (res < 0 ? res + c : res);}\r\ntemplate<typename T> T mul(T a, T b, T c = MOD) {ll res = (ll)a * b; return (res >= c ? res % c : res);}\r\ntemplate<typename T> T mulmod(T a, T b, T m = MOD) {ll q = (ll)(((LD)a * (LD)b) / (LD)m); ll r = a * b - q * m; if (r > m)r %= m; if (r < 0)r += m; return r;}\r\ntemplate<typename T>T expo(T e, T n) {T x = 1, p = e; while (n) {if (n & 1)x = x * p; p = p * p; n >>= 1;} return x;}\r\ntemplate<typename T>T power(T e, T n, T m = MOD) {T x = 1, p = e; while (n) {if (n & 1)x = mul(x, p, m); p = mul(p, p, m); n >>= 1;} return x;}\r\ntemplate<typename T>T extended_euclid(T a, T b, T &x, T &y) {\r\n    T xx = 0, yy = 1; y = 0; x = 1; while (b) {\r\n        T q = a / b, t = b; b = a % b; a = t; \\\r\n        t = xx; xx = x - q * xx; x = t; t = yy; yy = y - q * yy; y = t;\r\n    } return a;\r\n}\r\ntemplate<typename T>T mod_inverse(T a, T n = MOD) {T x, y, z = 0; T d = extended_euclid(a, n, x, y); return (d > 1 ? -1 : mod_neg(x, z, n));}\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"modulo": {
+		"prefix": "modulo",
+		"body": "\r\nconst int kMod = 998244353;\r\nstruct ModInt {\r\n\tlong long n;\r\n\tModInt(long long n = 0) : n(n % kMod) {}\r\n\tModInt operator+(const ModInt& oth) { return n + oth.n; }\r\n\tModInt operator-(const ModInt& oth) { return n - oth.n; }\r\n\tModInt operator*(const ModInt& oth) { return n * oth.n; }\r\n\tlong long get() { return n < 0 ? n + kMod : n; }\r\n};\r\nModInt lgpow(ModInt b, int e = -1) {\r\n\tif (b.get() == 0) return 0;\r\n\tModInt r; e = e % (kMod - 1);\r\n\tif (e < 0) e += kMod - 1;\r\n\tfor (r = 1; e; e >>= 1, b = b * b)\r\n\t\tif (e & 1) r = r * b;\r\n\treturn r;\r\n}\r\nvector<ModInt> fact, invfact;\r\nvoid factorials(int n) {\r\n\tfact.resize(n + 1, 1);\r\n\tinvfact.resize(n + 1, 1);\r\n\tfor (int i = 1; i <= n; ++i)\r\n\t\tfact[i] = fact[i - 1] * i;\r\n\tinvfact[n] = lgpow(fact[n]);\r\n\tfor (int i = n - 1; i >= 1; --i)\r\n\t\tinvfact[i] = invfact[i + 1] * (i + 1);\r\n}\r\nModInt choose(int n, int k) {\r\n\treturn fact[n] * invfact[k] * invfact[n - k];\r\n}\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"pragmas": {
+		"prefix": "pragmas",
+		"body": "\r\n#pragma GCC optimize(\"O3\")\r\n#pragma comment(linker, \"/stack:200000000\")\r\n#pragma GCC optimize(\"Ofast,unroll-loops,no-stack-protector,fast-math\")\r\n#pragma GCC target(\"sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,tune=native\")\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"randoms": {
+		"prefix": "randoms",
+		"body": "\r\nmt19937 rng(chrono::steady_clock::now().time_since_epoch().count());\r\nmt19937_64 rng64(chrono::steady_clock::now().time_since_epoch().count());\r\n#define shuf(v) shuffle((v).begin(), (v).end(), rng);\r\n// Use mt19937_64 for 64 bit random numbers.\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"readfns": {
+		"prefix": "readfns",
+		"body": "\r\ninline int read() {int x; cin >> x; return x;}\r\ninline long long readl() {long long x; cin >> x; return x;}\r\ninline char readc() {char x; cin >> x; return x;}\r\ninline string reads() {string x; cin >> x; return x;}\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"seg": {
+		"prefix": "seg",
+		"body": "\nstruct segtree {\n    vector<int> t;\n    int n;\n    segtree(int m) {n = m; t.assign(4 * n, 0);}\n    void build_aux(vector<int>& a, int v, int tl, int tr) {\n        if (tl == tr) {t[v] = a[tl]; return;}\n        int tm = (tl + tr) / 2;\n        build_aux(a, v * 2, tl, tm);\n        build_aux(a, v * 2 + 1, tm + 1, tr);\n        t[v] = t[v * 2] + t[v * 2 + 1];\n    }\n    int query_aux(int v, int tl, int tr, int l, int r) {\n        if (l > r) return 0;\n        if (l == tl && r == tr) return t[v];\n        int tm = (tl + tr) / 2;\n        return query_aux(v * 2, tl, tm, l, min(r, tm)) +\n               query_aux(v * 2 + 1, tm + 1, tr, max(l, tm + 1), r);\n    }\n    void update_aux(int v, int tl, int tr, int pos, int new_val) {\n        if (tl == tr) {t[v] = new_val; return;}\n        int tm = (tl + tr) / 2;\n        if (pos <= tm) update_aux(v * 2, tl, tm, pos, new_val);\n        else update_aux(v * 2 + 1, tm + 1, tr, pos, new_val);\n        t[v] = t[v * 2] + t[v * 2 + 1];\n    }\n    void build(vector<int>& a) {\n        n = a.size(); t.assign(4 * n, 0);\n        build_aux(a, 1, 0, n - 1);\n    }\n    void update(int i, int x) {\n        update_aux(1, 0, n - 1, i, x);\n    }\n    int query(int l, int r) {\n        return query_aux(1, 0, n - 1, l, r);\n    }\n};\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"sqrtdec": {
+		"prefix": "sqrtdec",
+		"body": "\r\nvector<int> arr(n);\r\nvector<int> sums(rt + 1);\r\nvoid update(int i, int j, int x) {\r\n\tint n = arr.size();\r\n\tif (i > j) return;\r\n\tif (i < 0) return update(0, j);\r\n\tif (j >= n) return update(i, n - 1);\r\n\tint rt = sqrt(n);\r\n\tint ri = i / rt, rj = j / rt;\r\n\tif (ri == rj) {\r\n\t\tfor (int it = i; it <= j; it++) {\r\n\t\t\tarr[it] += x;\r\n\t\t\tsums[ri] += x;\r\n\t\t}\r\n\t\treturn;\r\n\t}\r\n\tfor (int it = ++ri; it < rj; it++)\r\n\t\tsums[it] += rt * x;\r\n\tupdate(i, ri * rt - 1);\r\n\tupdate(rj * rt, j);\r\n}\r\nint query(int i, int j) {\r\n\tint n = state.size();\r\n\tif (i > j) return 0;\r\n\tif (i < 0) return query(0, j);\r\n\tif (j >= n) return query(i, n - 1);\r\n\tint rt = sqrt(n);\r\n\tint ri = i / rt, rj = j / rt;\r\n\tint ans = 0;\r\n\tif (ri == rj) {\r\n\t\tfor (int it = i; it <= j; it++)\r\n\t\t\tans += arr[it];\r\n\t\treturn ans;\r\n\t}\r\n\tfor (int it = ++ri; it < rj; it++)\r\n\t\tans += sums[it];\r\n\tans += query(i, ri * rt - 1);\r\n\tans += query(rj * rt, j);\r\n\treturn ans;\r\n}\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"cpp": {
+		"prefix": "cpp",
+		"body": "\n// #pragma GCC optimize(\"O3\")\n// #pragma comment(linker, \"/stack:200000000\")\n// #pragma GCC optimize(\"Ofast,unroll-loops,no-stack-protector,fast-math\")\n// #pragma GCC target(\"sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,tune=native\")\n\n#include <algorithm>\n#include <bitset>\n#include <cassert>\n#include <chrono>\n#include <cmath>\n#include <complex>\n#include <cstdio>\n#include <cstdlib>\n#include <climits>\n#include <cstring>\n#include <ctime>\n#include <deque>\n#include <functional>\n#include <iomanip>\n#include <iostream>\n#include <iterator>\n#include <limits>\n#include <list>\n#include <map>\n#include <numeric>\n#include <queue>\n#include <random>\n#include <ratio>\n#include <set>\n#include <sstream>\n#include <stack>\n#include <string>\n#include <unordered_map>\n#include <unordered_set>\n#include <utility>\n#include <vector>\nusing namespace std;\n#include <ext/pb_ds/assoc_container.hpp>\n#include <ext/pb_ds/tree_policy.hpp>\n#include <ext/rope>\nusing namespace __gnu_pbds;\nusing namespace __gnu_cxx;\n\n#define sim template < class c\n#define ris return * this\n#define dor > debug & operator <<\n#define eni(x) sim > typename \\\n  enable_if<sizeof dud<c>(0) x 1, debug&>::type operator<<(c i) {\nsim > struct rge { c b, e; };\nsim > rge<c> range(c i, c j) { return rge<c> {i, j}; }\nsim > auto dud(c* x) -> decltype(cout << *x, 0);\nsim > char dud(...);\nstruct debug {\n#ifdef LOCAL\n    ~debug() { cout << endl; }\n    eni( != ) cout << boolalpha << i; ris;\n}\neni( == ) ris << range(begin(i), end(i));\n}\nsim, class b dor(pair < b, c > d) {\n    ris << \"(\" << d.first << \", \" << d.second << \")\";\n}\nsim dor(rge<c> d) {\n    *this << \"[\";\n    for (auto it = d.b; it != d.e; ++it)\n        *this << \", \" + 2 * (it == d.b) << *it;\n    ris << \"]\";\n}\n#else\n    sim dor(const c&) { ris; }\n#endif\n};\n#define imie(...) \" [\" << #__VA_ARGS__ \": \" << (__VA_ARGS__) << \"] \"\n\ntypedef long long ll;\ntypedef unsigned int uint;\ntypedef unsigned long long ull;\ntypedef long double ld;\ntypedef double db;\ntypedef string str;\ntypedef pair<int, int> pi;\ntypedef pair<long long, long long> pl;\ntypedef pair<long double, long double> pd;\ntypedef vector<int> vi;\ntypedef vector<long long> vl;\ntypedef vector<long double> vd;\ntypedef vector<string> vs;\ntypedef vector<pair<ll, ll>> vpl;\ntypedef tree<int, null_type, less<int>, rb_tree_tag,\n        tree_order_statistics_node_update> ordered_set;\n// order_of_key (val): returns the no. of values less than val\n// find_by_order (k): returns the iterator to kth largest element.(0-based)\n\n#define forn(i, a, b) for (int i = (a); i <= (b); i++)\n#define rfor(i, b, a) for (int i = (b); i >= (a); i--)\n#define rep(i, n) for (int i = 0; i < (n); i++)\n#define repr(i, n) for (int i = (n) - 1; i >= 0; i--)\n#define forv(i, v) for (auto& (i) : (v))\n#define trav(i, v) for (auto i = (v).begin(); i != (v).end(); i++)\n\n#define all(v) (v).begin(), (v).end()\n#define sz(v) (int)(v).size()\n#define rall(v) (v).rbegin(), (v).rend()\n#define pc(c) putchar(c)\n#define gc(c) getchar(c)\n#define runtime() (int)(1000 * ((double)clock()) / CLOCKS_PER_SEC)\n#define flush() cout << flush\n#define max_queue(t) priority_queue<t>\n#define min_queue(t) priority_queue<t,vector<t>,greater<t>>\n\n#define popcnt __builtin_popcount\n#define popcntll __builtin_popcountll\n#define ctz __builtin_ctz\n#define ctzll __builtin_ctzll\n\n#define fi first\n#define se second\n#define pb push_back\n#define pf push_front\n#define ef emplace_front\n#define eb emplace_back\n#define mp make_pair\n#define lb lower_bound\n#define ub upper_bound\n#define rsz resize\n#define ins insert\n#define endl \"\\n\"\n\nmt19937 rng(chrono::steady_clock::now().time_since_epoch().count());\nmt19937_64 rng64(chrono::steady_clock::now().time_since_epoch().count());\n#define shuf(v) shuffle((v).begin(), (v).end(), rng);\n// Use mt19937_64 for 64 bit random numbers.\n\n#define Set(n, i) n = (n) | (1LL << (i))\n#define Reset(n, i) n = (n) & ~(1LL << (i))\n#define Test(n, i) ((n) >> (i) & 1LL)\n#define par(n) (n) & 1LL\n\ninline int read() {int x; cin >> x; return x;}\ninline long long readl() {long long x; cin >> x; return x;}\ninline char readc() {char x; cin >> x; return x;}\ninline string reads() {string x; cin >> x; return x;}\n\nconst double Pi = 3.1415926535898;\ninline void solve();\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    cout.tie(NULL);\n#ifdef LOCAL\n    freopen(\"in.txt\", \"r\", stdin);\n    freopen(\"out.txt\", \"w\", stdout);\n#endif\n    cout << fixed << setprecision(10);\n    int t = 1;\n    // cin >> t;\n    for (int i = 1; i <= t; i++) {\n        // cout << \"Case #\" << i << \": \";\n        solve();\n    }\n#ifdef LOCAL\n    cout << \"\\nTime Elapsed: \" << runtime() << \" ms\\n\";\n#endif\n    return 0;\n}\n//------------------------------------------ end -----------------------------------------------//\nconst int N = 1e9 + 7;\nconst int mod = 998244353;\ninline void solve() {\n\n}\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"trie": {
+		"prefix": "trie",
+		"body": "\r\nconst int max_alpha = 26;\r\nvector<vector<int>> trie(1, vector<int>(max_alpha, -1));\r\nint root = 0;\r\nvoid addTrie(string s) {\r\n    int v = root;\r\n    for (int i = 0; i < (int)s.size(); i++) {\r\n        int c = s[i] - 'a';\r\n        if (trie[v][c] == -1) {\r\n            trie.emplace_back(vector<int>(max_alpha, -1));\r\n            trie[v][c] = trie.size() - 1;\r\n        }\r\n        v = trie[v][c];\r\n    }\r\n}\r\nvoid dfs(int v) {\r\n    for (int i = 0; i < max_alpha; i++)\r\n        if (trie[v][i] != -1)\r\n            dfs(trie[v][i]);\r\n}\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"types": {
+		"prefix": "types",
+		"body": "\r\ntypedef long long ll;\r\ntypedef unsigned int uint;\r\ntypedef unsigned long long ull;\r\ntypedef long double ld;\r\ntypedef double db;\r\ntypedef string str;\r\ntypedef pair<int, int> pi;\r\ntypedef pair<long long, long long> pl;\r\ntypedef pair<long double, long double> pd;\r\ntypedef vector<int> vi;\r\ntypedef vector<long long> vl;\r\ntypedef vector<long double> vd;\r\ntypedef vector<string> vs;\r\ntypedef vector<pair<ll, ll>> vpl;\r\ntypedef tree<int, null_type, less<int>, rb_tree_tag,\r\n        tree_order_statistics_node_update> ordered_set;\r\n// order_of_key (val): returns the no. of values less than val\r\n// find_by_order (k): returns the iterator to kth largest element.(0-based)\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"dsu": {
+		"prefix": "dsu",
+		"body": "\r\nvector<int> siz, par;\r\ninline int root(int a) {\r\n\tif (par[a] == -1) par[a] = a;\r\n\tint _a = a;\r\n\twhile (a != par[a]) a = par[a];\r\n\tpar[_a] = a;\r\n\treturn a;\r\n}\r\ninline void add(int a, int b) {\r\n\ta = root(a); b = root(b);\r\n\tif (a == b) return;\r\n\tif (siz[a] == siz[b] && a > b) swap(a, b);\r\n\telse if (siz[a] < siz[b]) swap(a, b);\r\n\tsiz[a] += siz[b];\r\n\tpar[b] = a;\r\n}\r\n",
+		"description": "",
+		"scope": "cpp"
+	}
+}

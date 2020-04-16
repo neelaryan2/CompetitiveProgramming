@@ -38,8 +38,8 @@ vector<pii> factors[mxN];
 vector<vector<int>> adj, P;
 
 bool cmp(ppi& a, ppi& b) {
-	int ak = 1 + ((a.fi.fi - 1) / (sqrtN + 1));
-	int bk = 1 + ((b.fi.fi - 1) / (sqrtN + 1));
+	int ak = a.fi.fi / sqrtN;
+	int bk = b.fi.fi / sqrtN;
 	if (ak != bk) return ak < bk;
 	else if (a.fi.se != b.fi.se) return a.fi.se < b.fi.se;
 	else return a.fi.fi < b.fi.fi;
@@ -71,7 +71,7 @@ void getFactors(int num, vector<pii>& fact) {
 void init() {
 	cin >> n; LOGN = 0;
 	for (; (1 << LOGN) < n; LOGN++);
-	sqrtN = sqrt(2 * n); T = 0; curr = 1;
+	T = 0; curr = 1;
 	adj.clear(); adj.resize(n);
 	P.clear();   P.assign(n, vector<int>(LOGN));
 	fill(primes, primes + F, 0);
@@ -129,6 +129,8 @@ void solve() {
 			if (P[i][j - 1] != -1)
 				P[i][j] = P[P[i][j - 1]][j - 1];
 	int q; cin >> q;
+	sqrtN = (n * 2.0) / sqrtl(q);
+	sqrtN = max(sqrtN, 1);
 	ll ans[q];
 	ppi queries[q];
 	for (int i = 0; i < q; i++) {
