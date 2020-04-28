@@ -1,59 +1,80 @@
 #include <bits/stdc++.h>
 using namespace std;
-
-typedef long long ll;
-#define ld long double
-typedef pair<ll, ll> pll;
-typedef pair<ld, ld> pld;
-#define S second
-#define F first
-#define f(i, j, k, l) for (ll i = (ll)j; i != (ll)k; i = i + l)
-#define endl '\n'
-
-ld a, b, c;
-ld ycal(ll x) {
-    return (-c - a * x) / b;
+using ll = long long;
+using pii = pair<int, int>;
+int n, d;
+ll ans = 0;
+vector<int> par, p, siz;
+vector<pii> edges;
+vector<vector<int>> vecs;
+ll merge(vector<int>& a, vector<int>& b) {
+    ll ret = 0;
+    for (int e : a) {
+        int id1 = lower_bound(b.begin(), b.end(), e - d) - b.begin();
+        int id2 = upper_bound(b.begin(), b.end(), e + d) - b.begin();
+        ret += id2 - id1;
+    }
+    vector<int> tmp(a.size() + b.size());
+    int id = 0, i = 0, j = 0;
+    while (i < a.size() && j < b.size()) {
+        if (a[i] <= b[j])
+            tmp[id++] = a[i++];
+        else
+            tmp[id++] = b[j++];
+    }
+    while (i < a.size()) tmp[id++] = a[i++];
+    while (j < b.size()) tmp[id++] = b[j++];
+    a.resize(tmp.size());
+    for (i = 0; i < tmp.size(); i++)
+        a[i] = tmp[i];
+    b.clear();
+    return ret;
 }
-ld xcal(ll y) {
-    return (-c - b * y) / a;
+int root(int a) {
+    if (par[a] == -1) par[a] = a;
+    int _a = a;
+    while (a != par[a]) a = par[a];
+    par[_a] = a;
+    return a;
 }
-ld di(pld p1, pld p2) {
-    ld t1 = p1.F - p2.F;
-    ld t2 = p1.S - p2.S;
-    return sqrtl(t1 * t1 + t2 * t2);
+void add(int a, int b) {
+    a = root(a);
+    b = root(b);
+    if (a == b) return;
+    if (siz[a] > siz[b]) swap(a, b);
+    par[b] = a;
+    siz[a] += siz[b];
+    ans += merge(vecs[a], vecs[b]);
 }
-ld man(pll p1, pll p2) {
-    ld t1 = p1.F - p2.F;
-    ld t2 = p1.S - p2.S;
-    return sqrtl(t1 * t1 + t2 * t2);
+void init() {
+    edges.resize(n - 1);
+    p.resize(n - 1);
+    par.assign(n, -1);
+    siz.assign(n, 1);
+    vecs.resize(n, vector<int>(1));
 }
 int main() {
     ios_base::sync_with_stdio(false);
-    cin.tie(0);
-    cout.tie(0);
-
-    ll x1, y1, x2, y2;
-    cin >> a >> b >> c >> x1 >> y1 >> x2 >> y2;
-    ld dis = abs(x2 - x1) + abs(y2 - y1);
-    if (a == 0 || b == 0) {
-        cout << fixed << setprecision(10) << dis << endl;
-        return 0;
+    cin.tie(NULL);
+    cout.tie(NULL);
+    cin >> n >> d;
+    init();
+    for (int i = 0; i < n; i++)
+        cin >> vecs[i][0];
+    for (int i = 0; i < n - 1; i++) {
+        int u, v;
+        cin >> u >> v;
+        u--, v--;
+        edges[i] = {u, v};
     }
-    vector<pair<ld, ld>> v1(2), v2(2), v(4);
-    v1[0] = {x1, ycal(x1)};
-    v2[0] = {x2, ycal(x2)};
-    v1[1] = {xcal(y1), y1};
-    v2[1] = {xcal(y2), y2};
-    v[0] = v1[0];
-    v[1] = v1[1];
-    v[2] = v2[0];
-    v[3] = v2[1];
-    sort(v.begin(), v.end());
-    sort(v1.begin(), v1.end());
-    sort(v2.begin(), v2.end());
-    if ((v[0] == v1[0] && v[1] == v1[1]) || (v[0] == v2[0] && v[1] == v2[1])) {
-        dis += di(v[1], v[2]) - (abs(v[1].F - v[2].F) + abs(v[1].S - v[2].S));
+    for (int& e : p) cin >> e, e--;
+    reverse(p.begin(), p.end());
+    vector<ll> fin(n - 1, 0);
+    for (int i = 0; i < n - 1; i++) {
+        pii e = edges[p[i]];
+        fin[i] = ans;
+        add(e.first, e.second);
     }
-
-    cout << fixed << setprecision(10) << dis << endl;
+    reverse(fin.begin(), fin.end());
+    for (ll& e : fin) cout << e << '\n';
 }
