@@ -1,5 +1,14 @@
-<snippet>
-	<content><![CDATA[
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+using pii = pair<int, int>;
+using vi = vector<int>;
+#define mp make_pair
+#define fi first
+#define se second
+#define pb push_back
+#define eb emplace_back
+#define all(v) (v).begin(), (v).end()
 struct NTT {
     int MOD, root, root_1, root_pw;
     int get(ll num) {
@@ -81,9 +90,26 @@ struct NTT {
         return result;
     }
 };
-]]></content>
-	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>ntt</tabTrigger>
-	<!-- Optional: Set a scope to limit where the snippet will trigger -->
-	<!-- <scope>source.python</scope> -->
-</snippet>
+const int mod = 998244353;
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    int n, k, sz = 1;
+    cin >> n >> k;
+    while (sz < 5 * n) sz <<= 1;
+    vector<int> a(sz, 0);
+    for (int i = 0; i < k; i++) {
+        int e;
+        cin >> e;
+        a[e] = 1;
+    }
+    NTT ntt = NTT(mod);
+    ntt.fft(a, false);
+    for (int& i : a) i = ntt.exp(i, n / 2);
+    ntt.fft(a, true);
+    ll ans = 0;
+    for (int i : a)
+        ans = ntt.get(ans + 1LL * i * i);
+    cout << ans << '\n';
+}

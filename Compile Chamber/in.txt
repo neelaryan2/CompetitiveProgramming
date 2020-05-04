@@ -1,11 +1,7 @@
-10 4
 1
-1
-1
-1
-2
-2
-2
+hitech
+codechef
 3
-3
-4
+chef 3
+code 1
+eche 5

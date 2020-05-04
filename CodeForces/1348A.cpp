@@ -10,8 +10,12 @@ using vi = vector<int>;
 #define eb emplace_back
 #define all(v) (v).begin(), (v).end()
 
-void solve(){
-    
+void solve() {
+    int n;
+    cin >> n;
+    ll ans = (1 << (n / 2));
+    ans = 2 * (ans - 1);
+    cout << ans << '\n';
 }
 int main() {
     ios_base::sync_with_stdio(false);

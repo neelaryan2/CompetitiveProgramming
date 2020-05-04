@@ -10,14 +10,24 @@ using vi = vector<int>;
 #define eb emplace_back
 #define all(v) (v).begin(), (v).end()
 
-void solve(){
-    
+void solve() {
+    int n;
+    cin >> n;
+    vector<int> v(n, 7);
+    if (n == 1) {
+        cout << -1 << '\n';
+        return;
+    }
+    v[0] = 8;
+    for (int i : v) cout << i;
+    cout << '\n';
+    return;
 }
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
-    int t = 1;
+    int t;
     cin >> t;
     while (t--) solve();
 }
