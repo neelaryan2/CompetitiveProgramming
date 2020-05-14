@@ -55,7 +55,7 @@ int go(int v, char ch) {
         if (t[v].next[c] != -1)
             t[v].go[c] = t[v].next[c];
         else
-            t[v].go[c] = v == 0 ? 0 : go(get_link(v), ch);
+            t[v].go[c] = (v == 0) ? 0 : go(get_link(v), ch);
     }
     return t[v].go[c];
 }
