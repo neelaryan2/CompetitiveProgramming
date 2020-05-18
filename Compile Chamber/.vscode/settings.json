@@ -1,0 +1,32 @@
+{
+    "files.associations": {
+        "xstddef": "cpp",
+        "bitset": "cpp",
+        "chrono": "cpp",
+        "xhash": "cpp",
+        "xtree": "cpp",
+        "xutility": "cpp",
+        "sstream": "cpp",
+        "cmath": "cpp",
+        "complex": "cpp",
+        "random": "cpp",
+        "deque": "cpp",
+        "initializer_list": "cpp",
+        "list": "cpp",
+        "queue": "cpp",
+        "stack": "cpp",
+        "type_traits": "cpp",
+        "vector": "cpp",
+        "xstring": "cpp",
+        "ratio": "cpp",
+        "ios": "cpp",
+        "xiosbase": "cpp",
+        "map": "cpp",
+        "functional": "cpp",
+        "iosfwd": "cpp",
+        "system_error": "cpp",
+        "iostream": "cpp",
+        "string": "cpp"
+    },
+    "competitive-programming-helper.firstTime": false
+}

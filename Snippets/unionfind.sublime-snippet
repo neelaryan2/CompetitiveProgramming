@@ -1,18 +1,17 @@
 <snippet>
 	<content><![CDATA[
 vector<int> siz, par;
-inline int root(int a) {
+int root(int a) {
 	if (par[a] == -1) par[a] = a;
 	int _a = a;
 	while (a != par[a]) a = par[a];
 	par[_a] = a;
 	return a;
 }
-inline void add(int a, int b) {
+void add(int a, int b) {
 	a = root(a); b = root(b);
 	if (a == b) return;
-	if (siz[a] == siz[b] && a > b) swap(a, b);
-	else if (siz[a] < siz[b]) swap(a, b);
+	if (siz[a] < siz[b]) swap(a, b);
 	siz[a] += siz[b];
 	par[b] = a;
 }

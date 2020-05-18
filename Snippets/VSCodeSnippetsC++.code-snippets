@@ -1,0 +1,176 @@
+{
+	"basic": {
+		"prefix": "basic",
+		"body": "\r\ntypedef long long ll;\r\ntypedef unsigned int uint;\r\ntypedef pair<int, int> pi;\r\ntypedef pair<long long, long long> pl;\r\ntypedef vector<int> vi;\r\n#define forn(i, a, b) for (int i = (a); i <= (b); i++)\r\n#define rfor(i, b, a) for (int i = (b); i >= (a); i--)\r\n#define all(v) (v).begin(), (v).end()\r\n#define sz(v) (int)(v).size()\r\n#define rall(v) (v).rbegin(), (v).rend()\r\n#define runtime() (int)(1000 * ((double)clock()) / CLOCKS_PER_SEC)\r\n#define fi first\r\n#define se second\r\n#define pb push_back\r\n#define eb emplace_back\r\n#define mp make_pair\r\n#define lb lower_bound\r\n#define ub upper_bound\r\n#define endl \"\\n\"\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"bitmasks": {
+		"prefix": "bitmasks",
+		"body": "\r\n#define Set(n, i) n = (n) | (1LL << (i))\r\n#define Reset(n, i) n = (n) & ~(1LL << (i))\r\n#define Test(n, i) ((n) >> (i) & 1LL)\r\n#define par(n) (n) & 1LL\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"debugger": {
+		"prefix": "debugger",
+		"body": "\r\ntemplate <class T>\r\nostream& operator<<(ostream& os, vector<T> V) {\r\n    os << \"[ \";\r\n    for (auto v : V) os << v << \" \";\r\n    return os << \"]\";\r\n}\r\ntemplate <class T>\r\nostream& operator<<(ostream& os, set<T> S) {\r\n    os << \"{ \";\r\n    for (auto s : S) os << s << \" \";\r\n    return os << \"}\";\r\n}\r\ntemplate <class L, class R>\r\nostream& operator<<(ostream& os, pair<L, R> P) {\r\n    return os << \"(\" << P.first << \",\" << P.second << \")\";\r\n}\r\ntemplate <class L, class R>\r\nostream& operator<<(ostream& os, map<L, R> M) {\r\n    os << \"{ \";\r\n    for (auto m : M) os << \"(\" << m.F << \":\" << m.S << \") \";\r\n    return os << \"}\";\r\n}\r\n#define trace(...) __f(#__VA_ARGS__, __VA_ARGS__)\r\ntemplate <typename Arg1>\r\nvoid __f(const char* name, Arg1&& arg1) {\r\n    cerr << name << \" : \" << arg1 << endl;\r\n}\r\ntemplate <typename Arg1, typename... Args>\r\nvoid __f(const char* names, Arg1&& arg1, Args&&... args) {\r\n    const char* comma = strchr(names + 1, ',');\r\n    cerr.write(names, comma - names) << \" : \" << arg1 << \" | \";\r\n    __f(comma + 1, args...);\r\n}\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"dijkstra": {
+		"prefix": "dijkstra",
+		"body": "\r\nusing ll = long long;\r\nconst ll inf = 1e18;\r\nvector<ll> dist, parent;\r\nvector<vector<pair<ll, ll>>> adj;\r\nvoid dijkstra(int s, int n) {\r\n\tusing pi = pair<ll, ll>;\r\n\tpriority_queue<pi> pq;\r\n\tdist.resize(n, inf);\r\n\tparent.resize(n, -1);\r\n\tpq.push(make_pair(0, s));\tdist[s] = 0;\r\n\twhile (!pq.empty()) {\r\n\t\tll v = pq.top().second;\r\n\t\tll d = -pq.top().first;\r\n\t\tpq.pop();\r\n\t\tif (d > dist[v]) continue;\r\n\t\tfor (pi p : adj[v]) {\r\n\t\t\tll u = p.first, w = p.second;\r\n\t\t\tif (dist[v] + w < dist[u]) {\r\n\t\t\t\tdist[u] = dist[v] + w;      // update the distance\r\n\t\t\t\tparent[u] = v;        // for extracting the shortest path\r\n\t\t\t\tpq.push(make_pair(-dist[u], u));\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n}\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"fastio": {
+		"prefix": "fastio",
+		"body": "\r\nios_base::sync_with_stdio(false);\r\ncin.tie(NULL);\r\ncout.tie(NULL);\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"seg_fast": {
+		"prefix": "seg_fast",
+		"body": "\nstruct segtree {\n    vector<int> t;\n    int n;\n    segtree() {}\n    int combine(int a, int b) {\n        return max(a, b);\n    }\n    void build(vector<int>& a) {\n        n = a.size();\n        t.resize(2 * n);\n        for (int i = 0; i < n; i++)\n            t[i + n] = a[i];\n        for (int i = n - 1; i > 0; i--)\n            t[i] = combine(t[i << 1], t[i << 1 | 1]);\n    }\n    void update(int p, int x) {  // on 0-indexed p\n        for (t[p += n] = x; p >>= 1;)\n            t[p] = combine(t[p << 1], t[p << 1 | 1]);\n    }\n    int query(int l, int r) {  // interval [l,r]\n        int resl = 0, resr = 0;\n        for (l += n, r += n + 1; l < r; l >>= 1, r >>= 1) {\n            if (l & 1) resl = combine(resl, t[l++]);\n            if (r & 1) resr = combine(t[--r], resr);\n        }\n        return combine(resl, resr);\n    }\n};\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"fenwick": {
+		"prefix": "fenwick",
+		"body": "\r\nvector<int> B1, B2;\r\nvoid add(vector<int>& B, int i, int x) {\r\n    int n = B.size();\r\n    for (; i < n; i += i & (-i))\r\n        B[i] = B[i] + x;\r\n}\r\nint sum(vector<int>& B, int i) {\r\n    int sum = 0;\r\n    for (; i > 0; i -= i & (-i))\r\n        sum = sum + B[i];\r\n    return sum;\r\n}\r\nvoid range_add(int l, int r, int x) {\r\n    if (r < l) return;\r\n    add(B1, l, x);\r\n    add(B1, r + 1, -x);\r\n    add(B2, l, x * (l - 1));\r\n    add(B2, r + 1, -x * r);\r\n}\r\nint range_sum(int l, int r) {\r\n    int res = 0;\r\n    if (r < l) return res;\r\n    res = res + sum(B1, r) * r;\r\n    res = res - sum(B2, r);\r\n    res = res + sum(B1, (l - 1)) * (l - 1);\r\n    res = res - sum(B2, (l - 1));\r\n    return res;\r\n}\r\n// equivalent to calculating lower_bound on prefix sums array using binary lifting\r\nint bit_search(vector<int>& B, int val) {\r\n\tint sum = 0, pos = 0, s = B.size();\r\n\tfor (int i = log2(s); i >= 0; i--) {\r\n\t\tint d = (1 << i);\r\n\t\tif (pos + d < s && sum + B[pos + d] < val){\r\n\t\t\tpos += d;\r\n\t\t\tsum += B[pos];\r\n\t\t}\r\n\t}\r\n\treturn pos + 1;\r\n}\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"freopen": {
+		"prefix": "freopen",
+		"body": "\r\n#ifdef LOCAL\r\n    freopen(\"in.txt\", \"r\", stdin);\r\n    freopen(\"out.txt\", \"w\", stdout);\r\n#endif\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"hashing": {
+		"prefix": "hashing",
+		"body": "\r\ntypedef unsigned int uint;\r\ntemplate<typename T>\r\nuint vec_hash (const vector<T>& vec) {\r\n\tuint seed = vec.size();\r\n\tfor (T i : vec)\r\n\t\tseed ^= (uint)i + 0x9e3779b9 + (seed << 6) + (seed >> 2);\r\n\treturn seed;\r\n}\r\nuint str_hash (const string s) {\r\n\tuint seed = s.size();\r\n\tfor (char i : vec)\r\n\t\tseed ^= (uint)i + 0x9e3779b9 + (seed << 6) + (seed >> 2);\r\n\treturn seed;\r\n}\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"headers": {
+		"prefix": "headers",
+		"body": "\r\n#include <algorithm>\r\n#include <bitset>\r\n#include <cassert>\r\n#include <chrono>\r\n#include <cmath>\r\n#include <complex>\r\n#include <cstdio>\r\n#include <cstdlib>\r\n#include <climits>\r\n#include <cstring>\r\n#include <ctime>\r\n#include <deque>\r\n#include <functional>\r\n#include <iomanip>\r\n#include <iostream>\r\n#include <iterator>\r\n#include <limits>\r\n#include <list>\r\n#include <map>\r\n#include <numeric>\r\n#include <queue>\r\n#include <random>\r\n#include <ratio>\r\n#include <set>\r\n#include <sstream>\r\n#include <stack>\r\n#include <string>\r\n#include <unordered_map>\r\n#include <unordered_set>\r\n#include <utility>\r\n#include <vector>\r\nusing namespace std;\r\n#include <ext/pb_ds/assoc_container.hpp>\r\n#include <ext/pb_ds/tree_policy.hpp>\r\n#include <ext/rope>\r\nusing namespace __gnu_pbds;\r\nusing namespace __gnu_cxx;\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"kmp": {
+		"prefix": "kmp",
+		"body": "\nint kmp(string const& s) {\n    int n = s.size();\n    vector<int> lps(n, 0);\n    for (int i = 1; i < n; i++) {\n        int j = lps[i - 1];\n        while (j > 0 && s[i] != s[j])\n            j = lps[j - 1];\n        if (s[i] == s[j]) j++;\n        lps[i] = j;\n    }\n    return lps.back();\n}\nvoid kmp_aut(string s, vector<vector<int>>& aut) {\n    s += '#';\n    char base = 'a';\n    int n = s.size();\n    vector<int> pi = kmp(s);\n    aut.assign(n, vector<int>(26));\n    for (int i = 0; i < n; i++) {\n        for (int c = 0; c < 26; c++) {\n            if (i > 0 && base + c != s[i])\n                aut[i][c] = aut[pi[i - 1]][c];\n            else\n                aut[i][c] = i + (base + c == s[i]);\n        }\n    }\n}\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"seg_fast1": {
+		"prefix": "seg_fast",
+		"body": "\nstruct segtree {\n    vector<ll> t, d;\n    int n, h;\n    ll init = 2e18;\n    segtree(int m) {\n        n = m;\n        h = 32 - __builtin_clz(n);\n        d.assign(n, 0);\n        t.assign(2 * n, init);\n    }\n    ll combine(ll a, ll b) {\n        return min(a, b);\n    }\n    void apply(int p, ll value) {\n        t[p] += value;\n        if (p < n) d[p] += value;\n    }\n    void build(int p) {\n        while (p > 1)\n            p >>= 1, t[p] = combine(t[p << 1], t[p << 1 | 1]) + d[p];\n    }\n    void push(int p) {\n        for (int s = h; s > 0; --s) {\n            int i = p >> s;\n            if (d[i] != 0) {\n                apply(i << 1, d[i]);\n                apply(i << 1 | 1, d[i]);\n                d[i] = 0;\n            }\n        }\n    }\n    void inc(int l, int r, ll value) {\n        l += n, r += n + 1;\n        int _l = l, _r = r;\n        for (; l < r; l >>= 1, r >>= 1) {\n            if (l & 1) apply(l++, value);\n            if (r & 1) apply(--r, value);\n        }\n        build(_l), build(_r - 1);\n    }\n    ll query(int l, int r) {\n        l += n, r += n + 1;\n        push(l), push(r - 1);\n        ll resl = init, resr = init;\n        for (; l < r; l >>= 1, r >>= 1) {\n            if (l & 1) resl = combine(resl, t[l++]);\n            if (r & 1) resr = combine(t[--r], resr);\n        }\n        return combine(resl, resr);\n    }\n};\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"levenshtein": {
+		"prefix": "levenshtein",
+		"body": "\r\nint editDist(string str1, string str2) {\r\n\tint m = str1.size(), n = str2.size();\r\n\tvector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));\r\n\tfor (int i = 0; i <= m; i++)\r\n\t\tfor (int j = 0; j <= n; j++) {\r\n\t\t\tif (i == 0) dp[i][j] = j;\r\n\t\t\telse if (j == 0) dp[i][j] = i;\r\n\t\t\telse if (str1[i - 1] == str2[j - 1])\r\n\t\t\t\tdp[i][j] = dp[i - 1][j - 1];\r\n\t\t\telse\r\n\t\t\t\tdp[i][j] = 1 + min({dp[i][j - 1], dp[i - 1][j], dp[i - 1][j - 1]});\r\n\t\t}\r\n\treturn dp[m][n];\r\n}\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"macros": {
+		"prefix": "macros",
+		"body": "\r\n#define forn(i, a, b) for (int i = (a); i <= (b); i++)\r\n#define rfor(i, b, a) for (int i = (b); i >= (a); i--)\r\n#define rep(i, n) for (int i = 0; i < (n); i++)\r\n#define repr(i, n) for (int i = (n) - 1; i >= 0; i--)\r\n#define forv(i, v) for (auto& (i) : (v))\r\n#define trav(i, v) for (auto i = (v).begin(); i != (v).end(); i++)\r\n\r\n#define all(v) (v).begin(), (v).end()\r\n#define sz(v) (int)(v).size()\r\n#define rall(v) (v).rbegin(), (v).rend()\r\n#define pc(c) putchar(c)\r\n#define gc(c) getchar(c)\r\n#define runtime() (int)(1000 * ((double)clock()) / CLOCKS_PER_SEC)\r\n#define flush() cout << flush\r\n#define max_queue(t) priority_queue<t>\r\n#define min_queue(t) priority_queue<t,vector<t>,greater<t>>\r\n\r\n#define popcnt __builtin_popcount\r\n#define popcntll __builtin_popcountll\r\n#define ctz __builtin_ctz\r\n#define ctzll __builtin_ctzll\r\n\r\n#define fi first\r\n#define se second\r\n#define pb push_back\r\n#define pf push_front\r\n#define ef emplace_front\r\n#define eb emplace_back\r\n#define mp make_pair\r\n#define lb lower_bound\r\n#define ub upper_bound\r\n#define rsz resize\r\n#define ins insert\r\n#define endl \"\\n\"\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"matrix": {
+		"prefix": "matrix",
+		"body": "\r\n#define vi vector<int>\r\n#define sz(v) int((v).size())\r\nvector<vi> matmul(vector<vi> A, vector<vi> B) {\r\n    int n = sz(A), m = sz(A[0]), p = sz(B[0]);\r\n    assert(sz(B) == m);\r\n    vector<vi> C(n, vi(p, 0));\r\n    for (int i = 0; i < n; i++)\r\n        for (int j = 0; j < p; j++)\r\n            for (int k = 0; k < m; k++)\r\n                C[i][j] += A[i][k] * B[k][j];\r\n    return C;\r\n}\r\nvector<vi> matexp(vector<vi> A, int k) {\r\n    int n = A.size();\r\n    assert(sz(A[0]) == n);\r\n    vector<vi> C(n, vi(n, 0));\r\n    for (int i = 0; i < n; i++) C[i][i]++;\r\n    while (k) {\r\n        if (k & 1) C = matmul(C, A);\r\n        A = matmul(A, A); k >>= 1;\r\n    }\r\n    return C;\r\n}\r\nvoid matprint(vector<vi> A) {\r\n    for (int i = 0; i < A.size(); i++) {\r\n        for (int j = 0; j < A[i].size(); j++)\r\n            cout << A[i][j] << \" \";\r\n        cout << endl;\r\n    }\r\n}\r\nvector<vi> matadd(vector<vi> A, vector<vi> B) {\r\n    int n = sz(A), m = sz(A[0]);\r\n    assert(sz(B) == n); assert(sz(B[0]) == m);\r\n    for (int i = 0; i < n; i++)\r\n        for (int j = 0; j < m; j++)\r\n            A[i][j] += B[i][j];\r\n    return A;\r\n}\r\nvector<vi> matsub(vector<vi> A, vector<vi> B) {\r\n    int n = sz(A), m = sz(A[0]);\r\n    assert(sz(B) == n); assert(sz(B[0]) == m);\r\n    for (int i = 0; i < n; i++)\r\n        for (int j = 0; j < m; j++)\r\n            A[i][j] -= B[i][j];\r\n    return A;\r\n}\r\nvector<vi> matmults(vector<vi> A, int k) {\r\n    for (int i = 0; i < A.size(); i++)\r\n        for (int j = 0; j < A[i].size(); j++)\r\n            A[i][j] *= k;\r\n    return A;\r\n}\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"modular": {
+		"prefix": "modular",
+		"body": "\r\ntemplate<typename T> T gcd(T a, T b) {while (b) {T t = b; b = a % b; a = t;} return a;}\r\ntemplate<typename T> T lcm(T a, T b) {return (a * (b / gcd(a, b)));}\r\ntemplate<typename T> T add(T a, T b, T c = MOD) {T res = a + b; return (res >= c ? res - c : res);}\r\ntemplate<typename T> T mod_neg(T a, T b, T c = MOD) {T res; if (abs(a - b) < c)res = a - b; else res = (a - b) % c; return (res < 0 ? res + c : res);}\r\ntemplate<typename T> T mul(T a, T b, T c = MOD) {ll res = (ll)a * b; return (res >= c ? res % c : res);}\r\ntemplate<typename T> T mulmod(T a, T b, T m = MOD) {ll q = (ll)(((LD)a * (LD)b) / (LD)m); ll r = a * b - q * m; if (r > m)r %= m; if (r < 0)r += m; return r;}\r\ntemplate<typename T>T expo(T e, T n) {T x = 1, p = e; while (n) {if (n & 1)x = x * p; p = p * p; n >>= 1;} return x;}\r\ntemplate<typename T>T power(T e, T n, T m = MOD) {T x = 1, p = e; while (n) {if (n & 1)x = mul(x, p, m); p = mul(p, p, m); n >>= 1;} return x;}\r\ntemplate<typename T>T extended_euclid(T a, T b, T &x, T &y) {\r\n    T xx = 0, yy = 1; y = 0; x = 1; while (b) {\r\n        T q = a / b, t = b; b = a % b; a = t; \\\r\n        t = xx; xx = x - q * xx; x = t; t = yy; yy = y - q * yy; y = t;\r\n    } return a;\r\n}\r\ntemplate<typename T>T mod_inverse(T a, T n = MOD) {T x, y, z = 0; T d = extended_euclid(a, n, x, y); return (d > 1 ? -1 : mod_neg(x, z, n));}\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"modulo": {
+		"prefix": "modulo",
+		"body": "\r\nconst int kMod = 998244353;\r\nstruct ModInt {\r\n\tlong long n;\r\n\tModInt(long long n = 0) : n(n % kMod) {}\r\n\tModInt operator+(const ModInt& oth) { return n + oth.n; }\r\n\tModInt operator-(const ModInt& oth) { return n - oth.n; }\r\n\tModInt operator*(const ModInt& oth) { return n * oth.n; }\r\n\tlong long get() { return n < 0 ? n + kMod : n; }\r\n};\r\nModInt lgpow(ModInt b, int e = -1) {\r\n\tif (b.get() == 0) return 0;\r\n\tModInt r; e = e % (kMod - 1);\r\n\tif (e < 0) e += kMod - 1;\r\n\tfor (r = 1; e; e >>= 1, b = b * b)\r\n\t\tif (e & 1) r = r * b;\r\n\treturn r;\r\n}\r\nvector<ModInt> fact, invfact;\r\nvoid factorials(int n) {\r\n\tfact.resize(n + 1, 1);\r\n\tinvfact.resize(n + 1, 1);\r\n\tfor (int i = 1; i <= n; ++i)\r\n\t\tfact[i] = fact[i - 1] * i;\r\n\tinvfact[n] = lgpow(fact[n]);\r\n\tfor (int i = n - 1; i >= 1; --i)\r\n\t\tinvfact[i] = invfact[i + 1] * (i + 1);\r\n}\r\nModInt choose(int n, int k) {\r\n\treturn fact[n] * invfact[k] * invfact[n - k];\r\n}\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"ntt": {
+		"prefix": "ntt",
+		"body": "\r\nstruct NTT {\r\n    int MOD, root, root_1, root_pw;\r\n    int get(ll num) {\r\n        num %= MOD;\r\n        if (num < 0) num += MOD;\r\n        return num;\r\n    }\r\n    int exp(int x, int a) {\r\n        x = get(x), a %= MOD - 1;\r\n        if (x == 0) return 0;\r\n        if (a < 0) a += MOD - 1;\r\n        int res = 1;\r\n        while (a) {\r\n            if (a & 1) res = get(1LL * res * x);\r\n            x = get(1LL * x * x);\r\n            a >>= 1;\r\n        }\r\n        return res;\r\n    }\r\n    NTT(int mod) {\r\n        MOD = mod;\r\n        int r = 2, pw = 0, phi = --mod;\r\n        while (exp(r, mod >> 1) == 1) ++r;\r\n        assert(exp(r, mod) == 1);\r\n        while (!(mod & 1)) mod >>= 1, pw++;\r\n        root = exp(r, phi >> pw);\r\n        root_1 = exp(root, -1);\r\n        root_pw = 1 << pw;\r\n        cerr << \"MOD : \" << MOD << '\\n';\r\n        cerr << \"root : \" << root << '\\n';\r\n        cerr << \"root_1 : \" << root_1 << '\\n';\r\n        cerr << \"root_pw : \" << root_pw << '\\n';\r\n    }\r\n    void fft(vector<int>& a, bool invert) {\r\n        int n = a.size();\r\n        assert((n & (n - 1)) == 0);\r\n        assert(n <= root_pw);\r\n        for (int i = 1, j = 0; i < n; i++) {\r\n            int bit = n >> 1;\r\n            for (; j & bit; bit >>= 1)\r\n                j ^= bit;\r\n            j ^= bit;\r\n            if (i < j)\r\n                swap(a[i], a[j]);\r\n        }\r\n        for (int len = 2; len <= n; len <<= 1) {\r\n            int wlen = invert ? root_1 : root;\r\n            for (int i = len; i < root_pw; i <<= 1)\r\n                wlen = get(1LL * wlen * wlen);\r\n            for (int i = 0; i < n; i += len) {\r\n                int w = 1;\r\n                for (int j = 0; j < len / 2; j++) {\r\n                    int u = get(a[i + j]);\r\n                    int v = get(1LL * a[i + j + len / 2] * w);\r\n                    a[i + j] = get(1LL * u + v);\r\n                    a[i + j + len / 2] = get(1LL * u - v);\r\n                    w = get(1LL * w * wlen);\r\n                }\r\n            }\r\n        }\r\n        if (invert) {\r\n            int invN = exp(n, -1);\r\n            for (int i = 0; i < n; i++)\r\n                a[i] = get(1LL * a[i] * invN);\r\n        }\r\n    }\r\n    vector<int> multiply(vector<int> const& a, vector<int> const& b) {\r\n        vector<int> fa = a, fb = b;\r\n        int n = 1, tot = a.size() + b.size();\r\n        while (n < tot) n <<= 1;\r\n        fa.resize(n), fb.resize(n);\r\n        fft(fa, false), fft(fb, false);\r\n        for (int i = 0; i < n; i++)\r\n            fa[i] = fa[i] * fb[i];\r\n        fft(fa, true);\r\n        vector<int> result(tot - 1);\r\n        for (int i = 0; i < tot - 1; i++)\r\n            result[i] = fa[i];\r\n        return result;\r\n    }\r\n};\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"cpp": {
+		"prefix": "cpp",
+		"body": "\n#include <ext/pb_ds/assoc_container.hpp>\n#include <ext/pb_ds/tree_policy.hpp>\n#include <ext/rope>\nusing namespace __gnu_pbds;\nusing namespace __gnu_cxx;\ntypedef tree<int, null_type, less<int>, rb_tree_tag,\n        tree_order_statistics_node_update> ordered_set;\n// order_of_key (val): returns the no. of values less than val\n// find_by_order (k): returns the iterator to kth largest element.(0-based)\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"pragmas": {
+		"prefix": "pragmas",
+		"body": "\r\n#pragma GCC optimize(\"O3\")\r\n#pragma comment(linker, \"/stack:200000000\")\r\n#pragma GCC optimize(\"Ofast,unroll-loops,no-stack-protector,fast-math\")\r\n#pragma GCC target(\"sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,tune=native\")\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"randoms": {
+		"prefix": "randoms",
+		"body": "\r\nmt19937 rng(chrono::steady_clock::now().time_since_epoch().count());\r\nmt19937_64 rng64(chrono::steady_clock::now().time_since_epoch().count());\r\n#define shuf(v) shuffle((v).begin(), (v).end(), rng);\r\n// Use mt19937_64 for 64 bit random numbers.\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"readfns": {
+		"prefix": "readfns",
+		"body": "\r\ninline int read() {int x; cin >> x; return x;}\r\ninline long long readl() {long long x; cin >> x; return x;}\r\ninline char readc() {char x; cin >> x; return x;}\r\ninline string reads() {string x; cin >> x; return x;}\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"seg": {
+		"prefix": "seg",
+		"body": "\nstruct segtree {\n    vector<int> t;\n    int n;\n    segtree(int m) {n = m; t.assign(4 * n, 0);}\n    void build_aux(vector<int>& a, int v, int tl, int tr) {\n        if (tl == tr) {t[v] = a[tl]; return;}\n        int tm = (tl + tr) / 2;\n        build_aux(a, v * 2, tl, tm);\n        build_aux(a, v * 2 + 1, tm + 1, tr);\n        t[v] = t[v * 2] + t[v * 2 + 1];\n    }\n    int query_aux(int v, int tl, int tr, int l, int r) {\n        if (l > r) return 0;\n        if (l == tl && r == tr) return t[v];\n        int tm = (tl + tr) / 2;\n        return query_aux(v * 2, tl, tm, l, min(r, tm)) +\n               query_aux(v * 2 + 1, tm + 1, tr, max(l, tm + 1), r);\n    }\n    void update_aux(int v, int tl, int tr, int pos, int new_val) {\n        if (tl == tr) {t[v] = new_val; return;}\n        int tm = (tl + tr) / 2;\n        if (pos <= tm) update_aux(v * 2, tl, tm, pos, new_val);\n        else update_aux(v * 2 + 1, tm + 1, tr, pos, new_val);\n        t[v] = t[v * 2] + t[v * 2 + 1];\n    }\n    void build(vector<int>& a) {\n        n = a.size(); t.assign(4 * n, 0);\n        build_aux(a, 1, 0, n - 1);\n    }\n    void update(int i, int x) {\n        update_aux(1, 0, n - 1, i, x);\n    }\n    int query(int l, int r) {\n        return query_aux(1, 0, n - 1, l, r);\n    }\n};\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"sieve": {
+		"prefix": "sieve",
+		"body": "\r\nconst int N = 2e6 + 10;\r\nvoid sieve() {\r\n\tleast[0] = 0; least[1] = 1;\r\n\tfor (int i = 2; i < N; i++)\r\n\t\tleast[i] = (i % 2) ? i : 2;\r\n\tfor (int i = 3; i * i <= N; i += 2) {\r\n\t\tif (least[i] != i) continue;\r\n\t\tfor (int j = i * i; j < N; j += i)\r\n\t\t\tif (least[j] == j)\r\n\t\t\t\tleast[j] = i;\r\n\t}\r\n}\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"sqrtdec": {
+		"prefix": "sqrtdec",
+		"body": "\r\nstruct decomp {\r\n    vector<int> state, block, sums;\r\n    int n, rt;\r\n    decomp(int m) {\r\n        n = m;\r\n        rt = sqrtl(n) + 1;\r\n        block.assign(rt + 1, 0);\r\n        sums.assign(rt + 1, 0);\r\n        state.assign(n, 0);\r\n    }\r\n    void update(int i, int j) {\r\n        if (i > j) return;\r\n        if (i < 0) return update(0, j);\r\n        if (j >= n) return update(i, n - 1);\r\n        int ri = i / rt, rj = j / rt;\r\n        if (ri == rj) {\r\n            for (int it = i; it <= j; it++) {\r\n                state[it] = 1 - state[it];\r\n                int ch = 2 * state[it] - 1;\r\n                sums[ri] += block[ri] ? -ch : ch;\r\n            }\r\n            return;\r\n        }\r\n        for (int it = ++ri; it < rj; it++) {\r\n            sums[it] = rt - sums[it];\r\n            block[it] = 1 - block[it];\r\n        }\r\n        update(i, ri * rt - 1);\r\n        update(rj * rt, j);\r\n    }\r\n    int query(int i, int j) {\r\n        if (i > j) return 0;\r\n        if (i < 0) return query(0, j);\r\n        if (j >= n) return query(i, n - 1);\r\n        int ri = i / rt, rj = j / rt;\r\n        int ans = 0;\r\n        if (ri == rj) {\r\n            for (int it = i; it <= j; it++)\r\n                ans += block[ri] ? (1 - state[it]) : state[it];\r\n            return ans;\r\n        }\r\n        for (int it = ++ri; it < rj; it++)\r\n            ans += sums[it];\r\n        ans += query(i, ri * rt - 1);\r\n        ans += query(rj * rt, j);\r\n        return ans;\r\n    }\r\n};\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"cpp1": {
+		"prefix": "cpp",
+		"body": "\n// #pragma GCC optimize(\"O3\")\n// #pragma comment(linker, \"/stack:200000000\")\n// #pragma GCC optimize(\"Ofast,unroll-loops,no-stack-protector,fast-math\")\n// #pragma GCC target(\"sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,tune=native\")\n\n#include <algorithm>\n#include <bitset>\n#include <cassert>\n#include <chrono>\n#include <cmath>\n#include <complex>\n#include <cstdio>\n#include <cstdlib>\n#include <climits>\n#include <cstring>\n#include <ctime>\n#include <deque>\n#include <functional>\n#include <iomanip>\n#include <iostream>\n#include <iterator>\n#include <limits>\n#include <list>\n#include <map>\n#include <numeric>\n#include <queue>\n#include <random>\n#include <ratio>\n#include <set>\n#include <sstream>\n#include <stack>\n#include <string>\n#include <unordered_map>\n#include <unordered_set>\n#include <utility>\n#include <vector>\nusing namespace std;\n#include <ext/pb_ds/assoc_container.hpp>\n#include <ext/pb_ds/tree_policy.hpp>\n#include <ext/rope>\nusing namespace __gnu_pbds;\nusing namespace __gnu_cxx;\n\n#ifdef LOCAL\n#include \"trace.h\"\n#else\n#define trace(args...)\n#endif\n\ntypedef long long ll;\ntypedef unsigned int uint;\ntypedef unsigned long long ull;\ntypedef long double ld;\ntypedef double db;\ntypedef string str;\ntypedef pair<int, int> pi;\ntypedef pair<long long, long long> pl;\ntypedef pair<long double, long double> pd;\ntypedef vector<int> vi;\ntypedef vector<long long> vl;\ntypedef vector<long double> vd;\ntypedef vector<string> vs;\ntypedef vector<pair<ll, ll>> vpl;\ntypedef tree<int, null_type, less<int>, rb_tree_tag,\n        tree_order_statistics_node_update> ordered_set;\n// order_of_key (val): returns the no. of values less than val\n// find_by_order (k): returns the iterator to kth largest element.(0-based)\n\n#define forn(i, a, b) for (int i = (a); i <= (b); i++)\n#define rfor(i, b, a) for (int i = (b); i >= (a); i--)\n#define rep(i, n) for (int i = 0; i < (n); i++)\n#define repr(i, n) for (int i = (n) - 1; i >= 0; i--)\n#define forv(i, v) for (auto& (i) : (v))\n#define trav(i, v) for (auto i = (v).begin(); i != (v).end(); i++)\n\n#define all(v) (v).begin(), (v).end()\n#define sz(v) (int)(v).size()\n#define rall(v) (v).rbegin(), (v).rend()\n#define pc(c) putchar(c)\n#define gc(c) getchar(c)\n#define runtime() (int)(1000 * ((double)clock()) / CLOCKS_PER_SEC)\n#define flush() cout << flush\n#define max_queue(t) priority_queue<t>\n#define min_queue(t) priority_queue<t,vector<t>,greater<t>>\n\n#define popcnt __builtin_popcount\n#define popcntll __builtin_popcountll\n#define ctz __builtin_ctz\n#define ctzll __builtin_ctzll\n\n#define fi first\n#define se second\n#define pb push_back\n#define pf push_front\n#define ef emplace_front\n#define eb emplace_back\n#define mp make_pair\n#define lb lower_bound\n#define ub upper_bound\n#define rsz resize\n#define ins insert\n#define endl \"\\n\"\n\nmt19937 rng(chrono::steady_clock::now().time_since_epoch().count());\nmt19937_64 rng64(chrono::steady_clock::now().time_since_epoch().count());\n#define shuf(v) shuffle((v).begin(), (v).end(), rng);\n// Use mt19937_64 for 64 bit random numbers.\n\n#define Set(n, i) n = (n) | (1LL << (i))\n#define Reset(n, i) n = (n) & ~(1LL << (i))\n#define Test(n, i) ((n) >> (i) & 1LL)\n#define par(n) (n) & 1LL\n\ninline int read() {int x; cin >> x; return x;}\ninline long long readl() {long long x; cin >> x; return x;}\ninline char readc() {char x; cin >> x; return x;}\ninline string reads() {string x; cin >> x; return x;}\n\nconst double Pi = 3.1415926535898;\ninline void solve();\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    cout.tie(NULL);\n#ifdef LOCAL\n    freopen(\"in.txt\", \"r\", stdin);\n    freopen(\"out.txt\", \"w\", stdout);\n#endif\n    cout << fixed << setprecision(10);\n    int t = 1;\n    // cin >> t;\n    for (int i = 1; i <= t; i++) {\n        // cout << \"Case #\" << i << \": \";\n        solve();\n    }\n#ifdef LOCAL\n    cout << \"\\nTime Elapsed: \" << runtime() << \" ms\\n\";\n#endif\n    return 0;\n}\n//------------------------------------------ end -----------------------------------------------//\nconst int N = 1e9 + 7;\nconst int mod = 998244353;\ninline void solve() {\n\n}\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"trie": {
+		"prefix": "trie",
+		"body": "\r\nconst int K = 26;\r\nconst int def = -1;\r\nint root = 0;\r\nstruct Vertex {\r\n    int nxt[K], go[K];\r\n    bool leaf = false;\r\n    int par = def, link = def;\r\n    char pch = '$';\r\n    Vertex(int par = def, char ch = '$') : par(par), pch(ch) {\r\n        fill(begin(nxt), end(nxt), def);\r\n        fill(begin(go), end(go), def);\r\n    }\r\n};\r\nvector<Vertex> trie(1);\r\nvoid add_string(int v = root, string const& s) {\r\n    for (char ch : s) {\r\n        int c = ch - 'a';\r\n        if (trie[v].nxt[c] == def) {\r\n            trie[v].nxt[c] = trie.size();\r\n            trie.emplace_back(v, ch);\r\n        }\r\n        v = trie[v].nxt[c];\r\n    }\r\n    trie[v].leaf = true;\r\n}\r\nint go(int v, char ch);\r\nint get_link(int v) {\r\n    if (trie[v].link != def)\r\n        return trie[v].link;\r\n    if (v == root || trie[v].par == root)\r\n        trie[v].link = root;\r\n    else\r\n        trie[v].link = go(get_link(trie[v].par), trie[v].pch);\r\n    return trie[v].link;\r\n}\r\nint go(int v, char ch) {\r\n    int c = ch - 'a';\r\n    if (trie[v].go[c] != def)\r\n        return trie[v].go[c];\r\n    if (trie[v].nxt[c] != def)\r\n        trie[v].go[c] = trie[v].nxt[c];\r\n    else if (v == root)\r\n        trie[v].go[c] = root;\r\n    else\r\n        trie[v].go[c] = go(get_link(v), ch);\r\n    return trie[v].go[c];\r\n}\r\nvoid dfs(int v) {\r\n    for (int i = 0; i < K; i++) {\r\n        if (trie[v].nxt[i] == def) continue;\r\n        dfs(trie[v].nxt[i]);\r\n    }\r\n}\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"types": {
+		"prefix": "types",
+		"body": "\r\ntypedef long long ll;\r\ntypedef unsigned int uint;\r\ntypedef unsigned long long ull;\r\ntypedef long double ld;\r\ntypedef double db;\r\ntypedef string str;\r\ntypedef pair<int, int> pi;\r\ntypedef pair<long long, long long> pl;\r\ntypedef pair<long double, long double> pd;\r\ntypedef vector<int> vi;\r\ntypedef vector<long long> vl;\r\ntypedef vector<long double> vd;\r\ntypedef vector<string> vs;\r\ntypedef vector<pair<ll, ll>> vpl;\r\ntypedef tree<int, null_type, less<int>, rb_tree_tag,\r\n        tree_order_statistics_node_update> ordered_set;\r\n// order_of_key (val): returns the no. of values less than val\r\n// find_by_order (k): returns the iterator to kth largest element.(0-based)\r\n",
+		"description": "",
+		"scope": "cpp"
+	},
+	"dsu": {
+		"prefix": "dsu",
+		"body": "\r\nvector<int> siz, par;\r\nint root(int a) {\r\n\tif (par[a] == -1) par[a] = a;\r\n\tint _a = a;\r\n\twhile (a != par[a]) a = par[a];\r\n\tpar[_a] = a;\r\n\treturn a;\r\n}\r\nvoid add(int a, int b) {\r\n\ta = root(a); b = root(b);\r\n\tif (a == b) return;\r\n\tif (siz[a] < siz[b]) swap(a, b);\r\n\tsiz[a] += siz[b];\r\n\tpar[b] = a;\r\n}\r\n",
+		"description": "",
+		"scope": "cpp"
+	}
+}

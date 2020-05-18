@@ -17,8 +17,21 @@ using vi = vector<int>;
 #define eb emplace_back
 #define all(v) (v).begin(), (v).end()
 
-void solve(){
-    
+void solve() {
+    ll a, b, c, d;
+    cin >> a >> b >> c >> d;
+    if (a <= b) {
+        cout << b << '\n';
+        return;
+    }
+    a -= b;
+    if (c <= d) {
+        cout << -1 << '\n';
+        return;
+    }
+    ll q = 1 + (a - 1) / (c - d);
+    ll ans = b + q * c;
+    cout << ans << '\n';
 }
 int main() {
     ios_base::sync_with_stdio(false);
