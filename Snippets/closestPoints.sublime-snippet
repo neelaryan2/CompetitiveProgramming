@@ -1,0 +1,60 @@
+<snippet>
+	<content><![CDATA[
+ll dist(pii u, pii v) {
+    u.fi -= v.fi, u.se -= v.se;
+    ll cur = 1LL * u.fi * u.fi + 1LL * u.se * u.se;
+    return cur;
+}
+ll rec(int l, int r) {
+    ll mn = LLONG_MAX;
+    if (r - l <= 3) {
+        for (int i = l; i < r; ++i)
+            for (int j = i + 1; j < r; ++j)
+                mn = min(mn, dist(a[i], a[j]));
+        for (int i = l; i < r; ++i)
+            swap(a[i].fi, a[i].se);
+        sort(a.begin() + l, a.begin() + r);
+        return mn;
+    }
+    int m = (l + r) / 2, tsz = 0;
+    int midx = a[m].fi;
+    mn = min(rec(l, m), rec(m, r));
+    vector<pii> t(r - l);
+    auto it = a.begin();
+    merge(it + l, it + m, it + m, it + r, t.begin());
+    copy(t.begin(), t.end(), a.begin() + l);
+    int rt = sqrtl(mn) + 1;
+    for (int i = l; i < r; ++i) {
+        if (abs(a[i].se - midx) >= rt) continue;
+        for (int j = tsz - 1; j >= 0 && a[i].fi - t[j].fi < rt; --j)
+            mn = min(mn, dist(a[i], t[j]));
+        t[tsz++] = a[i];
+    }
+    return mn;
+}
+ll ClosestPair(vector<pii> pts) {
+    int n = pts.size();
+    sort(pts.begin(), pts.end());
+    set<pii> s;
+    ll ans = LLONG_MAX;
+    int j = 0;
+    for (pii p : pts) {
+        int d = ceil(sqrtl(ans));
+        while (p.fi - pts[j].fi >= ans) {
+            s.erase({pts[j].se, pts[j].fi});
+            j++;
+        }
+        auto it1 = s.lower_bound({p.se - d, p.fi});
+        auto it2 = s.upper_bound({p.se + d, p.fi});
+        for (auto it = it1; it != it2; ++it)
+            ans = min(ans, dist(p, *it));      
+        s.insert({p.se, p.fi}); 
+    }
+    return ans;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>closest</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

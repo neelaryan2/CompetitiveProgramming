@@ -1,0 +1,59 @@
+<snippet>
+	<content><![CDATA[
+struct Matrix {
+    using vi = vector<int>;
+    int n, m, mod = 1e9 + 7;
+    vector<vi> M;
+    Matrix(int n1, int m1) {
+        n = n1, m = m1;
+        M.assign(n, vi(m, 0));
+    }
+    Matrix operator*(const Matrix& B) {
+        assert(B.n == m);
+        Matrix C = Matrix(n, B.m);
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < B.m; j++)
+                for (int k = 0; k < m; k++)
+                    C.M[i][j] = (C.M[i][j] + 1LL * M[i][k] * B.M[k][j]) % mod;
+        return C;
+    }
+    Matrix operator*(const int& k) {
+        Matrix C = *this;
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < m; j++)
+                C.M[i][j] = (C.M[i][j] * k) % mod;
+        return C;
+    }
+    Matrix operator+(const Matrix& B) {
+        assert(B.n == n && B.m == m);
+        Matrix C = Matrix(n, m);
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < m; j++)
+                C.M[i][j] = (M[i][j] + B.M[i][j]) % mod;
+        return C;
+    }
+    Matrix operator-(const Matrix& B) {
+        assert(B.n == n && B.m == m);
+        Matrix C = Matrix(n, m);
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < m; j++)
+                C.M[i][j] = (M[i][j] - B.M[i][j]) % mod;
+        return C;
+    }
+    Matrix exp(ll k) {
+        assert(m == n);
+        Matrix C = Matrix(n, n), A = *this;
+        for (int i = 0; i < n; i++) C.M[i][i]++;
+        while (k) {
+            if (k & 1) C = C * A;
+            A = A * A, k >>= 1;
+        }
+        return C;
+    }
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>matrix-arithmetic</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

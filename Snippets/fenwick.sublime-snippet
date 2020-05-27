@@ -12,6 +12,25 @@ int sum(vector<int>& B, int i) {
         sum = sum + B[i];
     return sum;
 }
+int get(vector<int>& B, int i) {
+    if (i <= 0) return 0;
+    int val = B[i];
+    int z = i - (i & -i);
+    for (--i; i != z; i -= i & (-i))
+        val = val - B[i];
+    return val;
+}
+int bit_search(vector<int>& B, int val) {
+	int sum = 0, pos = 0, s = B.size();
+	for (int i = log2(s); i >= 0; i--) {
+		int d = (1 << i);
+		if (pos + d < s && sum + B[pos + d] < val){
+			pos = pos + d;
+			sum = sum + B[pos];
+		}
+	}
+	return pos + 1;
+}
 void range_add(int l, int r, int x) {
     if (r < l) return;
     add(B1, l, x);
@@ -27,18 +46,6 @@ int range_sum(int l, int r) {
     res = res + sum(B1, (l - 1)) * (l - 1);
     res = res - sum(B2, (l - 1));
     return res;
-}
-// equivalent to calculating lower_bound on prefix sums array using binary lifting
-int bit_search(vector<int>& B, int val) {
-	int sum = 0, pos = 0, s = B.size();
-	for (int i = log2(s); i >= 0; i--) {
-		int d = (1 << i);
-		if (pos + d < s && sum + B[pos + d] < val){
-			pos += d;
-			sum += B[pos];
-		}
-	}
-	return pos + 1;
 }
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
