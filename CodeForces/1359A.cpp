@@ -20,8 +20,15 @@ using vi = vector<int>;
 #define eb emplace_back
 #define all(v) (v).begin(), (v).end()
 
-void solve(){
-    
+void solve() {
+    int n, m, k;
+    cin >> n >> m >> k;
+    int mx = min(n / k, m);
+    m -= mx;
+    trace(m);
+    int mn = 1 + (m - 1) / (k - 1);
+    if (m == 0) mn = 0;
+    cout << mx - mn << '\n';
 }
 int main() {
     ios_base::sync_with_stdio(false);
