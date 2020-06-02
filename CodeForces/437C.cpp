@@ -20,14 +20,19 @@ using vi = vector<int>;
 #define eb emplace_back
 #define all(v) (v).begin(), (v).end()
 
-void solve() {
-    
-}
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
-    int t = 1;
-    cin >> t;
-    while (t--) solve();
+    int n, m, ans = 0;
+    cin >> n >> m;
+    vector<int> v(n);
+    for (int& e : v) cin >> e;
+    for (int i = 0; i < m; i++) {
+        int a, b;
+        cin >> a >> b;
+        a--, b--;
+        ans += min(v[a], v[b]);
+    }
+    cout << ans << '\n';
 }

@@ -21,7 +21,25 @@ using vi = vector<int>;
 #define all(v) (v).begin(), (v).end()
 
 void solve() {
-    
+    string a;
+    cin >> a;
+    int n = a.size();
+    multiset<char> s;
+    for (char c : a) {
+        s.insert(c);
+        auto it = s.ub(c);
+        if (it != s.end()) s.erase(it);
+    }
+    int ans = s.size();
+    s.clear();
+    reverse(all(a));
+    for (char c : a) {
+        s.insert(c);
+        auto it = s.ub(c);
+        if (it != s.end()) s.erase(it);
+    }
+    ans = max(ans, (int)s.size());
+    cout << n - ans << '\n';
 }
 int main() {
     ios_base::sync_with_stdio(false);

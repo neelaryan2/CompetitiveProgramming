@@ -19,9 +19,38 @@ using vi = vector<int>;
 #define pb push_back
 #define eb emplace_back
 #define all(v) (v).begin(), (v).end()
-
+vector<vi> adj;
+int siz[1005];
+void dfs(int v, int p) {
+    siz[v] = 1;
+    for (int u : adj[v]) {
+        if (u == p) continue;
+        dfs(u, v);
+        siz[v] += siz[u];
+    }
+}
 void solve() {
-    
+    int n, x;
+    cin >> n >> x;
+    x--;
+    adj.clear();
+    adj.resize(n);
+    for (int i = 0; i < n - 1; i++) {
+        int u, v;
+        cin >> u >> v;
+        u--, v--;
+        adj[u].pb(v);
+        adj[v].pb(u);
+    }
+    int d = adj[x].size();
+    if (d <= 1) {
+        puts("Ayush");
+        return;
+    }
+    if (n % 2)
+        puts("Ashish");
+    else
+        puts("Ayush");
 }
 int main() {
     ios_base::sync_with_stdio(false);
