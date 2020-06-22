@@ -1,3 +1,4 @@
+/* Author - Neel Aryan (@neelaryan2) */
 #include <bits/stdc++.h>
 using namespace std;
 #ifdef LOCAL
@@ -20,7 +21,12 @@ using vi = vector<int>;
 #define all(v) (v).begin(), (v).end()
 
 void solve() {
-    
+    int a, b;
+    cin >> a >> b;
+    if (a > b) swap(a, b);
+    int c = (a + b) / 3;
+    if (c > a) c = a;
+    cout << c << '\n';
 }
 int main() {
     ios_base::sync_with_stdio(false);

@@ -1,3 +1,4 @@
+/* Author - Neel Aryan (@neelaryan2) */
 #include <bits/stdc++.h>
 using namespace std;
 #ifdef LOCAL
@@ -18,9 +19,12 @@ using vi = vector<int>;
 #define pb push_back
 #define eb emplace_back
 #define all(v) (v).begin(), (v).end()
-
+ll n;
 void solve() {
-    
+    cin >> n;
+    while (!(n & 1))
+        n >>= 1;
+    cout << (n >> 1) << '\n';
 }
 int main() {
     ios_base::sync_with_stdio(false);

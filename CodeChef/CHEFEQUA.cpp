@@ -1,5 +1,24 @@
-<snippet>
-    <content><![CDATA[
+#include <bits/stdc++.h>
+using namespace std;
+#ifdef LOCAL
+#include "trace.h"
+#else
+#define trace(args...)
+#endif
+
+using ll = long long;
+using ld = long double;
+using pii = pair<int, int>;
+using vi = vector<int>;
+#define mp make_pair
+#define ub upper_bound
+#define lb lower_bound
+#define fi first
+#define se second
+#define pb push_back
+#define eb emplace_back
+#define all(v) (v).begin(), (v).end()
+
 const int mod = 998244353, g = 3;
 // For p < 2^30 there is also (5 << 25, 3), (7 << 26, 3),
 // (479 << 21, 3) and (483 << 21, 5). Last two are > 10^9.
@@ -287,9 +306,47 @@ poly interp(const vector<num>& x, const vector<num>& y) {
         down[i] = down[i * 2] * up[i * 2 + 1] + down[i * 2 + 1] * up[i * 2];
     return down[1];
 }
-]]></content>
-    <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-    <tabTrigger>ntt</tabTrigger>
-    <!-- Optional: Set a scope to limit where the snippet will trigger -->
-    <!-- <scope>source.python</scope> -->
-</snippet>
+vector<num> a;
+const int N = 60000 + 100;
+poly from_roots(int s, int e) {
+    if (s == e) {
+        vector<num> tmp = {1, num(0) - a[e]};
+        poly v = poly(tmp);
+        return v;
+    }
+    int m = (s + e) / 2;
+    poly l = from_roots(s, m);
+    poly r = from_roots(m + 1, e);
+    return l * r;
+}
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    int n;
+    cin >> n;
+    a.resize(n);
+    vector<num> inva(n), c(n);
+    for (int i = 0; i < n; i++) {
+        int e;
+        cin >> e;
+        a[i] = num(e);
+        inva[i] = a[i].pow();
+    }
+    for (int i = 0; i < n; i++) {
+        int e;
+        cin >> e;
+        c[i] = num(e);
+    }
+    poly p = from_roots(0, n - 1);
+    vector<num> down = p.deriv().eval(inva);
+    p *= poly(c);
+    p.coef.resize(n);
+    vector<num> up = p.eval(inva);
+    for (int i = 0; i < n; i++) {
+        num ans = down[i].pow();
+        ans = ans * (num(0) - a[i]) * up[i];
+        cout << int(ans) << ' ';
+    }
+    cout << '\n';
+}
