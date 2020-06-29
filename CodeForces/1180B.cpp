@@ -1,20 +1,37 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
+#ifdef LOCAL
+#include "trace.h"
+#else
+#define trace(args...)
+#endif
+
+using ll = long long;
+using ld = long double;
+using pii = pair<int, int>;
+using vi = vector<int>;
+#define mp make_pair
+#define ub upper_bound
+#define lb lower_bound
+#define fi first
+#define se second
+#define pb push_back
+#define eb emplace_back
+#define all(v) (v).begin(), (v).end()
 
 int main() {
-	#ifdef LOCAL
-	    freopen("in.txt", "r", stdin);
-	    freopen("out.txt", "w", stdout);
-	#endif
-	int n; cin >> n;
-	vector<int> a(n);
-	for (int i = 0; i < n; i++) {
-		cin >> a[i];
-		if (a[i] < 0) continue;
-		a[i] = -a[i] - 1;
-	}
-	auto it = min_element(a.begin(), a.end());
-	if (n % 2) *it = -(*it) - 1;
-	for (int i : a) cout << i << " ";
-	cout << endl;
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    int n;
+    cin >> n;
+    vector<int> a(n);
+    for (int& e : a) {
+        cin >> e;
+        if (e >= 0) e = -1 - e;
+    }
+    auto mn = min_element(all(a));
+    if (n % 2) *mn = -1 - (*mn);
+    for (int i : a) cout << i << ' ';
+    cout << '\n';
 }

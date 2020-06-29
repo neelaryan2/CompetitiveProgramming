@@ -19,7 +19,7 @@ using vi = vector<int>;
 #define eb emplace_back
 #define all(v) (v).begin(), (v).end()
 
-void solve() {
+void solve(int test) {
     
 }
 int main() {
@@ -28,5 +28,7 @@ int main() {
     cout.tie(NULL);
     int t = 1;
     cin >> t;
-    while (t--) solve();
+    for (int i = 1; i <= t; i++) {
+        solve(i);
+    }
 }
