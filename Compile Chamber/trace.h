@@ -13,6 +13,12 @@ ostream& operator<<(ostream& os, vector<T> V) {
     return os << "]";
 }
 template <class T>
+ostream& operator<<(ostream& os, list<T> V) {
+    os << "[ ";
+    for (auto v : V) os << v << " ";
+    return os << "]";
+}
+template <class T>
 ostream& operator<<(ostream& os, stack<T> S) {
     vector<T> V;
     while (!S.empty()) {
