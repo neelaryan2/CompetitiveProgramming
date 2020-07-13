@@ -1,15 +1,11 @@
 <snippet>
 	<content><![CDATA[
-struct segtree {
+struct seg_tree {
     vector<int> t;
     int n;
-    segtree(int m) {n = m; t.assign(4 * n, 0);}
-    void build_aux(vector<int>& a, int v, int tl, int tr) {
-        if (tl == tr) {t[v] = a[tl]; return;}
-        int tm = (tl + tr) / 2;
-        build_aux(a, v * 2, tl, tm);
-        build_aux(a, v * 2 + 1, tm + 1, tr);
-        t[v] = t[v * 2] + t[v * 2 + 1];
+    void init(int m) {
+        n = m;
+        t.assign(4 * n, 0);
     }
     int query_aux(int v, int tl, int tr, int l, int r) {
         if (l > r) return 0;
@@ -19,18 +15,19 @@ struct segtree {
                query_aux(v * 2 + 1, tm + 1, tr, max(l, tm + 1), r);
     }
     void update_aux(int v, int tl, int tr, int pos, int new_val) {
-        if (tl == tr) {t[v] = new_val; return;}
+        if (tl == tr) {
+            t[v] = new_val;
+            return;
+        }
         int tm = (tl + tr) / 2;
-        if (pos <= tm) update_aux(v * 2, tl, tm, pos, new_val);
-        else update_aux(v * 2 + 1, tm + 1, tr, pos, new_val);
+        if (pos <= tm)
+            update_aux(v * 2, tl, tm, pos, new_val);
+        else
+            update_aux(v * 2 + 1, tm + 1, tr, pos, new_val);
         t[v] = t[v * 2] + t[v * 2 + 1];
     }
-    void build(vector<int>& a) {
-        n = a.size(); t.assign(4 * n, 0);
-        build_aux(a, 1, 0, n - 1);
-    }
     void update(int i, int x) {
-        update_aux(1, 0, n - 1, i, x);
+        return update_aux(1, 0, n - 1, i, x);
     }
     int query(int l, int r) {
         return query_aux(1, 0, n - 1, l, r);
@@ -38,7 +35,7 @@ struct segtree {
 };
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>seg_tree</tabTrigger>
+	<tabTrigger>seg_tree_slow</tabTrigger>
 	<!-- Optional: Set a scope to limit where the snippet will trigger -->
 	<!-- <scope>source.python</scope> -->
 </snippet>

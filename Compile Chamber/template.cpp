@@ -18,9 +18,7 @@ using vi = vector<int>;
 #define pb push_back
 #define eb emplace_back
 #define all(v) (v).begin(), (v).end()
-
 void solve(int test) {
-    
 }
 int main() {
     ios_base::sync_with_stdio(false);
@@ -32,4 +30,3 @@ int main() {
         solve(i);
     }
 }
-

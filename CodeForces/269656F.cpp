@@ -1,5 +1,24 @@
-<snippet>
-	<content><![CDATA[
+#include <bits/stdc++.h>
+using namespace std;
+#ifdef LOCAL
+#include "trace.h"
+#else
+#define trace(args...)
+#endif
+
+using ll = long long;
+using ld = long double;
+using pii = pair<int, int>;
+using vi = vector<int>;
+#define mp make_pair
+#define ub upper_bound
+#define lb lower_bound
+#define fi first
+#define se second
+#define pb push_back
+#define eb emplace_back
+#define all(v) (v).begin(), (v).end()
+
 struct suf_array {
     int n, alphabet = 256;
     string s;
@@ -148,9 +167,93 @@ struct suf_array {
         }
     }
 };
-]]></content>
-	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>suffix_array</tabTrigger>
-	<!-- Optional: Set a scope to limit where the snippet will trigger -->
-	<!-- <scope>source.python</scope> -->
-</snippet>
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+#define shuf(v) shuffle((v).begin(), (v).end(), rng);
+string base = "abcdefghijklmnopqrstuvwxyz";
+string gen_random(int len) {
+    int k = base.size();
+    string st(len, 'a');
+    for (char& c : st)
+        c = base[rng() % 2];
+    return st;
+}
+int brute(const string& st) {
+    int n = st.size(), k = -1;
+    for (int i = 0; i < n; i++) {
+        for (int j = i; j < n; j++) {
+            int len = j - i + 1, reps = 0;
+            string cur = st.substr(i, len);
+            while (st.substr(len * reps + i, len) == cur)
+                reps++;
+            k = max(k, reps);
+        }
+    }
+    return k;
+}
+vector<set<int>> comp;
+vector<int> siz, par;
+int root(int a) {
+    if (par[a] == -1) par[a] = a;
+    int _a = a;
+    while (a != par[a]) a = par[a];
+    par[_a] = a;
+    return a;
+}
+int add(int a, int b) {
+    int ret = 1e9;
+    a = root(a);
+    b = root(b);
+    if (a == b) return ret;
+    if (siz[a] < siz[b]) swap(a, b);
+    siz[a] += siz[b];
+    par[b] = a;
+    for (int x : comp[b]) {
+        auto it = comp[a].lb(x);
+        if (it != comp[a].end()) ret = min(ret, abs(*it - x));
+        if (it != comp[a].begin()) ret = min(ret, abs(*(--it) - x));
+    }
+    for (int x : comp[b]) comp[a].insert(x);
+    comp[b].clear();
+    return ret;
+}
+int solve(const string& _) {
+    suf_array s;
+    s.build(_);
+    int mx = *max_element(all(s.base_lcp)) + 1;
+    vector<vector<int>> idx(mx);
+    for (int i = 0; i < s.n; i++)
+        idx[s.base_lcp[i]].eb(i);
+    par.assign(s.n, -1);
+    siz.assign(s.n, 1);
+    comp.clear();
+    comp.resize(s.n);
+    for (int i = 0; i < s.n; i++)
+        comp[i].insert(s.p[i]);
+    int ans = 1;
+    for (int i = mx - 1; i > 0; i--) {
+        for (int j : idx[i]) {
+            int cur = add(j, j - 1);
+            assert(cur);
+            ans = max(ans, 1 + i / cur);
+        }
+    }
+    return ans;
+}
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    int t = 1;
+    // cin >> t;
+    for (int i = 1; i <= t; i++) {
+        string st;
+        // st = gen_random(10);
+        cin >> st;
+        // trace(st);
+        int my_ans = solve(st);
+        cout << my_ans << '\n';
+        // int brute_ans = brute(st);
+        // if (my_ans != brute_ans)
+        //     trace(my_ans, brute_ans);
+    }
+}

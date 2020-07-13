@@ -1,0 +1,38 @@
+<snippet>
+	<content><![CDATA[
+vector<string> g;
+const int inf = 1e9;
+vector<int> dx = {-1, 0, 1, 0};
+vector<int> dy = {0, -1, 0, 1};
+void bfs(int sx, int sy) {
+    int n = g.size(), m = g[0].size();
+    vector<bool> vis(n * m, false);
+    vector<int> dist(n * m, inf);
+    int s = sx * m + sy;
+    queue<int> q;
+    q.push(s);
+    vis[s] = true;
+    dist[s] = 0;
+    while (!q.empty()) {
+        int v = q.front();
+        q.pop();
+        int xx = v / m, yy = v % m;
+        for (int t = 0; t < 4; t++) {
+            int x = xx + dx[t];
+            int y = yy + dy[t];
+            if (x < 0 || x >= n) continue;
+            if (y < 0 || y >= m) continue;
+            int u = x * m + y;
+            if (vis[u] || g[x][y] == '#') continue;
+            q.push(u);
+            dist[u] = dist[v] + 1;
+            vis[u] = true;
+        }
+    }
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>grid_bfs</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

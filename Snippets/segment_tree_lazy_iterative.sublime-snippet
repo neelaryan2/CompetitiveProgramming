@@ -1,0 +1,62 @@
+<snippet>
+	<content><![CDATA[
+template <class node>
+struct seg_tree_lazy {
+    vector<node> t, d;
+    int n, h;
+    seg_tree_lazy() {}
+    void init(int m = 0) {
+        n = m;
+        h = 32 - __builtin_clz(n);
+        d.resize(n);
+        t.resize(2 * n);
+    }
+    void apply(int p, node value, int c) {
+        if (p < n) d[p] = d[p] + value;
+        t[p] = t[p] + value * c;
+    }
+    void push_up(int p) {
+        for (int c = 2; p >>= 1; c <<= 1)
+            t[p] = t[p << 1] + t[p << 1 | 1] + d[p] * c;
+    }
+    void push_down(int p) {
+        for (int s = h; s > 0; --s) {
+            int i = p >> s;
+            if (d[i].or_val != 0) {
+                int c = 1 << (s - 1);
+                apply(i << 1, d[i], c);
+                apply(i << 1 | 1, d[i], c);
+                d[i].val = 1;
+                d[i].or_val = 0;
+            }
+        }
+    }
+    void add(int l, int r, int v) {
+        if (r < l || r >= n || l < 0) return;
+        l += n, r += n + 1;
+        int _l = l, _r = r;
+        node value(v);
+        for (int c = 1; l < r; l >>= 1, r >>= 1, c <<= 1) {
+            if (l & 1) apply(l++, value, c);
+            if (r & 1) apply(--r, value, c);
+        }
+        push_up(_l), push_up(_r - 1);
+    }
+    node query(int l, int r) {
+        node res;
+        if (r < l || r >= n || l < 0) return res;
+        l += n, r += n + 1;
+        push_down(l), push_down(r - 1);
+        for (; l < r; l >>= 1, r >>= 1) {
+            if (l & 1) res = res + t[l++];
+            if (r & 1) res = res + t[--r];
+        }
+        return res;
+    }
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>seg_tree_lazy_fast</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
