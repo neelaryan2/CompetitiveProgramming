@@ -1,36 +1,52 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
-using ll = long long;
-
-int main() {
 #ifdef LOCAL
-	freopen("in.txt", "r", stdin);
-	freopen("out.txt", "w", stdout);
+#include "trace.h"
+#else
+#define trace(args...)
 #endif
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
-	int n, I, k;
-	cin >> n >> I;
-	k = (8 * I) / n;
-	if (k > 20) {cout << 0 << endl; return 0;}
-	int d = min(1 << k, n);
-	if (d == n) {cout << 0 << endl; return 0;}
-	vector<int> arr(n);
-	for (int i = 0; i < n; i++)
-		cin >> arr[i];
-	map<int, int> cnt;
-	for (int i : arr) cnt[i]++;
-	int ind = 1, m = cnt.size();
-	if (d >= m) {cout << 0 << endl; return 0;}
-	vector<ll> pref(m + 1, 0);
-	for (auto p : cnt) pref[ind++] = p.second;
-	for (int i = 1; i <= m; i++)
-		pref[i] += pref[i - 1];
-	ll mn = 1e9;
-	for (int i = 0; i + d <= m; i++) {
-		ll cost = pref[m] - pref[i + d] + pref[i];
-		mn = min(cost, mn);
-	}
-	cout << mn << endl;
+
+using ll = long long;
+using ld = long double;
+using pii = pair<int, int>;
+using vi = vector<int>;
+#define mp make_pair
+#define ub upper_bound
+#define lb lower_bound
+#define fi first
+#define se second
+#define pb push_back
+#define eb emplace_back
+#define all(v) (v).begin(), (v).end()
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    int n, k;
+    cin >> n >> k;
+    k = (8 * k) / n;
+    if (k >= 19) {
+        cout << "0\n";
+        return 0;
+    }
+    k = (1 << k);
+    map<int, int> cnt;
+    for (int i = 0; i < n; i++) {
+        int e;
+        cin >> e;
+        cnt[e]++;
+    }
+    vector<int> v(1, 0);
+    for (pii p : cnt)
+        v.eb(p.se);
+    if (k + 1 >= v.size()) {
+        cout << "0\n";
+        return 0;
+    }
+    int ans = 0, m = v.size();
+    for (int i = 1; i < m; i++)
+        v[i] += v[i - 1];
+    for (int i = 0; i + k < m; i++)
+        ans = max(ans, v[i + k] - v[i]);
+    cout << n - ans << '\n';
 }

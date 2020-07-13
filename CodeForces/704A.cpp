@@ -23,17 +23,32 @@ int main() {
     cin.tie(NULL);
     cout.tie(NULL);
     int n, q;
-    cin>>n>>q;
-    while(q--){
-        int t; cin>>t;
-        if(t==1){
-
+    cin >> n >> q;
+    vector<pii> glob;
+    vector<int> pointers(n, 0), cnt(n, 0);
+    int gpoint = 0, unread = 0;
+    while (q--) {
+        int typ, y;
+        cin >> typ >> y;
+        y--;
+        if (typ == 1) {
+            int c = cnt[y]++;
+            glob.eb(y, c);
+            unread++;
         }
-        if(t==2){
-
+        if (typ == 2) {
+            int delta = cnt[y] - pointers[y];
+            unread -= delta;
+            pointers[y] += delta;
         }
-        if(t==3){
-            
+        if (typ == 3) {
+            while (gpoint <= y) {
+                pii p = glob[gpoint++];
+                int x = p.fi, c = p.se;
+                if (pointers[x] <= c)
+                    pointers[x]++, unread--;
+            }
         }
+        cout << unread << '\n';
     }
 }
