@@ -1,0 +1,55 @@
+<snippet>
+	<content><![CDATA[
+vector<int> B1, B2;
+void add(vector<int>& B, int i, int x) {
+    int n = B.size();
+    for (; i < n; i += i & (-i))
+        B[i] = B[i] + x;
+}
+int sum(vector<int>& B, int i) {
+    int sum = 0;
+    for (; i > 0; i -= i & (-i))
+        sum = sum + B[i];
+    return sum;
+}
+int get(vector<int>& B, int i) {
+    if (i <= 0) return 0;
+    int val = B[i];
+    int z = i - (i & -i);
+    for (--i; i != z; i -= i & (-i))
+        val = val - B[i];
+    return val;
+}
+int bit_search(vector<int>& B, int val) {
+	int sum = 0, pos = 0, s = B.size();
+	for (int i = log2(s); i >= 0; i--) {
+		int d = (1 << i);
+		if (pos + d < s && sum + B[pos + d] < val){
+			pos = pos + d;
+			sum = sum + B[pos];
+		}
+	}
+	return pos + 1;
+}
+void range_add(int l, int r, int x) {
+    if (r < l) return;
+    add(B1, l, x);
+    add(B1, r + 1, -x);
+    add(B2, l, x * (l - 1));
+    add(B2, r + 1, -x * r);
+}
+int range_sum(int l, int r) {
+    int res = 0;
+    if (r < l) return res;
+    res = res + sum(B1, r) * r;
+    res = res - sum(B2, r);
+    res = res + sum(B1, (l - 1)) * (l - 1);
+    res = res - sum(B2, (l - 1));
+    return res;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>fenwick_tree_BIT</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

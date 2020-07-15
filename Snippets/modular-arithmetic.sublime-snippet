@@ -1,6 +1,7 @@
 <snippet>
 	<content><![CDATA[
 const int kMod = 998244353;
+// const int kMod = 1e9 + 7;
 struct ModInt {
 	long long n;
 	ModInt(long long n = 0) : n(n % kMod) {}
@@ -8,6 +9,7 @@ struct ModInt {
 	ModInt operator-(const ModInt& oth) { return n - oth.n; }
 	ModInt operator*(const ModInt& oth) { return n * oth.n; }
 	long long get() { return n < 0 ? n + kMod : n; }
+	friend ostream& operator<<(ostream& os, ModInt const& a) { return os << ModInt(a.n).get(); }
 };
 ModInt lgpow(ModInt b, int e = -1) {
 	if (b.get() == 0) return 0;
@@ -32,7 +34,7 @@ ModInt choose(int n, int k) {
 }
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>modulo</tabTrigger>
+	<tabTrigger>modular-arithmetic</tabTrigger>
 	<!-- Optional: Set a scope to limit where the snippet will trigger -->
 	<!-- <scope>source.python</scope> -->
 </snippet>

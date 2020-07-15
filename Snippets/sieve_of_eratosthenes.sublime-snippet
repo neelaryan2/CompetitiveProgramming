@@ -1,0 +1,21 @@
+<snippet>
+	<content><![CDATA[
+const int N = 2e6 + 10;
+int least[N];
+void sieve() {
+	least[0] = 0; least[1] = 1;
+	for (int i = 2; i < N; i++)
+		least[i] = (i % 2) ? i : 2;
+	for (int i = 3; i * i <= N; i += 2) {
+		if (least[i] != i) continue;
+		for (int j = i * i; j < N; j += i)
+			if (least[j] == j)
+				least[j] = i;
+	}
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>sieve</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

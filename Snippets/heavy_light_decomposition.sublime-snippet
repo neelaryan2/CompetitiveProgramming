@@ -1,0 +1,50 @@
+<snippet>
+	<content><![CDATA[
+int T = 0;
+vector<vector<int>> adj;
+vector<int> in, up, down, siz, par, depth;
+void init(int n) {
+    adj.resize(n);
+    in.resize(n);
+    siz.resize(n);
+    up.resize(n);
+    par.resize(n);
+    down.resize(n);
+    depth.resize(n);
+}
+void pre_dfs(int v = 0, int p = -1, int d = 0) {
+    depth[v] = d, siz[v] = 1, par[v] = p;
+    up[v] = down[v] = v;
+    for (int& u : adj[v]) {
+        if (u == p) continue;
+        pre_dfs(u, v, d + 1);
+        siz[v] += siz[u];
+        if (adj[v][0] == p || siz[u] > siz[adj[v][0]])
+            swap(u, adj[v][0]);
+    }
+}
+void dfs_hld(int v = 0, int p = -1) {
+    in[v] = T++;
+    for (int u : adj[v]) {
+        if (u == p) continue;
+        if (u == adj[v][0]) up[u] = up[v];
+        dfs_hld(u, v);
+        if (u == adj[v][0]) down[v] = down[u];
+    }
+}
+int path_query(int a, int b) {
+    int res = 0;
+    for (; up[a] != up[b]; b = par[up[b]]) {
+        if (depth[up[a]] > depth[up[b]]) swap(a, b);
+        // (in[up[b]], in[b]) is the segment 
+    }
+    if (depth[a] > depth[b]) swap(a, b);
+    // (in[a], in[b]) is the segment
+    return res;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>hld_template</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

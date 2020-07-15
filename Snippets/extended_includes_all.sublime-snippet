@@ -1,0 +1,40 @@
+<snippet>
+	<content><![CDATA[
+#include <algorithm>
+#include <bitset>
+#include <cassert>
+#include <chrono>
+#include <cmath>
+#include <complex>
+#include <cstdio>
+#include <cstdlib>
+#include <climits>
+#include <cstring>
+#include <ctime>
+#include <deque>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <iterator>
+#include <limits>
+#include <list>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <random>
+#include <ratio>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <string>
+#include <unordered_map>
+#include <unordered_set>
+#include <utility>
+#include <vector>
+using namespace std;
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>includes_extended</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

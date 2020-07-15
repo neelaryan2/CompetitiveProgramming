@@ -1,0 +1,42 @@
+<snippet>
+	<content><![CDATA[
+#define forn(i, a, b) for (int i = (a); i <= (b); i++)
+#define rfor(i, b, a) for (int i = (b); i >= (a); i--)
+#define rep(i, n) for (int i = 0; i < (n); i++)
+#define repr(i, n) for (int i = (n) - 1; i >= 0; i--)
+#define forv(i, v) for (auto& (i) : (v))
+#define trav(i, v) for (auto i = (v).begin(); i != (v).end(); i++)
+
+#define all(v) (v).begin(), (v).end()
+#define sz(v) (int)(v).size()
+#define rall(v) (v).rbegin(), (v).rend()
+#define pc(c) putchar(c)
+#define gc(c) getchar(c)
+#define runtime() (int)(1000 * ((double)clock()) / CLOCKS_PER_SEC)
+#define flush() cout << flush
+#define max_queue(t) priority_queue<t>
+#define min_queue(t) priority_queue<t,vector<t>,greater<t>>
+
+#define popcnt __builtin_popcount
+#define popcntll __builtin_popcountll
+#define ctz __builtin_ctz
+#define ctzll __builtin_ctzll
+
+#define fi first
+#define se second
+#define pb push_back
+#define pf push_front
+#define ef emplace_front
+#define eb emplace_back
+#define mp make_pair
+#define lb lower_bound
+#define ub upper_bound
+#define rsz resize
+#define ins insert
+#define endl "\n"
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>macros_extended</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -50,6 +50,14 @@ struct Matrix {
         }
         return C;
     }
+    friend ostream& operator<<(ostream& os, const Matrix& A) {
+    	for (int i = 0; i < n; i++) {
+        	for (int j = 0; j < m; j++)
+            	os << M[i][j] << ' ';
+        	os << '\n';
+        }
+        return os;
+    }
 };
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->

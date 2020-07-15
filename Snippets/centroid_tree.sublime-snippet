@@ -1,0 +1,56 @@
+<snippet>
+	<content><![CDATA[
+struct CentroidTree {
+    vector<int> subtree_size;
+    vector<int> centroid_parent;
+    vector<set<int>> adj;
+    void init(const vector<vector<int>> &_adj) {
+        int n = _adj.size();
+        centroid_parent.resize(n);
+        subtree_size.resize(n);
+        adj.resize(n);
+        for (int i = 0; i < n; i++)
+            for (int v : _adj[i])
+                adj[i].insert(v);
+    }
+    int dfs(int node, int parent = -1) {
+        subtree_size[node] = 1;
+        for (int neighbor : adj[node])
+            if (neighbor != parent)
+                subtree_size[node] += dfs(neighbor, node);
+        return subtree_size[node];
+    }
+    int centroid(int root) {
+        int n = dfs(root);
+        bool found;
+        // Repeatedly move to the subtree that is at least half of the tree, if such a subtree exists.
+        do {
+            found = false;
+            int root_size = subtree_size[root];
+            for (int neighbor : adj[root]) {
+                int cur_size = subtree_size[neighbor];
+                if (cur_size > root_size) continue;
+                if (2 * cur_size < n) continue;
+                root = neighbor, found = true;
+                break;
+            }
+        } while (found);
+        return root;
+    }
+    void decompose(int root, int cent_parent = -1) {
+        root = centroid(root);
+        centroid_parent[root] = cent_parent;
+        for (int neighbor : adj[root]) {
+            // Erase the edge from neighbor back to root.
+            adj[neighbor].erase(root);
+            decompose(neighbor, root);
+        }
+        adj[root].clear();
+    }
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>centroid_tree</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
