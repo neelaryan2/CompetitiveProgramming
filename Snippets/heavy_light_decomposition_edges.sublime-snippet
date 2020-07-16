@@ -1,6 +1,15 @@
 <snippet>
 	<content><![CDATA[
+struct Edge {
+	// 'in' is the position on segment for this edge 
+    int u, v, in;
+    Edge(int uu = -1, int vv = -1) {
+        u = uu, v = vv, in = -1;
+    }
+    int get(int t) { return t ^ u ^ v; }
+};
 int T = 0;
+vector<Edge> edges;
 vector<vector<int>> adj;
 vector<int> in, up, down, siz, par, depth, deg;
 void init(int n) {
@@ -14,39 +23,45 @@ void init(int n) {
     in.resize(n);
     par.resize(n);
     depth.resize(n);
+    edges.resize(n - 1);
 }
 void pre_dfs(int v = 0, int p = -1, int d = 0) {
     depth[v] = d, par[v] = p;
-    for (int& u : adj[v]) {
+    for (int& i : adj[v]) {
+        int u = edges[i].get(v);
         if (u == p) continue;
+        int r = edges[adj[v][0]].get(v);
         pre_dfs(u, v, d + 1);
         siz[v] += siz[u];
-        if (adj[v][0] == p || siz[u] > siz[adj[v][0]])
-            swap(u, adj[v][0]);
+        if (r == p || siz[u] > siz[r])
+            swap(i, adj[v][0]);
     }
 }
 void dfs_hld(int v = 0, int p = -1) {
     in[v] = T++;
-    for (int u : adj[v]) {
+    for (int i : adj[v]) {
+        int u = edges[i].get(v);
         if (u == p) continue;
-        if (u == adj[v][0]) up[u] = up[v];
+        if (i == adj[v][0]) up[u] = up[v];
         dfs_hld(u, v);
-        if (u == adj[v][0]) down[v] = down[u];
+        edges[i].in = in[u];
+        if (i == adj[v][0]) down[v] = down[u];
     }
 }
 int path_query(int a, int b) {
-    int res = 0;
+    int res;
     for (; up[a] != up[b]; b = par[up[b]]) {
         if (depth[up[a]] > depth[up[b]]) swap(a, b);
-        // (in[up[b]], in[b]) is the segment 
+        // (in[up[b]], in[b]) is the segment
     }
+    // Here 'a' is now the LCA, exclude 'a' when dealing with edges
     if (depth[a] > depth[b]) swap(a, b);
     // (in[a], in[b]) is the segment
     return res;
 }
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>hld_template</tabTrigger>
+	<tabTrigger>hld_edges_template</tabTrigger>
 	<!-- Optional: Set a scope to limit where the snippet will trigger -->
 	<!-- <scope>source.python</scope> -->
 </snippet>
