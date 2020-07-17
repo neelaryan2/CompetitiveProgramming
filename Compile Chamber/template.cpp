@@ -20,6 +20,7 @@ using vi = vector<int>;
 #define all(v) (v).begin(), (v).end()
 void solve(int test) {
 }
+
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
