@@ -20,7 +20,6 @@ using vi = vector<int>;
 #define all(v) (v).begin(), (v).end()
 void solve(int test) {
 }
-
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
@@ -28,6 +27,8 @@ int main() {
     int t = 1;
     cin >> t;
     for (int i = 1; i <= t; i++) {
+        cout << "Case #" << i << ": ";
         solve(i);
+        cout << "\n";
     }
 }
