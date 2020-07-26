@@ -19,26 +19,30 @@ using vi = vector<int>;
 #define eb emplace_back
 #define all(v) (v).begin(), (v).end()
 void solve(int test) {
-    int n, m, ta, tb, k;
-    cin >> n >> m >> ta >> tb >> k;
-    vector<int> a(n), b(m);
+    int n;
+    cin >> n;
+    vector<int> a(n);
     for (int& e : a) cin >> e;
-    for (int& e : b) cin >> e;
-    int ans = -1;
-    if (k >= n) {
-        cout << -1;
-        return;
-    }
-    for (int i = 0; i <= k; i++) {
-        int j = lb(all(b), a[i] + ta) - b.begin();
-        j += k - i;
-        if (j >= m) {
-            cout << -1;
-            return;
+    ll funds = 1000, stocks = 0;
+    bool buy = true;
+    for (int i = 0; i < n - 1; i++) {
+        if (a[i] > a[i + 1]) {
+            if (!buy) {
+                funds += stocks * a[i];
+                stocks = 0;
+                buy = true;
+            }
         }
-        ans = max(ans, b[j] + tb);
+        if (a[i] < a[i + 1]) {
+            if (buy) {
+                stocks += funds / a[i];
+                funds %= a[i];
+                buy = false;
+            }
+        }
     }
-    cout << ans;
+    if (!buy) funds += stocks * a[n - 1];
+    cout << funds;
 }
 int main() {
     ios_base::sync_with_stdio(false);

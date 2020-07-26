@@ -19,25 +19,25 @@ using vi = vector<int>;
 #define eb emplace_back
 #define all(v) (v).begin(), (v).end()
 void solve(int test) {
-    int n, m, ta, tb, k;
-    cin >> n >> m >> ta >> tb >> k;
-    vector<int> a(n), b(m);
-    for (int& e : a) cin >> e;
-    for (int& e : b) cin >> e;
-    int ans = -1;
-    if (k >= n) {
-        cout << -1;
-        return;
-    }
-    for (int i = 0; i <= k; i++) {
-        int j = lb(all(b), a[i] + ta) - b.begin();
-        j += k - i;
-        if (j >= m) {
-            cout << -1;
-            return;
-        }
-        ans = max(ans, b[j] + tb);
-    }
+    int x;
+    cin >> x;
+    int ans;
+    if (x < 600)
+        ans = 8;
+    else if (x < 800)
+        ans = 7;
+    else if (x < 1000)
+        ans = 6;
+    else if (x < 1200)
+        ans = 5;
+    else if (x < 1400)
+        ans = 4;
+    else if (x < 1600)
+        ans = 3;
+    else if (x < 1800)
+        ans = 2;
+    else if (x < 2000)
+        ans = 1;
     cout << ans;
 }
 int main() {

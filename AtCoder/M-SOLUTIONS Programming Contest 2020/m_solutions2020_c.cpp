@@ -19,26 +19,17 @@ using vi = vector<int>;
 #define eb emplace_back
 #define all(v) (v).begin(), (v).end()
 void solve(int test) {
-    int n, m, ta, tb, k;
-    cin >> n >> m >> ta >> tb >> k;
-    vector<int> a(n), b(m);
+    int n, k;
+    cin >> n >> k;
+    vector<int> a(n);
     for (int& e : a) cin >> e;
-    for (int& e : b) cin >> e;
-    int ans = -1;
-    if (k >= n) {
-        cout << -1;
-        return;
+    for (int i = k; i < n; i++) {
+        // a[i] / a[i-k]
+        if (a[i] <= a[i - k])
+            cout << "No\n";
+        else
+            cout << "Yes\n";
     }
-    for (int i = 0; i <= k; i++) {
-        int j = lb(all(b), a[i] + ta) - b.begin();
-        j += k - i;
-        if (j >= m) {
-            cout << -1;
-            return;
-        }
-        ans = max(ans, b[j] + tb);
-    }
-    cout << ans;
 }
 int main() {
     ios_base::sync_with_stdio(false);

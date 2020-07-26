@@ -19,33 +19,40 @@ using vi = vector<int>;
 #define eb emplace_back
 #define all(v) (v).begin(), (v).end()
 void solve(int test) {
-    int n, m, ta, tb, k;
-    cin >> n >> m >> ta >> tb >> k;
-    vector<int> a(n), b(m);
+    int n;
+    cin >> n;
+    vector<int> a(n);
     for (int& e : a) cin >> e;
-    for (int& e : b) cin >> e;
-    int ans = -1;
-    if (k >= n) {
-        cout << -1;
-        return;
-    }
-    for (int i = 0; i <= k; i++) {
-        int j = lb(all(b), a[i] + ta) - b.begin();
-        j += k - i;
-        if (j >= m) {
-            cout << -1;
+    for (int b = 31; b >= 0; b--) {
+        int cnt = 0;
+        for (int e : a)
+            if ((e >> b) & 1) cnt++;
+        if (cnt % 2 == 0) continue;
+        if (cnt == 1) {
+            cout << "WIN";
             return;
         }
-        ans = max(ans, b[j] + tb);
+        if (n & 1) {
+            cnt = (cnt - 1) / 2;
+            if (cnt & 1) {
+                cout << "LOSE";
+                return;
+            }
+            cout << "WIN";
+            return;
+        } else {
+            cout << "WIN";
+            return;
+        }
     }
-    cout << ans;
+    cout << "DRAW";
 }
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
     int t = 1;
-    // cin >> t;
+    cin >> t;
     for (int i = 1; i <= t; i++) {
         // cout << "Case #" << i << ": ";
         solve(i);

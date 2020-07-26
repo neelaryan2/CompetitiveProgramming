@@ -19,36 +19,37 @@ using vi = vector<int>;
 #define eb emplace_back
 #define all(v) (v).begin(), (v).end()
 void solve(int test) {
-    int n, m, ta, tb, k;
-    cin >> n >> m >> ta >> tb >> k;
-    vector<int> a(n), b(m);
+    int n;
+    cin >> n;
+    vector<int> a(n);
     for (int& e : a) cin >> e;
-    for (int& e : b) cin >> e;
-    int ans = -1;
-    if (k >= n) {
-        cout << -1;
-        return;
+    vector<string> ans(n + 1);
+    for (int i = 0; i < 52; i++)
+        ans[0] += 'a';
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < a[i]; j++)
+            ans[i + 1] += ans[i][j];
+        char nc = 'a';
+        for (int ch = 0; ch < 26; ch++)
+            if (ans[i][a[i]] - 'a' != ch) {
+                nc = ch + 'a';
+                break;
+            }
+        for (int j = a[i]; j < 52; j++)
+            ans[i + 1] += nc;
     }
-    for (int i = 0; i <= k; i++) {
-        int j = lb(all(b), a[i] + ta) - b.begin();
-        j += k - i;
-        if (j >= m) {
-            cout << -1;
-            return;
-        }
-        ans = max(ans, b[j] + tb);
-    }
-    cout << ans;
+    for (int i = 0; i <= n; i++)
+        cout << ans[i] << '\n';
 }
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
     int t = 1;
-    // cin >> t;
+    cin >> t;
     for (int i = 1; i <= t; i++) {
         // cout << "Case #" << i << ": ";
         solve(i);
-        cout << "\n";
+        // cout << "\n";
     }
 }

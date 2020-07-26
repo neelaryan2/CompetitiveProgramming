@@ -1,0 +1,53 @@
+<snippet>
+	<content><![CDATA[
+template <typename T>
+struct sparse_table {
+    int n = 0, levels = 0;
+    vector<vector<T>> table;
+    sparse_table(const vector<T> &values = {}) {
+        if (!values.empty())
+            build(values);
+    }
+    static int largest_bit(int x) {
+        return 31 - __builtin_clz(x);
+    }
+    T func(T a, T b) const {
+        return __gcd(a, b);
+        return (a < b) ? a : b;
+    }
+    void build(const vector<T> &values) {
+        n = int(values.size());
+        levels = largest_bit(n) + 1;
+        table.resize(levels);
+        table[0] = values;
+        for (int k = 1; k < levels; k++) {
+            table[k].resize(n - (1 << k) + 1);
+            for (int i = 0; i <= n - (1 << k); i++)
+                table[k][i] = func(table[k - 1][i], table[k - 1][i + (1 << (k - 1))]);
+        }
+    }
+	// NOTE : range is [a, b)
+    T query1(int a, int b) const {
+        assert(0 <= a && a < b && b <= n);
+        int level = largest_bit(b - a);
+        return func(table[level][a], table[level][b - (1 << level)]);
+    }
+	// NOTE : range is [a, b)
+    T query2(int a, int b) const {
+        assert(0 <= a && a < b && b <= n);
+        T res = 0;
+        for (int k = levels - 1; k >= 0; k--) {
+            if ((1 << k) <= b - a) {
+                res = func(res, table[k][a]);
+                a += (1 << k);
+            }
+        }
+        return res;
+    }
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>sparse_table_template</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

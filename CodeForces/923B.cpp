@@ -19,26 +19,25 @@ using vi = vector<int>;
 #define eb emplace_back
 #define all(v) (v).begin(), (v).end()
 void solve(int test) {
-    int n, m, ta, tb, k;
-    cin >> n >> m >> ta >> tb >> k;
-    vector<int> a(n), b(m);
-    for (int& e : a) cin >> e;
-    for (int& e : b) cin >> e;
-    int ans = -1;
-    if (k >= n) {
-        cout << -1;
-        return;
-    }
-    for (int i = 0; i <= k; i++) {
-        int j = lb(all(b), a[i] + ta) - b.begin();
-        j += k - i;
-        if (j >= m) {
-            cout << -1;
-            return;
+    int n;
+    cin >> n;
+    vector<int> v(n), t(n);
+    for (int& e : v) cin >> e;
+    for (int& e : t) cin >> e;
+    multiset<ll> s;
+    ll off = 0;
+    for (int i = 0; i < n; i++) {
+        ll ans = 0;
+        s.insert(v[i] + off);
+        while (!s.empty() && *s.begin() <= t[i] + off) {
+            auto it = s.begin();
+            ans += *it - off;
+            s.erase(it);
         }
-        ans = max(ans, b[j] + tb);
+        ans += 1LL * s.size() * t[i];
+        off += t[i];
+        cout << ans << ' ';
     }
-    cout << ans;
 }
 int main() {
     ios_base::sync_with_stdio(false);
