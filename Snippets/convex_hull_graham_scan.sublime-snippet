@@ -1,0 +1,38 @@
+<snippet>
+	<content><![CDATA[
+using dbl = long double;
+struct pt {
+    dbl x, y;
+    pt(dbl x = 0, dbl y = 0) : x(x), y(y) {}
+    bool operator<(const pt& a) { return x < a.x || (x == a.x && y < a.y); }
+    friend bool cw(pt a, pt b, pt c) { return a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y) < 0; }
+    friend bool ccw(pt a, pt b, pt c) { return a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y) > 0; }
+};
+void convex_hull(vector<pt> a, vector<pt>& up, vector<pt>& down) {
+    int n = a.size();
+    if (n == 1) return;
+    sort(a.begin(), a.end());
+    pt p1 = a[0], p2 = a[n - 1];
+    up.assign(1, p1);
+    down.assign(1, p1);
+    for (int i = 1; i < n; i++) {
+        if (i == n - 1 || cw(p1, a[i], p2)) {
+            int sz = up.size() - 1;
+            while (sz > 0 && !cw(up[sz - 1], up[sz], a[i]))
+                up.pop_back(), sz--;
+            up.emplace_back(a[i]);
+        }
+        if (i == n - 1 || ccw(p1, a[i], p2)) {
+            int sz = down.size() - 1;
+            while (sz > 0 && !ccw(down[sz - 1], down[sz], a[i]))
+                down.pop_back(), sz--;
+            down.emplace_back(a[i]);
+        }
+    }
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>convex_hull_template</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
