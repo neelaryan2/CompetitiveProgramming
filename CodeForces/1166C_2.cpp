@@ -18,16 +18,21 @@ using vi = vector<int>;
 #define pb push_back
 #define eb emplace_back
 #define all(v) (v).begin(), (v).end()
+
 void solve(int test) {
     int n; cin >> n;
-    set<int> s;
-    for (int i = 0; i < n; i++) {
-        int e; cin >> e;
-        auto it = s.lower_bound(e);
-        if (it != s.end()) s.erase(it);
-        s.insert(e);
+    vector<int> a(n);
+    for (int& e : a) {
+        cin >> e;
+        e = abs(e);
     }
-    cout << s.size();
+    sort(all(a));
+    ll ans = 0;
+    for (int l = 0, r = 0; l < n; l++) {
+        while (r < n && 2 * a[l] >= a[r]) r++;
+        ans += r - l - 1;
+    }
+    cout << ans;
 }
 int main() {
     ios_base::sync_with_stdio(false);

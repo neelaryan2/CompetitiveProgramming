@@ -19,22 +19,20 @@ using vi = vector<int>;
 #define eb emplace_back
 #define all(v) (v).begin(), (v).end()
 void solve(int test) {
-    int n; cin >> n;
-    set<int> s;
-    for (int i = 0; i < n; i++) {
-        int e; cin >> e;
-        auto it = s.lower_bound(e);
-        if (it != s.end()) s.erase(it);
-        s.insert(e);
+    int l, r;
+    cin >> l >> r;
+    if (2 * l > r) {
+        cout << "-1 -1";
+        return;
     }
-    cout << s.size();
+    cout << l << " " << 2 * l;
 }
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
     int t = 1;
-    // cin >> t;
+    cin >> t;
     for (int i = 1; i <= t; i++) {
         // cout << "Case #" << i << ": ";
         solve(i);

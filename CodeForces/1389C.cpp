@@ -5,7 +5,6 @@ using namespace std;
 #else
 #define trace(args...)
 #endif
-
 using ll = long long;
 using ld = long double;
 using pii = pair<int, int>;
@@ -19,22 +18,31 @@ using vi = vector<int>;
 #define eb emplace_back
 #define all(v) (v).begin(), (v).end()
 void solve(int test) {
-    int n; cin >> n;
-    set<int> s;
-    for (int i = 0; i < n; i++) {
-        int e; cin >> e;
-        auto it = s.lower_bound(e);
-        if (it != s.end()) s.erase(it);
-        s.insert(e);
+    string s;
+    cin >> s;
+    int n = s.size(), ans = n;
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            int t = 0, cnt = 0;
+            for (char ch : s) {
+                int c = ch - '0';
+                int k = t ? i : j;
+                if (c != k) continue;
+                cnt++, t ^= 1;
+            }
+            if (i != j && (cnt & 1)) cnt--;
+            ans = min(ans, n - cnt);
+        }
     }
-    cout << s.size();
+    cout << ans;
+    return;
 }
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
     int t = 1;
-    // cin >> t;
+    cin >> t;
     for (int i = 1; i <= t; i++) {
         // cout << "Case #" << i << ": ";
         solve(i);

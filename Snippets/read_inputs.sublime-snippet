@@ -1,0 +1,25 @@
+<snippet>
+	<content><![CDATA[
+// clang-format off
+char wgc(char& ch) { while (isspace(ch = getchar())); return ch; }
+char gc(char& ch) { return ch = getchar(); }
+int readint() {
+    int x = 0; bool neg = false; char ch;
+    if (wgc(ch) == '-') neg = true, wgc(ch);
+    do { x = x * 10 + ch - '0'; } while (isdigit(gc(ch)));
+    return (neg ? -x : x);
+}
+ld readdbl() {
+    ld x = 0, f = 1; bool neg = false; char ch;
+    if (wgc(ch) == '-') neg = true, wgc(ch);
+    do { x = x * 10 + ch - '0'; } while (isdigit(gc(ch)));
+    while (isdigit(gc(ch))) f /= 10, x += f * (ch - '0'); 
+    return (neg ? -x : x);
+}
+// clang-format on
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>read_functions</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

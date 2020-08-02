@@ -19,22 +19,34 @@ using vi = vector<int>;
 #define eb emplace_back
 #define all(v) (v).begin(), (v).end()
 void solve(int test) {
-    int n; cin >> n;
-    set<int> s;
-    for (int i = 0; i < n; i++) {
-        int e; cin >> e;
-        auto it = s.lower_bound(e);
-        if (it != s.end()) s.erase(it);
-        s.insert(e);
+    int n, k, z;
+    cin >> n >> k >> z;
+    vector<int> a(n);
+    for (int& e : a) cin >> e;
+    ll sum = a[0], ans = 0;
+    vector<ll> p(n, a[0]);
+    for (int i = 1; i < n; i++)
+        p[i] = p[i - 1] + a[i];
+    for (int i = 1; i <= k; i++) {
+        int moves = k - i, zz = z;
+        int left = min(z, moves / 2);
+        moves -= 2 * left, zz -= left;
+        // trace(left, moves, zz);
+        ll cur = 1LL * left * (a[i] + a[i - 1]);
+        cur += p[i + moves];
+        if (moves == 1 && zz)
+            cur += max(a[i - 1] - a[i + 1], 0);
+        trace(moves, left, cur);
+        ans = max(ans, cur);
     }
-    cout << s.size();
+    cout << ans;
 }
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
     int t = 1;
-    // cin >> t;
+    cin >> t;
     for (int i = 1; i <= t; i++) {
         // cout << "Case #" << i << ": ";
         solve(i);
