@@ -18,17 +18,17 @@ using vi = vector<int>;
 #define pb push_back
 #define eb emplace_back
 #define all(v) (v).begin(), (v).end()
+
+void solve(int test) {
+}
+
 int main() {
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
-	int n; cin >> n;
-	vector<int> a(n);
-	for (int& e : a) cin >> e;
-	ll funds = 1000, stocks = 0;
-	for (int i = 0; i < n - 1; i++) {
-		stocks = a[i] / funds;
-	  	funds += max(a[i + 1] - a[i], 0) * stocks;
-	}
-	cout << funds << endl;
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    int t = 1;
+    // cin >> t;
+    for (int i = 1; i <= t; i++) {
+        solve(i);
+    }
 }
