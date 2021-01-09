@@ -18,8 +18,12 @@ using vi = vector<int>;
 #define pb push_back
 #define eb emplace_back
 #define all(v) (v).begin(), (v).end()
+#define rall(v) (v).rbegin(), (v).rend()
+
+const int inf = 1e9 + 7;
 
 void solve(int test) {
+    
 }
 
 int main() {
@@ -29,6 +33,8 @@ int main() {
     int t = 1;
     // cin >> t;
     for (int i = 1; i <= t; i++) {
+        // cout << "Case #" << i << ": ";
         solve(i);
+        cout << '\n';
     }
 }
