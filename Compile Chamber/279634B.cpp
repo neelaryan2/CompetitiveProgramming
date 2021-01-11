@@ -1,9 +1,44 @@
-<snippet>
-	<content><![CDATA[
-// performs range add and range sum queries
+#include <bits/stdc++.h>
+using namespace std;
+#ifdef LOCAL
+#include "trace.h"
+#else
+#define trace(args...)
+#endif
+
+using ll = long long;
+using ld = long double;
+using pii = pair<int, int>;
+using vi = vector<int>;
+#define mp make_pair
+#define ub upper_bound
+#define lb lower_bound
+#define fi first
+#define se second
+#define pb push_back
+#define eb emplace_back
+#define all(v) (v).begin(), (v).end()
+#define rall(v) (v).rbegin(), (v).rend()
+
+const int inf = 1e9 + 7;
+
+struct node {
+    int v;
+    node(int vv = -1) { v = vv; }
+    node operator+(const node& oth) {
+        return node(max(v, oth.v));
+    }
+    node operator*(const int oth) {
+        return node(v * oth);
+    }
+    bool operator==(const node& oth) {
+        return v == oth.v;
+    }
+};
+
 template <class node>
 struct seg_tree_lazy {
-    const static int NO_OP = 0;
+    const static int NO_OP = -1;
     vector<node> t, d;
     int n, h;
     seg_tree_lazy() {}
@@ -73,9 +108,36 @@ struct seg_tree_lazy {
         return res;
     }
 };
-]]></content>
-	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>seg_tree_lazy_fast</tabTrigger>
-	<!-- Optional: Set a scope to limit where the snippet will trigger -->
-	<!-- <scope>source.python</scope> -->
-</snippet>
+
+void solve(int test) {
+    int n, m;
+    cin >> n >> m;
+    seg_tree_lazy<node> stree;
+    stree.build(vector<node>(n, 0));
+    while (m--) {
+        int t;
+        cin >> t;
+        if (t == 1) {
+            int l, r, v;
+            cin >> l >> r >> v;
+            stree.add(l, --r, v);
+        }
+        if (t == 2) {
+            int i;
+            cin >> i;
+            cout << stree.query(i, i).v << endl;
+        }
+    }
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    int t = 1;
+    // cin >> t;
+    for (int i = 1; i <= t; i++) {
+        // cout << "Case #" << i << ": ";
+        solve(i);
+    }
+}

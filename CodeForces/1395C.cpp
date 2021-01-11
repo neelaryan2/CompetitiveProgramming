@@ -18,26 +18,53 @@ using vi = vector<int>;
 #define pb push_back
 #define eb emplace_back
 #define all(v) (v).begin(), (v).end()
+#define rall(v) (v).rbegin(), (v).rend()
+
+const int inf = 1e9 + 7;
 
 void solve(int test) {
     int n, m;
     cin >> n >> m;
+
     vector<int> a(n), b(m);
     for (int& e : a) cin >> e;
-    for (int& e : b) cin >> e;
-    int ans = 0, mx = 0;
-    for (int i = 0; i < n; i++) {
-        int mn = 1 << 9;
-        for (int t : b)
-            mn = min(mn, a[i] & t);
-        mx = max(mx, mn);
+
+    vector<set<int>> st(n);
+    for (int& e : b) {
+        cin >> e;
+        for (int i = 0; i < n; i++)
+            st[i].insert(e);
     }
-    for (int i = 0; i < n; i++) {
-        int mn = 1 << 9;
-        for (int t : b)
-            mn = min(mn, mx | (a[i] & t));
-        mx = mn;
-        ans = max(ans, mn);
+    int ans = 0;
+    for (int b = 9; b >= 0; b--) {
+        int fuck = false;
+        for (int i = 0; i < n; i++) {
+            int c = ((a[i] >> b) & 1);
+            if (!c) continue;
+            int f = 1;
+            for (int j : st[i]) {
+                int t = (j >> b) & 1;
+                f &= t;
+            }
+            if (f) {
+                fuck = true;
+                break;
+            }
+        }
+        if (fuck) {
+            ans ^= (1 << b);
+            continue;
+        }
+        for (int i = 0; i < n; i++) {
+            int c = ((a[i] >> b) & 1);
+            if (!c) continue;
+            set<int> cur;
+            for (int j : st[i]) {
+                int t = (j >> b) & 1;
+                if (!t) cur.insert(j);
+            }
+            swap(st[i], cur);
+        }
     }
     cout << ans;
 }
@@ -49,6 +76,7 @@ int main() {
     int t = 1;
     // cin >> t;
     for (int i = 1; i <= t; i++) {
+        // cout << "Case #" << i << ": ";
         solve(i);
         cout << '\n';
     }
