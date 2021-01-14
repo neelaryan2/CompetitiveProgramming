@@ -23,7 +23,6 @@ using vi = vector<int>;
 const int inf = 1e9 + 7;
 
 void solve(int test) {
-    
 }
 
 int main() {
