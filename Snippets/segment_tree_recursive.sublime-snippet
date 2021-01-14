@@ -1,41 +1,46 @@
 <snippet>
 	<content><![CDATA[
+// point updates and range sum queries
+template <class node>
 struct seg_tree {
-    vector<int> t;
+    const static int NEUTRAL = 0;
+    vector<node> t;
     int n;
     void init(int m) {
         n = m;
-        t.assign(4 * n, 0);
+        t.assign(4 * n, node(NEUTRAL));
     }
-    int query_aux(int v, int tl, int tr, int l, int r) {
-        if (l > r) return 0;
+    node _query(int v, int tl, int tr, int l, int r) {
+        if (l > r) return node(NEUTRAL);
         if (l == tl && r == tr) return t[v];
         int tm = (tl + tr) / 2;
-        return query_aux(v * 2, tl, tm, l, min(r, tm)) +
-               query_aux(v * 2 + 1, tm + 1, tr, max(l, tm + 1), r);
+        int vl = v * 2, vr = v * 2 + 1;
+        return _query(vl, tl, tm, l, min(r, tm)) +
+               _query(vr, tm + 1, tr, max(l, tm + 1), r);
     }
-    void update_aux(int v, int tl, int tr, int pos, int new_val) {
+    void _modify(int v, int tl, int tr, int pos, node new_val) {
         if (tl == tr) {
             t[v] = new_val;
             return;
         }
         int tm = (tl + tr) / 2;
+        int vl = v * 2, vr = v * 2 + 1;
         if (pos <= tm)
-            update_aux(v * 2, tl, tm, pos, new_val);
+            _modify(vl, tl, tm, pos, new_val);
         else
-            update_aux(v * 2 + 1, tm + 1, tr, pos, new_val);
+            _modify(vr, tm + 1, tr, pos, new_val);
         t[v] = t[v * 2] + t[v * 2 + 1];
     }
-    void update(int i, int x) {
-        return update_aux(1, 0, n - 1, i, x);
+    void modify(int i, node x) {
+        return _modify(1, 0, n - 1, i, x);
     }
-    int query(int l, int r) {
-        return query_aux(1, 0, n - 1, l, r);
+    node query(int l, int r) {
+        return _query(1, 0, n - 1, l, r);
     }
 };
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>seg_tree_slow</tabTrigger>
+	<tabTrigger>seg_tree_recursive</tabTrigger>
 	<!-- Optional: Set a scope to limit where the snippet will trigger -->
 	<!-- <scope>source.python</scope> -->
 </snippet>

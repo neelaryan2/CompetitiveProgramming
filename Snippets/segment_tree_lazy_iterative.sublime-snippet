@@ -3,6 +3,7 @@
 // performs range add and range sum queries
 template <class node>
 struct seg_tree_lazy {
+    const static int NEUTRAL = 0;
     const static int NO_OP = 0;
     vector<node> t, d;
     int n, h;
@@ -11,7 +12,7 @@ struct seg_tree_lazy {
         n = m;
         h = 32 - __builtin_clz(n);
         d.assign(n, node(NO_OP));
-        t.assign(2 * n, node(NO_OP));
+        t.assign(2 * n, node(NEUTRAL));
     }
     void build(vector<node> a) {
         init(a.size());
@@ -54,6 +55,7 @@ struct seg_tree_lazy {
         if (r < l || r >= n || l < 0) return;
         int _l = l, _r = r;
         l += n, r += n + 1;
+        push_down(_l), push_down(_r);
         for (int c = 1; l < r; l >>= 1, r >>= 1, c <<= 1) {
             if (l & 1) apply(l++, v, c);
             if (r & 1) apply(--r, v, c);
@@ -61,21 +63,21 @@ struct seg_tree_lazy {
         push_up(_l), push_up(_r);
     }
     node query(int l, int r) {
-        node res(NO_OP);
+        node resl(NEUTRAL), resr(NEUTRAL);
         if (r < l || r >= n || l < 0)
-            return res;
+            return resl;
         push_down(l), push_down(r);
         l += n, r += n + 1;
         for (; l < r; l >>= 1, r >>= 1) {
-            if (l & 1) res = res + t[l++];
-            if (r & 1) res = res + t[--r];
+            if (l & 1) resl = resl + t[l++];
+            if (r & 1) resr = t[--r] + resr;
         }
-        return res;
+        return resl + resr;
     }
 };
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>seg_tree_lazy_fast</tabTrigger>
+	<tabTrigger>seg_tree_lazy_iterative</tabTrigger>
 	<!-- Optional: Set a scope to limit where the snippet will trigger -->
 	<!-- <scope>source.python</scope> -->
 </snippet>

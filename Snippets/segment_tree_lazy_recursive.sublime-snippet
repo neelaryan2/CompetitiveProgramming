@@ -1,52 +1,63 @@
 <snippet>
 	<content><![CDATA[
+// performs range add and range sum queries
 template <class node>
 struct seg_tree_lazy {
+    const static int NEUTRAL = 0;
+    const static int NO_OP = 0;
     vector<node> t, lazy;
     int n;
     void init(int m) {
         n = m;
-        t.resize(4 * n);
-        lazy.resize(4 * n);
+        t.assign(4 * n, node(NEUTRAL));
+        lazy.assign(4 * n, node(NO_OP));
     }
-    void push(int v, int l, int r) {
-        lazy[v * 2] = lazy[v * 2] + lazy[v];
-        lazy[v * 2 + 1] = lazy[v * 2 + 1] + lazy[v];
-        t[v * 2] = t[v * 2] + lazy[v] * l;
-        t[v * 2 + 1] = t[v * 2 + 1] + lazy[v] * r;
-        lazy[v] = node();
+    void push_down(int v, int l, int r) {
+        if (lazy[v] == node(NO_OP)) return;
+        int vl = v * 2, vr = v * 2 + 1;
+        lazy[vl] = lazy[vl] + lazy[v];
+        lazy[vr] = lazy[vr] + lazy[v];
+        t[vl] = t[vl] + lazy[v] * l;
+        t[vr] = t[vr] + lazy[v] * r;
+        lazy[v] = node(NO_OP);
     }
-    void add_aux(int v, int tl, int tr, int l, int r, int addend) {
+    void push_up(int v, int l, int r) {
+        int vl = v * 2, vr = v * 2 + 1;
+        t[v] = t[vl] + t[vr];
+    }
+    void _modify(int v, int tl, int tr, int l, int r, node addend) {
         if (l > r) return;
         if (l == tl && tr == r) {
-            t[v] = t[v] + node(addend) * (tr - tl + 1);
+            t[v] = t[v] + addend * (tr - tl + 1);
             lazy[v] = lazy[v] + addend;
         } else {
             int tm = (tl + tr) / 2;
-            push(v, tm - tl + 1, tr - tm);
-            add_aux(v * 2, tl, tm, l, min(r, tm), addend);
-            add_aux(v * 2 + 1, tm + 1, tr, max(l, tm + 1), r, addend);
-            t[v] = t[v * 2] + t[v * 2 + 1];
+            push_down(v, tm - tl + 1, tr - tm);
+            int vl = v * 2, vr = v * 2 + 1;
+            _modify(vl, tl, tm, l, min(r, tm), addend);
+            _modify(vr, tm + 1, tr, max(l, tm + 1), r, addend);
+            push_up(v, tm - tl + 1, tr - tm);
         }
     }
-    node query_aux(int v, int tl, int tr, int l, int r) {
-        if (l > r) return node();
+    node _query(int v, int tl, int tr, int l, int r) {
+        if (l > r) return node(NEUTRAL);
         if (l == tl && tr == r) return t[v];
         int tm = (tl + tr) / 2;
-        push(v, tm - tl + 1, tr - tm);
-        return query_aux(v * 2, tl, tm, l, min(r, tm)) +
-               query_aux(v * 2 + 1, tm + 1, tr, max(l, tm + 1), r);
+        push_down(v, tm - tl + 1, tr - tm);
+        int vl = v * 2, vr = v * 2 + 1;
+        return _query(vl, tl, tm, l, min(r, tm)) +
+               _query(vr, tm + 1, tr, max(l, tm + 1), r);
     }
-    void add(int l, int r, int x) {
-        return add_aux(1, 0, n - 1, l, r, x);
+    void modify(int l, int r, node x) {
+        return _modify(1, 0, n - 1, l, r, x);
     }
     node query(int l, int r) {
-        return query_aux(1, 0, n - 1, l, r);
+        return _query(1, 0, n - 1, l, r);
     }
 };
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>seg_tree_lazy_slow</tabTrigger>
+	<tabTrigger>seg_tree_lazy_recursive</tabTrigger>
 	<!-- Optional: Set a scope to limit where the snippet will trigger -->
 	<!-- <scope>source.python</scope> -->
 </snippet>

@@ -1,24 +1,33 @@
 <snippet>
 	<content><![CDATA[
+// point updates and range sum queries
 template <class node>
 struct seg_tree {
+    const static int NEUTRAL = 0;
     vector<node> t;
     int n;
     seg_tree() {}
-    void build(vector<int>& a) {
-        n = a.size();
-        t.resize(2 * n);
-        for (int i = 0; i < n; i++)
-            t[i + n] = node(a[i]);
-        for (int i = n - 1; i > 0; i--)
-            t[i] = t[i << 1] + t[i << 1 | 1];
+    void init(int m) {
+        n = m;
+        t.assign(2 * n, node(NEUTRAL));
     }
-    void update(int p, int x) {  // on 0-indexed p
-        for (t[p += n] = node(x); p >>= 1;)
-            t[p] = t[p << 1] + t[p << 1 | 1];
+    void build(vector<node> a) {
+        init(a.size());
+        for (int i = 0; i < n; i++)
+            t[i + n] = a[i];
+        for (int i = n - 1; i > 0; i--)
+            calc(i);
+    }
+    void calc(int i) {
+        // pull from children
+        t[i] = t[i << 1] + t[i << 1 | 1];
+    }
+    void modify(int p, node x) {  // on 0-indexed p
+        for (t[p += n] = x; p >>= 1;)
+            calc(p);
     }
     node query(int l, int r) {  // interval [l,r]
-        node resl, resr;
+        node resl(NEUTRAL), resr(NEUTRAL);
         for (l += n, r += n + 1; l < r; l >>= 1, r >>= 1) {
             if (l & 1) resl = resl + t[l++];
             if (r & 1) resr = t[--r] + resr;
@@ -28,7 +37,7 @@ struct seg_tree {
 };
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>seg_tree_fast</tabTrigger>
+	<tabTrigger>seg_tree_iterative</tabTrigger>
 	<!-- Optional: Set a scope to limit where the snippet will trigger -->
 	<!-- <scope>source.python</scope> -->
 </snippet>
