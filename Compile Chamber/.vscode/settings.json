@@ -4,6 +4,24 @@
         "string": "cpp",
         "vector": "cpp",
         "rope": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "xiosbase": "cpp",
+        "atomic": "cpp",
+        "limits": "cpp",
+        "utility": "cpp",
+        "xstring": "cpp",
+        "system_error": "cpp",
+        "ios": "cpp",
+        "tuple": "cpp",
+        "initializer_list": "cpp",
+        "type_traits": "cpp",
+        "xutility": "cpp",
+        "exception": "cpp",
+        "istream": "cpp",
+        "memory": "cpp",
+        "ostream": "cpp",
+        "streambuf": "cpp",
+        "xlocinfo": "cpp",
+        "iosfwd": "cpp"
     }
 }
