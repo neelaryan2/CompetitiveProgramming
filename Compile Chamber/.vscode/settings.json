@@ -23,6 +23,7 @@
         "streambuf": "cpp",
         "xlocinfo": "cpp",
         "iosfwd": "cpp",
-        "xtree": "cpp"
+        "xtree": "cpp",
+        "cstdlib": "cpp"
     }
 }

@@ -1,19 +1,68 @@
 <snippet>
 	<content><![CDATA[
-typedef unsigned int uint;
-template<typename T>
-uint vec_hash (const vector<T>& vec) {
-	uint seed = vec.size();
-	for (T i : vec)
-		seed ^= (uint)i + 0x9e3779b9 + (seed << 6) + (seed >> 2);
-	return seed;
-}
-uint str_hash (const string s) {
-	uint seed = s.size();
-	for (char i : vec)
-		seed ^= (uint)i + 0x9e3779b9 + (seed << 6) + (seed >> 2);
-	return seed;
-}
+vector<int> mod = {-1, 998244353, 1000000007, 1000000009};
+const int HS = 4;
+// mod[0] = std::uniform_int_distribution<int>(1e8, 1e9)(rng);
+
+struct ihash {
+    static int add(int a, int b, int m) {
+        a += b;
+        if (a >= m) a -= m;
+        return a;
+    }
+    static int sub(int a, int b, int m) {
+        a -= b;
+        if (a < 0) a += m;
+        return a;
+    }
+    static int mul(int a, int b, int m) {
+        return (1LL * a * b) % m;
+    }
+    static int lgpow(int a, int e, int m) {
+        if (a == 0) return 0;
+        e = e % (m - 1);
+        if (e < 0) e += m - 1;
+        int r = 1;
+        for (; e; e >>= 1, a = mul(a, a, m))
+            if (e & 1) r = mul(r, a, m);
+        return r;
+    }
+    const static int p1 = 53, p2 = 73;
+
+    vector<int> a;
+    ihash() {
+        a.assign(HS, 0);
+        a[1] = 1;
+    }
+    ihash(long long x) {
+        a.resize(HS);
+        for (int i = 0; i < HS; i++)
+            a[i] = (x % mod[i] + mod[i]) % mod[i];
+        a[2] = mul(a[2], lgpow(p1, a[2], mod[2]), mod[2]);
+        a[3] = mul(a[3], lgpow(p2, a[3], mod[3]), mod[3]);
+    }
+    ihash operator+(const ihash& oth) {
+        ihash res;
+        res.a[0] = add(a[0], oth.a[0], mod[0]);
+        res.a[1] = mul(a[1], oth.a[1], mod[1]);
+        res.a[2] = add(a[2], oth.a[2], mod[2]);
+        res.a[3] = add(a[3], oth.a[3], mod[3]);
+        return res;
+    }
+    ihash operator-(const ihash& oth) {
+        ihash res;
+        res.a[0] = sub(a[0], oth.a[0], mod[0]);
+        res.a[1] = mul(a[1], lgpow(oth.a[1], -1, mod[1]), mod[1]);
+        res.a[2] = sub(a[2], oth.a[2], mod[2]);
+        res.a[3] = sub(a[3], oth.a[3], mod[3]);
+        return res;
+    }
+    bool operator==(const ihash& oth) {
+        for (int i = 0; i < HS; i++)
+            if (a[i] != oth.a[i]) return false;
+        return true;
+    }
+};
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
 	<tabTrigger>hashing</tabTrigger>
