@@ -1,0 +1,56 @@
+<snippet>
+	<content><![CDATA[
+    static class Vertex {
+        int[] nxt;
+        int cnt;
+
+        public Vertex() {
+            nxt = new int[2];
+            Arrays.fill(nxt, -1);
+            cnt = 0;
+        }
+    }
+
+    static class Trie {
+        static final int D = 30;
+        ArrayList<Vertex> t;
+
+        public Trie() {
+            t = new ArrayList<Vertex>();
+            t.add(new Vertex());
+        }
+
+        void add(int num) {
+            int v = 0;
+            for (int i = D - 1; i >= 0; i--) {
+                int c = (num >> i) & 1;
+                if (t.get(v).nxt[c] == -1) {
+                    t.get(v).nxt[c] = t.size();
+                    t.add(new Vertex());
+                }
+                v = t.get(v).nxt[c];
+                t.get(v).cnt++;
+            }
+        }
+
+        int query(int num) {
+            int v = 0, ret = 0;
+            for (int i = D - 1; i >= 0; i--) {
+                int c = (num >> i) & 1;
+                int u = t.get(v).nxt[c];
+                if (u == -1 || t.get(u).cnt == 0) {
+                    u = t.get(v).nxt[c ^ 1];
+                    ret ^= (1 << i);
+                }
+                t.get(u).cnt--;
+                v = u;
+            }
+            return ret;
+        }
+    }
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>trie</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

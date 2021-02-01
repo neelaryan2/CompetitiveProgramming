@@ -1,0 +1,74 @@
+<snippet>
+	<content><![CDATA[
+static class Modular {
+        static int[] fact, invfact, inv;
+        // static final int kMod = 998244353;
+        static final int kMod = (int) 1e9 + 7;
+        
+        public static int lgpow(int b, long e) {
+            e %= (kMod - 1);
+            if (e < 0) e += kMod - 1;
+            int r = 1;
+            for (; e > 0; e >>= 1, b = mul(b, b))
+                if (e % 2 == 1) r = mul(r, b);
+            return r;
+        }
+
+        public static int add(int... nums) {
+            int a = 0;
+            for (int b : nums) {
+                a += b;
+                if (a >= kMod)
+                    a -= kMod;
+            }
+            return a;
+        }
+
+        public static int sub(int a, int b) {
+            a -= b;
+            if (a < 0)
+                a += kMod;
+            return a;
+        }
+
+        public static int mul(int... nums) {
+            int a = 1;
+            for (int b : nums)
+                a = (int) ((1L * a * b) % kMod);
+            return a;
+        }
+
+        public static int div(int a, int b) {
+            int inv = lgpow(b, -1L);
+            return mul(a, inv);
+        }
+
+        public static void factorials(int n) {
+            fact = new int[n + 1];
+            fact[0] = 1;
+            for (int i = 1; i <= n; i++)
+                fact[i] = mul(fact[i - 1], i);
+
+            invfact = new int[n + 1];
+            invfact[n] = lgpow(fact[n], -1);
+            for (int i = n - 1; i >= 0; i--)
+                invfact[i] = mul(invfact[i + 1], i + 1);
+
+        	// kMod should prime for this to work
+            // inv = new int[n + 1];
+	        // inv[0] = 0, inv[1] = 1;
+	        // for (int i = 2; i <= n; i++)
+	        //     inv[i] = sub(kMod, mul(inv[kMod % i], (kMod / i)));
+        }
+
+        public static int choose(int n, int k) {
+            if (n < 0 || k < 0 || k > n) return 0;
+            return mul(fact[n], invfact[k], invfact[n - k]);
+        }
+    }
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>modular-arithmetic</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

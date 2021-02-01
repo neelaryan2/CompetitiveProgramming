@@ -1,0 +1,47 @@
+<snippet>
+	<content><![CDATA[
+    static class KMP {
+        public int[][] aut;
+
+        // wont work on primitive types
+        static <T> int[] kmp(T[] s) {
+            int n = s.length;
+            int[] lps = new int[n];
+            Arrays.fill(lps, 0);
+            for (int i = 1; i < n; i++) {
+                int j = lps[i - 1];
+                while (j > 0 && s[i] != s[j])
+                    j = lps[j - 1];
+                if (s[i] == s[j])
+                    j++;
+                lps[i] = j;
+            }
+            return lps;
+        }
+
+        public void kmp_aut(String st) {
+            char base = 'a';
+            int n = st.length();
+            Character[] s = new Character[n + 1];
+            for (int i = 0; i < n; i++)
+                s[i] = st.charAt(i);
+            s[n] = '#';
+            n++;
+            int[] pi = kmp(s);
+            aut = new int[n][26];
+            for (int i = 0; i < n; i++) {
+                for (int c = 0; c < 26; c++) {
+                    if (i > 0 && base + c != s[i])
+                        aut[i][c] = aut[pi[i - 1]][c];
+                    else
+                        aut[i][c] = i + (base + c == s[i] ? 1 : 0);
+                }
+            }
+        }
+    }
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>kmp_prefix_function</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
