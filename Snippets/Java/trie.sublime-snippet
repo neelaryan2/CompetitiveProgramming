@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[
-    static class Vertex {
+	static class Vertex {
         int[] nxt;
         int cnt;
 
@@ -12,7 +12,7 @@
     }
 
     static class Trie {
-        static final int D = 30;
+        static final int D = 31;
         ArrayList<Vertex> t;
 
         public Trie() {
@@ -33,16 +33,24 @@
             }
         }
 
+        void remove(int num) {
+            int v = 0;
+            for (int i = D - 1; i >= 0; i--) {
+                int c = (num >> i) & 1;
+                v = t.get(v).nxt[c];
+                t.get(v).cnt--;
+            }
+        }
+
         int query(int num) {
             int v = 0, ret = 0;
             for (int i = D - 1; i >= 0; i--) {
                 int c = (num >> i) & 1;
-                int u = t.get(v).nxt[c];
-                if (u == -1 || t.get(u).cnt == 0) {
-                    u = t.get(v).nxt[c ^ 1];
+                int u = t.get(v).nxt[c ^ 1];
+                if (u == -1 || t.get(u).cnt == 0)
+                    u = t.get(v).nxt[c];
+                else
                     ret ^= (1 << i);
-                }
-                t.get(u).cnt--;
                 v = u;
             }
             return ret;

@@ -6,6 +6,7 @@ public class template {
     private static PrintWriter out;
     private static boolean autoFlush = false;
     static final int inf = (int) 1e9 + 7;
+    static final long infL = (long) 1e18 + 7;
 
     static class Testcase {
         public void solve(int test) {

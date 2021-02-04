@@ -1,0 +1,74 @@
+<snippet>
+	<content><![CDATA[
+    // performs range assignment and range sum queries
+    static class SegTreeLazy {
+        final static int NEUTRAL = 0;
+        final static int NO_OP = Integer.MIN_VALUE;
+        int[] t, lazy;
+        int n;
+
+        void init(int m) {
+            n = m;
+            t = new int[4 * n];
+            lazy = new int[4 * n];
+            Arrays.fill(t, NEUTRAL);
+            Arrays.fill(lazy, NO_OP);
+        }
+
+        void push_down(int v, int l, int r) {
+            if (lazy[v] == NO_OP)
+                return;
+            int vl = v * 2, vr = v * 2 + 1;
+            lazy[vl] = lazy[v];
+            lazy[vr] = lazy[v];
+            t[vl] = lazy[v] * l;
+            t[vr] = lazy[v] * r;
+            lazy[v] = NO_OP;
+        }
+
+        void push_up(int v, int l, int r) {
+            int vl = v * 2, vr = v * 2 + 1;
+            t[v] = t[vl] + t[vr];
+        }
+
+        private void _modify(int v, int tl, int tr, int l, int r, int addend) {
+            if (l > tr || r < tl)
+                return;
+            if (l <= tl && tr <= r) {
+                t[v] = addend * (tr - tl + 1);
+                lazy[v] = addend;
+            } else {
+                int tm = (tl + tr) / 2;
+                push_down(v, tm - tl + 1, tr - tm);
+                int vl = v * 2, vr = v * 2 + 1;
+                _modify(vl, tl, tm, l, r, addend);
+                _modify(vr, tm + 1, tr, l, r, addend);
+                push_up(v, tm - tl + 1, tr - tm);
+            }
+        }
+
+        private int _query(int v, int tl, int tr, int l, int r) {
+            if (l > tr || r < tl)
+                return NEUTRAL;
+            if (l <= tl && tr <= r)
+                return t[v];
+            int tm = (tl + tr) / 2;
+            push_down(v, tm - tl + 1, tr - tm);
+            int vl = v * 2, vr = v * 2 + 1;
+            return _query(vl, tl, tm, l, r) + _query(vr, tm + 1, tr, l, r);
+        }
+
+        public void modify(int l, int r, int x) {
+            _modify(1, 0, n - 1, l, r, x);
+        }
+
+        public int query(int l, int r) {
+            return _query(1, 0, n - 1, l, r);
+        }
+    };
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>seg_tree_lazy_recursive</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
